@@ -1,0 +1,17 @@
+# Domain Glossary
+
+Terms and concepts specific to this project. Used across all project skills to maintain a consistent language.
+
+| Term | Code Name | Definition | Avoid saying |
+|------|-----------|------------|--------------|
+| Wydarzenie | `Event` | Pojedyncze rozgrywane wydarzenie sportowe: sport, liga, uczestnicy, data i godzina (z strefą). W motorsporcie — pojedyncza sesja (wyścig, kwalifikacje, trening), zobacz open question o granularity. | "mecz" jako termin ogólny (meczem jest tylko wydarzenie zespołowe) |
+| Sport | `Sport` | Najwyższy poziom hierarchii informacji: hokej, koszykówka, futbol amerykański, baseball, piłka nożna, motorsport, siatkówka. Nadrzędny wobec ligi — użytkownik filtruje najpierw po sporcie. | "kategoria", "dyscyplina" (ostatnia poprawna językowo, ale w kodzie `Sport`) |
+| Liga | `League` | Seria rozgrywkowa w ramach sportu: NBA, NHL, NFL, Ekstraklasa… W motorsporcie rolę ligi pełni seria wyścigowa (F1, NASCAR, WRC) — jeden poziom hierarchii, jedna nazwa w kodzie. | "seria" (potocznie OK dla motorsportu, w kodzie i UI konsekwentnie Liga) |
+| Drużyna | `Team` | Uczestnik zespołowy wydarzenia; ma własny pełny terminarz sezonu dostępny z nawigacji. | "klub", "zespół" (zespół = team w motorsporcie też, ale UI: drużyna) |
+| Pasmo godzinowe | `TimeBand` | Jeden z trzech konfigurowalnych przedziałów doby, rozróżnianych kolorem; służy do filtrowania i wizualnej klasyfikacji wydarzeń "da się obejrzeć" vs "w nocy". | "kategoria godzinowa", "przedział" |
+| Dzień / Wieczór / Noc | `DayBand` / `EveningBand` / `NightBand` | Trzy pasma; zakresy domyślne: dzień 6:00–22:00, wieczór 22:00–24:00, noc 0:00–6:00. Zakresy przełączalne przez użytkownika. | "rano/południe" (nie ma takiego pasma) |
+| Strefa czasowa | `Timezone` | Strefa, w której prezentowane są wszystkie godziny wydarzeń; domyślnie lokalna strefa przeglądarki, przełączalna w ustawieniach. | "czas lokalny" (dwuznaczne — lokalny kogo?) |
+| Obserwowane | `Watchlist` | Wydarzenia oznaczone gwiazdką przez użytkownika; lista trzymana w localStorage przeglądarki. Narzędzie jest statyczne — brak kont. | "ulubione", "subskrypcje", "powiadomienia" (te ostatnie świadomie poza zakresem v1) |
+| Eksport do kalendarza | `CalendarExport` | Dodanie pojedynczego wydarzenia do Google Calendar lub Apple Calendar (link/templates + plik ICS). Jednorazowa akcja, nie synchronizacja. | "synchronizacja kalendarza" |
+| Terminarz sezonu | `SeasonSchedule` | Pełny terminarz drużyny na sezon, dostępny z nawigacji po drużynach. | "kalendarz drużyny" |
+| Tydzień | `WeekView` | Domyślny zakres widoku głównego: aktualny tydzień (dzisiaj + kilka dni do przodu). Inne zakresy dat możliwe. | — |
