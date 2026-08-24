@@ -4,7 +4,7 @@ Terms and concepts specific to this project. Used across all project skills to m
 
 | Term | Code Name | Definition | Avoid saying |
 |------|-----------|------------|--------------|
-| Wydarzenie | `Event` | Pojedyncze rozgrywane wydarzenie sportowe: sport, liga, uczestnicy, data i godzina (z strefą). W motorsporcie — pojedyncza sesja (wyścig, kwalifikacje, trening), zobacz open question o granularity. | "mecz" jako termin ogólny (meczem jest tylko wydarzenie zespołowe) |
+| Wydarzenie | `SportEvent` | Pojedyncze rozgrywane wydarzenie sportowe: sport, liga, uczestnicy, data i godzina (z strefą). W motorsporcie — pojedyncza sesja (wyścig, kwalifikacje, trening), zobacz open question o granularity. W kodzie `SportEvent`, nie `Event` (kolizja z globalnym typem DOM). | "mecz" jako termin ogólny (meczem jest tylko wydarzenie zespołowe) |
 | Sport | `Sport` | Najwyższy poziom hierarchii informacji: hokej, koszykówka, futbol amerykański, baseball, piłka nożna, motorsport, siatkówka. Nadrzędny wobec ligi — użytkownik filtruje najpierw po sporcie. | "kategoria", "dyscyplina" (ostatnia poprawna językowo, ale w kodzie `Sport`) |
 | Liga | `League` | Seria rozgrywkowa w ramach sportu: NBA, NHL, NFL, Ekstraklasa… W motorsporcie rolę ligi pełni seria wyścigowa (F1, NASCAR, WRC) — jeden poziom hierarchii, jedna nazwa w kodzie. | "seria" (potocznie OK dla motorsportu; w UI angielskie League — ADR-0003) |
 | Drużyna | `Team` | Uczestnik zespołowy wydarzenia; ma własny pełny terminarz sezonu dostępny z nawigacji. | "klub", "zespół" (w UI angielskie Team — ADR-0003) |
