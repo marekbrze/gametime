@@ -8,7 +8,7 @@ export function RoutePlaceholder({ label }: { label: string }) {
         {label}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        Ekran wypełni proto-lofi — to na razie miejsce w strukturze.
+        This screen will be built in proto-lofi — for now it's a placeholder.
       </p>
     </section>
   )

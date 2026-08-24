@@ -9,10 +9,10 @@ function App() {
       <AppShell>
         <Routes>
           <Route index element={<Navigate to="/event-calendar" replace />} />
-          <Route path="/event-calendar" element={<RoutePlaceholder label="Kalendarz" />} />
-          <Route path="/watchlist" element={<RoutePlaceholder label="Obserwowane" />} />
-          <Route path="/teams" element={<RoutePlaceholder label="Drużyny" />} />
-          <Route path="/settings" element={<RoutePlaceholder label="Ustawienia" />} />
+          <Route path="/event-calendar" element={<RoutePlaceholder label="Calendar" />} />
+          <Route path="/watchlist" element={<RoutePlaceholder label="Watchlist" />} />
+          <Route path="/teams" element={<RoutePlaceholder label="Teams" />} />
+          <Route path="/settings" element={<RoutePlaceholder label="Settings" />} />
           <Route path="*" element={<Navigate to="/event-calendar" replace />} />
         </Routes>
       </AppShell>

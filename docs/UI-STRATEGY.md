@@ -14,12 +14,14 @@ Wynik `proto-highlevelui`. Decyzje strukturalne app shellu — bez decyzji wizua
 
 ## Module navigation
 
+**UI language: English** (decyzja odwrócona względem wstępnych polskich etykiet — patrz ADR-0003). Etykiety = Code Names z GLOSSARY.md.
+
 | Module (code) | Label (display) | Order |
 |---|---|---|
-| `event-calendar` | Kalendarz | 1 |
-| `watchlist` | Obserwowane | 2 |
-| `teams` | Drużyny | 3 |
-| `settings` | Ustawienia | 4 |
+| `event-calendar` | Calendar | 1 |
+| `watchlist` | Watchlist | 2 |
+| `teams` | Teams | 3 |
+| `settings` | Settings | 4 |
 
 Moduły `filters`, `calendar-export`, `data-source`, `data-pipeline` **nie są destinationami nawigacji** — żyją wewnątrz ekranów (pasek filtrów, akcje wierszy, warstwa danych).
 

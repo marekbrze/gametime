@@ -4,10 +4,10 @@ import { CalendarDays, Settings, Star, Trophy } from 'lucide-react'
 import { cn } from '../../lib/utils'
 
 const NAV_ITEMS = [
-  { path: '/event-calendar', label: 'Kalendarz', icon: CalendarDays },
-  { path: '/watchlist', label: 'Obserwowane', icon: Star },
-  { path: '/teams', label: 'Drużyny', icon: Trophy },
-  { path: '/settings', label: 'Ustawienia', icon: Settings },
+  { path: '/event-calendar', label: 'Calendar', icon: CalendarDays },
+  { path: '/watchlist', label: 'Watchlist', icon: Star },
+  { path: '/teams', label: 'Teams', icon: Trophy },
+  { path: '/settings', label: 'Settings', icon: Settings },
 ] as const
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -18,7 +18,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/event-calendar" className="text-lg font-semibold tracking-tight">
             gametime
           </Link>
-          <nav aria-label="Główna nawigacja" className="hidden md:flex md:items-center md:gap-1">
+          <nav aria-label="Main navigation" className="hidden md:flex md:items-center md:gap-1">
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.path}
@@ -34,7 +34,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </NavLink>
             ))}
           </nav>
-          {/* Slot na przyszłość: menu użytkownika / strefa czasowa */}
+          {/* Slot na przyszłość: strefa czasowa / menu użytkownika */}
           <div className="hidden md:block" aria-hidden="true" />
         </div>
       </header>
@@ -48,7 +48,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span>gametime</span>
           <span aria-hidden="true">·</span>
           {/* Cel pojawi się, gdy data-pipeline dostarczy źródła — do tego czasu tekst, nie martwy link */}
-          <span>Źródła danych (wkrótce)</span>
+          <span>Data sources (soon)</span>
           <span aria-hidden="true">·</span>
           <a
             href="https://github.com/marekbrze"
@@ -62,7 +62,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </footer>
 
       <nav
-        aria-label="Nawigacja mobilna"
+        aria-label="Mobile navigation"
         className="fixed inset-x-0 bottom-0 z-10 border-t bg-background md:hidden"
       >
         <div className="grid grid-cols-4">
