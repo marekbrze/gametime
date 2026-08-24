@@ -21,3 +21,5 @@ Terms and concepts specific to this project. Used across all project skills to m
 | Filtr "tylko moje drużyny" | `MyTeamsFilter` | Przełącznik jednoklikowy na liście wydarzeń: pokazuj tylko mecze ulubionych drużyn. | "moje mecze" |
 | Tabela / pozycja drużyny | `Standing` | Pozycja drużyny w tabeli ligi; przyszłościowy miernik atrakcyjności wydarzenia. Poza v1. | "ranking" |
 | Zasada pasm | — (zasada, nie encja) | Każda lista w aplikacji (tydzień, watchlista, terminarz sezonu) filtruje się po pasmach godzinowych, sporcie, lidze i zakresie dat. | |
+| Pipeline danych | `DataPipeline` | GitHub Action na cronie: pobiera/scrapuje terminarze lig, normalizuje i commituje statyczny JSON do repo. Zamiast backendu. | "backend", "serwer" |
+| Ligi startowe (v1) | — | NHL, NBA, NFL, F1, Premier League, Serie A, Bundesliga, La Liga — 5 sportów, 8 lig. | |
