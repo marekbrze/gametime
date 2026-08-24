@@ -15,3 +15,9 @@ Terms and concepts specific to this project. Used across all project skills to m
 | Eksport do kalendarza | `CalendarExport` | Dodanie pojedynczego wydarzenia do Google Calendar lub Apple Calendar (link/templates + plik ICS). Jednorazowa akcja, nie synchronizacja. | "synchronizacja kalendarza" |
 | Terminarz sezonu | `SeasonSchedule` | Pełny terminarz drużyny na sezon, dostępny z nawigacji po drużynach. | "kalendarz drużyny" |
 | Tydzień | `WeekView` | Domyślny zakres widoku głównego: aktualny tydzień (dzisiaj + kilka dni do przodu). Inne zakresy dat możliwe. | — |
+| Status wydarzenia | `EventStatus` | `scheduled` / `live` / `finished` / `postponed` / `canceled`. Przełożenie rodzi nową instancję wydarzenia z nowym terminem. | "anulowany" dla przełożonego (to dwa różne stany) |
+| Ustawienia | `UserSettings` | Konfiguracja użytkownika w localStorage: strefa czasowa + dokładnie 3 pasma z zakresami. Istnieją wartości domyślne jeszcze przed pierwszą edycją. | "profil", "konto" |
+| Ulubione drużyny | `FavoriteTeam` | Lista drużyn oznaczonych przez użytkownika; wyróżnia ich mecze, daje szybki dostęp do terminarzów i zasila filtr "tylko moje drużyny". | "obserwowane drużyny" (myli się z watchlistą wydarzeń) |
+| Filtr "tylko moje drużyny" | `MyTeamsFilter` | Przełącznik jednoklikowy na liście wydarzeń: pokazuj tylko mecze ulubionych drużyn. | "moje mecze" |
+| Tabela / pozycja drużyny | `Standing` | Pozycja drużyny w tabeli ligi; przyszłościowy miernik atrakcyjności wydarzenia. Poza v1. | "ranking" |
+| Zasada pasm | — (zasada, nie encja) | Każda lista w aplikacji (tydzień, watchlista, terminarz sezonu) filtruje się po pasmach godzinowych, sporcie, lidze i zakresie dat. | |
