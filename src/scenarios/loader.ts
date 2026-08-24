@@ -21,5 +21,8 @@ export function loadScenario(name: string): void {
 }
 
 export function getCurrentScenarioName(): string {
+  // Produkcja zawsze zaczyna od 'empty' — localStorage developera (np. 'full')
+  // nie może przecieknąć do użytkowników publicznej strony
+  if (import.meta.env.PROD) return 'empty';
   return localStorage.getItem(STORAGE_KEY) || 'empty';
 }
