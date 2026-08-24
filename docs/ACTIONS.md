@@ -12,8 +12,11 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 
 | Action | Description | Notes |
 |--------|-------------|-------|
+| View Now block | Trwające (LIVE + elapsed) i startujące w ≤60 min (countdown) w jednym bloku na szczycie listy. | Statusy wyliczane z czasu startu — brak realtime (ADR-0005) |
 | Browse week list | Domyślny widok po wejściu: aktualny tydzień, wszystkie sporty, zero setupu. | Happy path entry; nocne zwinięte/zdyskretowane |
-| Filter list | Po: sporcie, lidze, drużynie, pasmie godzinowym, zakresie dat (domyślnie tydzień). | Zasada uniwersalna — każdy typ listy |
+| Page weeks | Nawigacja ‹ Previous / Next week › + This week, po tygodniach kalendarzowych. | ADR-0006 |
+| Toggle view type | Przełącznik list ↔ cards; persystencja w `UserSettings.viewMode`. | Eksperyment adopcji (ADR-0006) |
+| Filter list | Po: sporcie, lidze, drużynie, pasmie godzinowym (zakres = tygodnie kalendarzowe). | Zasada uniwersalna — każdy typ listy |
 | Expand/collapse night section | Rozwinięcie zdyskretowanych wydarzeń nocnych. | |
 | See event status | Prezentacja statusu: scheduled / live / finished / postponed / canceled. | Pasywne, data-driven |
 | Star event | Dodaje WATCHLIST_ENTRY. | Gwiazdka |

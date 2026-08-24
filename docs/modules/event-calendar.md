@@ -1,0 +1,68 @@
+# event-calendar
+
+Wynik `proto-detail`. Moduł Core #1 — główny widok aplikacji.
+
+## Vision
+
+Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz** i **co da się łatwo obejrzeć w tym tygodniu**. Szybka identyfikacja wydarzeń live i "watchable" jest ważniejsza niż cokolwiek innego; reszta ekranu to przegląd tygodnia z klasyfikacją pasmową (dzień/wieczór/noc), gdzie noc jest świadomie zdyskretowana. Zero setupu, zero realtime API — wszystko wyliczane z czasu startu wydarzeń i strefy użytkownika.
+
+## User Flows
+
+### Otwarcie i skan (happy path)
+1. User otwiera `/` → redirect na `/event-calendar` (ADR-0001)
+2. Widzi blok **Now** na szczycie: trwające wydarzenia (badge LIVE + "Started 1h 12m ago") oraz startujące w ≤60 min ("in 42 min")
+3. Pod spodem aktualny tydzień kalendarzowy: dni z nagłówkami-podsumowaniami pasm, Today wyróżnione
+4. Skanuje sekcje Day/Evening dni, ignoruje zwinięte nocne
+5. Oznacza gwiazdką interesujący mecz → trafia do Watchlisty
+6. Ewentualnie ⤓ eksport pojedynczego wydarzenia do kalendarza
+
+### Rozwinięcie nocy
+1. User po whole-day skanowaniu chce sprawdzić, co było/bydzie nocą
+2. Klika zwiniętą sekcję "🌙 Night — 5 events after midnight" na końcu dnia
+3. Sekcja rozwija się inline; nocne wiersze mają krawędź koloru pasa Night
+
+### Pager tygodnia
+1. User chce planować z wyprzedzeniem → klika **Next week** (ewent. wielokrotnie)
+2. Lista przewija się na kolejny tydzień kalendarzowy; nagłówek pokazuje zakres dat
+3. **This week** wraca do bieżącego tygodnia; przewinięcie wstecz pokazuje przeszłość (statusy finished)
+
+### Zmiana widoku (eksperyment)
+1. User przełącza **list ↔ cards** (toggle w pasku widoku)
+2. Preferencja zapisuje się w `UserSettings.viewMode`; przy next wejściu pamięta wybór
+
+## Screens (rough)
+
+- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", liczby pasm, kolorowe chipsy) → mini-sekcje "Day" i "Evening" z kolorową krawędzią wierszy → zwinięta sekcja Night na końcu. Wiersz: emoji sportu, godzina, uczestnicy ("A vs B"; motorsport: seria + nazwa GP), badge ligi, ☆, ⤓. Ulubione drużyny: subtelne podświetlenie wiersza.
+- **Cards view** (alternatywny, eksperyment): te same dane, wydarzenie jako karta (większy format, mocniej kolor pasa) — dla użytkowników wolących "kanban" tygodnia.
+- **Blok Now** (element, nie osobny ekran): trwające + starting soon w jednym zintegrowanym bloku.
+
+## Actions
+
+| Action | Description | Entity | Notes |
+|--------|-------------|--------|-------|
+| View Now block | Trwające (LIVE, elapsed) + starting soon (≤60 min, countdown) | `Event` | Statusy wyliczane z czasu startu — ADR-0005 |
+| Browse week list | Aktualny tydzień kalendarzowy, wszystkie sporty | `Event` | Domyślny widok |
+| Page weeks | ‹ Previous / Next week › + This week; ruchome po tygodniach kalendarzowych | — | ADR-0006 |
+| Expand/collapse night section | Per dzień; label z liczbą "events after midnight" | `Event` | Noc należy do wieczoru poprzedniego — ADR-0004 |
+| Toggle view type | list ↔ cards; persystencja w `UserSettings.viewMode` | `UserSettings` | Eksperyment adopcji — ADR-0006 |
+| Star / Unstar event | Gwiazdka z wiersza | `WatchlistEntry` | |
+| Export single → calendar | Google (link) / Apple (ICS) z wiersza | `Event` | Moduł calendar-export |
+| See event status | scheduled / live / finished / postponed / canceled | `Event` | Pasywne, data-driven |
+| Filter list | Sport → liga → drużyna → pasmo + MyTeamsFilter (pasek modułu filters) | — | Zasada uniwersalna |
+
+## Edge Cases
+
+- **Brak realtime**: statusy live/finished wyliczane z czasu startu + szacowanego czasu trwania (~3h). Przekładania/odwołania widoczne dopiero po przebiegu pipeline'u — lag akceptowany.
+- **Pusty tydzień**: off-season sportu (np. NFL w czerwcu) lub filtry ukryją wszystko → empty state z wyjaśnieniem + skrótem do zdjęcia filtrów (obsłuży proto-edgecases/harden).
+- **Zmiana strefy czasowej / zakresów pasm**: przelicza bucketowanie pasm i nocną grupę — czysta recomputacja, bez przeładowania danych.
+- **Wydarzenie przekracza granicę pasa** (np. start 21:45, trwa do 00:30): pasmo klasyfikujemy po **czasie startu**.
+- **Dziś po północy**: "Today" zaczyna się od bieżącej pory — wciąż działa, bo noc (0:00–6:00) należy do wczorajszego wieczoru; blok Now niezależny od dnia.
+
+## Integration Points
+
+- **filters**: wspólny pasek nad listą (sport/liga/drużyna/pasmo/MyTeamsFilter) — zasada uniwersalna
+- **watchlist**: gwiazdka w wierszu; obserwowane nie są tu specjalnie traktowane (ich dom to moduł watchlist)
+- **calendar-export**: ⤓ w wierszu
+- **teams**: podświetlenie ulubionych drużyn w wierszach; link z uczestnika → SeasonSchedule
+- **settings**: strefa czasowa + zakresy pasm napędzają całą klasyfikację; `viewMode` stąd
+- **data-source**: jedyny dostawca danych; kontrakt: Event ze stabilnym `startUtc`

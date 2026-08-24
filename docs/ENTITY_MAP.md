@@ -68,15 +68,15 @@ erDiagram
 **Belongs to**: Sport, League
 
 ### USER_SETTINGS
-**Description**: Cała konfiguracja użytkownika: strefa czasowa + dokładnie 3 TimeBandy z edytowalnymi zakresami godzin.
+**Description**: Cała konfiguracja użytkownika: strefa czasowa + dokładnie 3 TimeBandy z edytowalnymi zakresami godzin + preferencja trybu widoku listy wydarzeń.
 **Instances per user**: 1
 **Ownership**: User (localStorage)
 **Lifecycle**: istnieją wartości domyślne (implicit) jeszcze przed pierwszą edycją; zapis dopiero przy zmianie
 **States**: brak (implicit → saved)
-**Contains**: 3 × TimeBand, timezone
+**Contains**: 3 × TimeBand, timezone, viewMode (`'list' | 'cards'`, default `'list'` — ADR-0006)
 
 ### TIME_BAND
-**Description**: Pasmo godzinowe z zakresem i kolorem. Domyślnie: Dzień 6:00–22:00, Wieczór 22:00–24:00, Noc 0:00–6:00. Służy do filtrowania (zasada uniwersalna: **każda lista w aplikacji filtruje się po pasmach**) i wizualnej klasyfikacji "da się obejrzeć" vs "w nocy".
+**Description**: Pasmo godzinowe z zakresem i kolorem. Domyślnie: Dzień 6:00–22:00, Wieczór 22:00–24:00, Noc 0:00–6:00. Służy do filtrowania (zasada uniwersalna: **każda lista w aplikacji filtruje się po pasmach**) i wizualnej klasyfikacji "da się obejrzeć" vs "w nocy". Klasyfikacja pasma wydarzenia: po **czasie startu**. Zdarzenia z pasa Night prezentują się pod **wieczorem dnia poprzedniego** (ViewingDay — ADR-0004).
 **Instances per user**: dokładnie 3 (w USER_SETTINGS)
 **Ownership**: User
 **Lifecycle**: jak UserSettings
