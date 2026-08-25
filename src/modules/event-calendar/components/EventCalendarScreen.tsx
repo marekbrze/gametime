@@ -21,7 +21,7 @@ import { NowBlock } from './NowBlock';
 import { WeekPager } from './WeekPager';
 
 export function EventCalendarScreen() {
-  const { events } = useEvents();
+  const { events, status } = useEvents();
   const { settings, updateViewMode } = useSettings();
   const { isWatched, toggle } = useWatchlist();
   const { favoriteTeamIds } = useFavoriteTeams();
@@ -99,47 +99,58 @@ export function EventCalendarScreen() {
 
   return (
     <div>
-      <NowBlock events={events} now={now} tz={tz} />
+      {/* Provisional states — pełne obsłużenie (skeleton, retry) na proto-harden */}
+      {status === 'error' && (
+        <p role="alert" className="mb-4 rounded-lg border border-destructive/50 p-3 text-sm text-destructive">
+          Failed to load the schedule — check your connection and reload the page.
+        </p>
+      )}
 
-      <WeekPager
-        mondayKey={displayMonday}
-        isCurrentWeek={isCurrentWeek}
-        onShift={(weeks) => setWeekOffset((offset) => offset + weeks)}
-        onThisWeek={() => setWeekOffset(0)}
-      />
+      {status === 'loading' ? null : (
+        <>
+          <NowBlock events={events} now={now} tz={tz} />
 
-      <MiniFilterBar
-        sport={sportFilter}
-        band={bandFilter}
-        myTeamsOnly={myTeamsOnly}
-        hasFavorites={favoriteTeamIds.length > 0}
-        viewMode={settings.viewMode}
-        onSportChange={setSportFilter}
-        onBandChange={setBandFilter}
-        onMyTeamsChange={setMyTeamsOnly}
-        onViewModeChange={updateViewMode}
-      />
-
-      {totalVisible === 0 ? (
-        <EmptyWeek hasFilters={hasFilters}
-          onClearFilters={() => {
-            setSportFilter('all');
-            setBandFilter('all');
-            setMyTeamsOnly(false);
-          }}
-        />
-      ) : (
-        weekKeys.map((key) => (
-          <DayGroup
-            key={key}
-            dayKey={key}
-            isToday={key === todayKey}
-            items={dayGroups.get(key) ?? []}
-            viewMode={settings.viewMode}
-            tz={tz}
-            onToggleWatch={toggle}
+          <WeekPager
+            mondayKey={displayMonday}
+            isCurrentWeek={isCurrentWeek}
+            onShift={(weeks) => setWeekOffset((offset) => offset + weeks)}
+            onThisWeek={() => setWeekOffset(0)}
           />
-        ))
+
+          <MiniFilterBar
+            sport={sportFilter}
+            band={bandFilter}
+            myTeamsOnly={myTeamsOnly}
+            hasFavorites={favoriteTeamIds.length > 0}
+            viewMode={settings.viewMode}
+            onSportChange={setSportFilter}
+            onBandChange={setBandFilter}
+            onMyTeamsChange={setMyTeamsOnly}
+            onViewModeChange={updateViewMode}
+          />
+
+          {totalVisible === 0 ? (
+            <EmptyWeek hasFilters={hasFilters}
+              onClearFilters={() => {
+                setSportFilter('all');
+                setBandFilter('all');
+                setMyTeamsOnly(false);
+              }}
+            />
+          ) : (
+            weekKeys.map((key) => (
+              <DayGroup
+                key={key}
+                dayKey={key}
+                isToday={key === todayKey}
+                items={dayGroups.get(key) ?? []}
+                viewMode={settings.viewMode}
+                tz={tz}
+                onToggleWatch={toggle}
+              />
+            ))
+          )}
+        </>
       )}
     </div>
   );

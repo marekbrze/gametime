@@ -1,21 +1,18 @@
 import type { AppData } from './types';
-import { generateMockEvents } from '@/modules/data-source/data/mock-events';
 
-/** Pełny tydzień: wszystkie mocki + ulubione drużyny (podświetlenia, MyTeamsFilter). */
+/**
+ * Realne wydarzenia ze snapshota + ulubione drużyny o stabilnych ID z katalogu
+ * ESPN (podświetlenia, MyTeamsFilter). Watchlisty nie seedujemy — realne ID
+ * eventów zmieniają się z każdym odświeżeniem snapshota.
+ */
 export function fullScenario(): AppData {
-  const events = generateMockEvents();
-  const firstNhl = events.find((e) => e.leagueId === 'nhl');
-  const firstSoccer = events.find((e) => e.sportId === 'soccer');
+  const addedAt = new Date().toISOString();
   return {
-    'gametime.events': events,
-    'gametime.watchlist': [
-      ...(firstNhl ? [{ eventId: firstNhl.id, addedAt: new Date().toISOString() }] : []),
-      ...(firstSoccer ? [{ eventId: firstSoccer.id, addedAt: new Date().toISOString() }] : []),
-    ],
+    'gametime.watchlist': [],
     'gametime.favoriteTeams': [
-      { teamId: 'nhl-tor', addedAt: new Date().toISOString() },
-      { teamId: 'nba-lal', addedAt: new Date().toISOString() },
-      { teamId: 'epl-ars', addedAt: new Date().toISOString() },
+      { teamId: 'espn-nhl-21', addedAt }, // Toronto Maple Leafs
+      { teamId: 'espn-nba-13', addedAt }, // Los Angeles Lakers
+      { teamId: 'espn-premier-league-359', addedAt }, // Arsenal
     ],
   };
 }

@@ -1,0 +1,45 @@
+name: Data pipeline
+
+# data-pipeline (ADR-0007): pobiera terminarze lig (ESPN + OpenF1), pisze
+# public/data.json i commituje. Commit triggeruje deploy Pages — świadomy
+# łańcuch "dane → Pages". Cron po pełnej godzinie (mniejszy congestion GitHub).
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-pipeline
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Fail-soft per liga; exit 1 (i brak commitu) tylko przy totalnym padzie
+      - run: npm run pipeline
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "gametime-pipeline[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data.json
+          if git diff --cached --quiet; then
+            echo "no data changes — nothing to commit"
+            exit 0
+          fi
+          git commit -m "data(pipeline): refresh events $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

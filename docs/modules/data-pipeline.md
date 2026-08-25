@@ -59,9 +59,9 @@ Sortowanie: `startUtc`, potem `id` — deterministyczne diffy w historii commit�
 ### Mapowanie ESPN → `SportEvent`
 | Pole | Źródło | Zasada |
 |---|---|---|
-| `id` | `events[].id` | `"espn-{id}"` |
+| `id` | `events[].id` | `"espn-{leagueId}-{id}"` — per-sportowe przestrzenie ID ESPN kolidują między ligami (probe 2026-08-25: 29–30 wspólnych ID drużyn między każdą parą), więc scopesuje je liga |
 | `startUtc` | `events[].date` | już UTC ISO — pass-through |
-| `teamIds` | `competitions[].competitors[].team.id` | `"espn-{teamId}"` (katalog z endpointu `teams` używa tego samego schematu) |
+| `teamIds` | `competitions[].competitors[].team.id` | `"espn-{leagueId}-{teamId}"` (katalog z endpointu `teams` używa tego samego schematu) |
 | `statusOverride` | `status.type.name` | tylko `STATUS_POSTPONED` → `postponed`, `STATUS_CANCELED*` → `canceled`; `pre`/`in`/`post` **ignorowane** — klient wylicza z czasu (ADR-0005) |
 | `sessionType` | — | nie dotyczy (tylko F1) |
 
@@ -71,7 +71,7 @@ Sortowanie: `startUtc`, potem `id` — deterministyczne diffy w historii commit�
 | `id` | `session_key` | `"f1-{session_key}"` |
 | `startUtc` | `date_start` | normalizacja `+00:00` → `Z` |
 | `title` | `meeting_name` + `session_name` | `"{Italian Grand Prix} — {Qualifying}"`; wyścig też z sufiksem (`— Race`) — jedno uniwersalne reguło tytułu |
-| `sessionType` | `session_type` | `'practice' | 'qualifying' | 'race'` — strukturalny marker dla UI (wyróżnienie wyścigu bez parsowania tytułu) |
+| `sessionType` | `session_type` | `'practice' | 'qualifying' | 'sprint' | 'race'` — strukturalny marker dla UI (wyróżnienie wyścigu bez parsowania tytułu); sprint weekendy pokryte |
 | `teamIds` | — | brak — F1 title-only; konstruktorzy jako `Team` odroczeni (Later) |
 | `statusOverride` | — | przesunięta sesja = zmiana `date_start` pod tym samym `session_key` (update in place); anulowania nie mapujemy (rzadkie, sesja znika z feedu) |
 
@@ -102,7 +102,7 @@ Moduł nie ma akcji użytkownika (rola: brak — CI). Akcje deweloperskie:
 - **Sprint weekend**: 3 sesje zamiast 4 praktyk + Sprint — OpenF1 zwraca `session_name: "Sprint"` automatycznie, adapter nie rozróżnia
 - **Zmiana kształtu ESPN/OpenF1** (API nieudokumentowane): adapter waliduje REQUIRED pola per event; brak pola = drop tego eventu z warningiem, nie crash całej ligi
 - **`public/data.json` nie istnieje** (świeży clone przed pierwszym runem): dev → fallback mocków w `data-source`; prod → stan error z retry (harden)
-- **Commit w reposie przy braku zmian**: skip (bez szumu w historii)
+- **Commit przy braku zmian danych**: skip — `generatedAt` i granice `window` (liczone od "teraz") są wyłączane z detekcji zmian, żeby cron nie commitował (i nie deployował) szumu 4× dziennie; `generatedAt` w pliku odzwierciedla ostatnią realną zmianę danych
 - **Równoległość pipeline ↔ deploy**: oba pushe na main; GitHub serializuje workflow runs — najwyżej kolejka, brak konfliktu
 
 ## Integration Points

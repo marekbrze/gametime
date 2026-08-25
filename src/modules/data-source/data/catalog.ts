@@ -75,3 +75,17 @@ export const TEAMS: Team[] = [
 export const SPORT_BY_ID = new Map(SPORTS.map((s) => [s.id, s]));
 export const LEAGUE_BY_ID = new Map(LEAGUES.map((l) => [l.id, l]));
 export const TEAM_BY_ID = new Map(TEAMS.map((t) => [t.id, t]));
+
+/**
+ * Rozszerza katalog runtime o drużyny ze snapshota (`public/data.json` z data-pipeline).
+ * Mapy mutujemy w miejscu — konsumenci (event-labels, calendar-export) czytają je
+ * przez Map.get przy renderze, więc realne ID `espn-{liga}-{id}` rozwiązują się od razu.
+ * TODO(harden): refaktor na jeden katalog trzymany przez data-source.
+ */
+export function registerCatalogTeams(teams: Team[]): void {
+  for (const team of teams) {
+    if (TEAM_BY_ID.has(team.id)) continue;
+    TEAMS.push(team);
+    TEAM_BY_ID.set(team.id, team);
+  }
+}
