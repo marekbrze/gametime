@@ -41,4 +41,4 @@ Publiczne, statyczne narzędzie (GitHub Pages): jeden kalendarz wydarzeń sporto
 - **Nazwa aplikacji**: repo nazywa się roboczo `sports`; produktowa nazwa do ustalenia.
 - **Mechanika nocnych wydarzeń**: zwiniecie sekcji nocy vs sama de-emfaza wizualna — decyzja projektowa na etapie UI (`proto-highlevelui` / `proto-detail`).
 - **Zakresy dat poza tygodniem**: jakie dokładnie opcje (2 tygodnie? miesiąc?) poza widokiem pełnego sezonu drużyny.
-- **Motorsport — granularity**: czy każda sesja weekendu wyścigowego (trening, kwalifikacje, wyścig) to osobne wydarzenie, czy jedno zbiorcze? Domysł: osobne, wyścig wyróżniony.
+- **Motorsport — granularity**: ✅ rozstrzygnięte (ADR-0008) — każda sesja (trening/kwalifikacje/wyścig) to osobne wydarzenie z OpenF1, wyścig wyróżniony w UI przez strukturalne `sessionType`.
