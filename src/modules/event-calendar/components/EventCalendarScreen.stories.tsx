@@ -5,15 +5,14 @@ const meta: Meta<typeof EventCalendarScreen> = {
   title: 'Event Calendar/EventCalendarScreen',
   component: EventCalendarScreen,
 };
-
 export default meta;
 type Story = StoryObj<typeof EventCalendarScreen>;
 
-/** Domyślnie hooki wezmą mockowy tydzień — wymuszamy brak kluczy w localStorage. */
+/** Realny snapshot z fetcha; na jego nieobecność hook reaguje fallbackiem mocków. */
 export const WithData: Story = {
   decorators: [
     (Story) => {
-      localStorage.removeItem('gametime.events');
+      localStorage.removeItem('gametime.devEvents');
       localStorage.removeItem('gametime.favoriteTeams');
       localStorage.removeItem('gametime.watchlist');
       return <Story />;
@@ -21,11 +20,11 @@ export const WithData: Story = {
   ],
 };
 
-/** Pusty tydzień — empty state z przyciskiem czyszczenia filtrów. */
+/** Pusty tydzień — jawny override devEvents (scenariusz 'empty' DevToolbara). */
 export const EmptyWeek: Story = {
   decorators: [
     (Story) => {
-      localStorage.setItem('gametime.events', '[]');
+      localStorage.setItem('gametime.devEvents', '[]');
       localStorage.setItem('gametime.favoriteTeams', '[]');
       return <Story />;
     },

@@ -4,7 +4,7 @@ import type { WatchlistEntry } from '../types';
 const WATCHLIST_KEY = 'gametime.watchlist';
 
 export function useWatchlist() {
-  const [entries, setEntries] = useLocalStorage<WatchlistEntry[]>(WATCHLIST_KEY, []);
+  const [entries, setEntries, , writeError] = useLocalStorage<WatchlistEntry[]>(WATCHLIST_KEY, []);
 
   const isWatched = (eventId: string) => entries.some((e) => e.eventId === eventId);
 
@@ -16,5 +16,5 @@ export function useWatchlist() {
     }
   };
 
-  return { entries, isWatched, toggle, storageKey: WATCHLIST_KEY };
+  return { entries, isWatched, toggle, storageKey: WATCHLIST_KEY, writeError };
 }

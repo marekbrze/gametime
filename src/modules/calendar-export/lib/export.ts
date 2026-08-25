@@ -1,4 +1,5 @@
 import type { SportEvent } from '@/modules/data-source/types';
+import { estimatedDurationMs } from '@/modules/data-source/lib/status';
 import { LEAGUE_BY_ID, TEAM_BY_ID } from '@/modules/data-source/data/catalog';
 
 /** Tytuł wydarzenia dla kalendarza: "Leafs vs Bruins (NHL)" / "Dutch GP — Race (F1)". */
@@ -19,12 +20,10 @@ function toIcsStamp(date: Date): string {
   return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
 
-const EVENT_DURATION_MS = 3 * 60 * 60 * 1000;
-
 /** Link "dodaj do Google Calendar" (TEMPLATE). */
 export function googleCalendarUrl(event: SportEvent): string {
   const start = new Date(event.startUtc);
-  const end = new Date(start.getTime() + EVENT_DURATION_MS);
+  const end = new Date(start.getTime() + estimatedDurationMs(event));
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     text: eventTitle(event),
@@ -37,7 +36,7 @@ export function googleCalendarUrl(event: SportEvent): string {
 /** Plik ICS (Apple Calendar / uniwersalny) — pobieranie przez blob. */
 export function downloadIcs(event: SportEvent): void {
   const start = new Date(event.startUtc);
-  const end = new Date(start.getTime() + EVENT_DURATION_MS);
+  const end = new Date(start.getTime() + estimatedDurationMs(event));
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',

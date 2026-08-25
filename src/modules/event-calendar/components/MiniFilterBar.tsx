@@ -13,6 +13,8 @@ interface MiniFilterBarProps {
   myTeamsOnly: boolean;
   hasFavorites: boolean;
   viewMode: ViewMode;
+  /** sporty mające wydarzenia w oknie danych — pozostałe dostają adnotację off-season */
+  sportsWithEvents: Set<string>;
   onSportChange: (sport: SportFilter) => void;
   onBandChange: (band: BandFilter) => void;
   onMyTeamsChange: (value: boolean) => void;
@@ -29,6 +31,7 @@ export function MiniFilterBar({
   myTeamsOnly,
   hasFavorites,
   viewMode,
+  sportsWithEvents,
   onSportChange,
   onBandChange,
   onMyTeamsChange,
@@ -49,6 +52,7 @@ export function MiniFilterBar({
         {SPORTS.map((s) => (
           <option key={s.id} value={s.id}>
             {s.emoji} {s.name}
+            {sportsWithEvents.has(s.id) ? '' : ' — no events'}
           </option>
         ))}
       </select>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CalendarPlus, Check, Apple } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { SportEvent } from '@/modules/data-source/types';
@@ -10,10 +10,25 @@ import { downloadIcs, googleCalendarUrl } from '../lib/export';
  */
 export function ExportMenu({ event }: { event: SportEvent }) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // Escape zamyka menu z dowolnego miejsca; focus wraca na trigger
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
 
   return (
     <div className="relative">
       <Button
+        ref={triggerRef}
         variant="ghost"
         size="icon"
         aria-label="Add to calendar"

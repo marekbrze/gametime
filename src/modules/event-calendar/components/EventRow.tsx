@@ -28,7 +28,8 @@ export function EventRow({
   favorite,
 }: EventRowProps) {
   const start = new Date(event.startUtc);
-  const dimmed = status === 'finished';
+  /** finished i postponed przygaszone — przełożone zostają widoczne (ADR-0011) */
+  const dimmed = status === 'finished' || status === 'postponed';
 
   return (
     <div

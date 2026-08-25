@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { registerCatalogTeams } from '../data/catalog';
 import { generateMockEvents } from '../data/mock-events';
-import type { DataSnapshot, SportEvent } from '../types';
+import type { DataSnapshot, DataWindow, SportEvent } from '../types';
 
 /**
  * Źródło wydarzeń: statyczny `DataSnapshot` z `public/data.json` (data-pipeline,
  * ADR-0009), fetch same-origin. Fallback na mocki TYLKO w toolingu (dev server /
- * Storybook) — w prod mocki nie mogą udawać prawdziwych terminarzy (stan error).
- * Dev może wymusić pusty kalendarz przez scenariusz 'empty' (klucz gametime.devEvents).
+ * Storybook) — w prod mocki nie mogą udawać prawdziwych terminarzy (stan error
+ * z retry). Dev może wymusić puste/mockowe wydarzenia przez scenariusze
+ * DevToolbar (klucz gametime.devEvents).
  */
 
 export type DataStatus = 'loading' | 'ready' | 'error';
@@ -18,6 +19,8 @@ interface EventsState {
   status: DataStatus;
   source: EventSource;
   generatedAt: string | null;
+  /** Okno danych snapshota — UI rozróżnia "pusty tydzień" od "poza oknem danych" */
+  window: DataWindow | null;
 }
 
 const DEV_EVENTS_KEY = 'gametime.devEvents';
@@ -37,47 +40,58 @@ function readDevOverride(): SportEvent[] | null {
   }
 }
 
-export function useEvents(): EventsState {
+async function fetchSnapshot(): Promise<DataSnapshot> {
+  const res = await fetch(`${import.meta.env.BASE_URL}data.json`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return (await res.json()) as DataSnapshot;
+}
+
+export function useEvents(): EventsState & { refresh: () => void } {
   const [state, setState] = useState<EventsState>(() => {
     const override = readDevOverride();
     if (override) {
-      return { events: override, status: 'ready', source: 'override', generatedAt: null };
+      return { events: override, status: 'ready', source: 'override', generatedAt: null, window: null };
     }
-    return { events: [], status: 'loading', source: 'json', generatedAt: null };
+    return { events: [], status: 'loading', source: 'json', generatedAt: null, window: null };
   });
 
-  useEffect(() => {
-    const override = readDevOverride();
-    if (override) return; // initializer już zastosował override
-
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(`${import.meta.env.BASE_URL}data.json`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const snapshot = (await res.json()) as DataSnapshot;
-        registerCatalogTeams(snapshot.catalog.teams);
-        if (!cancelled) {
-          setState({
-            events: snapshot.events,
-            status: 'ready',
-            source: 'json',
-            generatedAt: snapshot.generatedAt,
-          });
-        }
-      } catch {
-        if (cancelled) return;
-        if (isTooling) {
-          setState({ events: generateMockEvents(), status: 'ready', source: 'mock', generatedAt: null });
-        } else {
-          setState((prev) => ({ ...prev, status: 'error' }));
-        }
+  const load = useCallback(async () => {
+    try {
+      const snapshot = await fetchSnapshot();
+      registerCatalogTeams(snapshot.catalog.teams);
+      setState({
+        events: snapshot.events,
+        status: 'ready',
+        source: 'json',
+        generatedAt: snapshot.generatedAt,
+        window: snapshot.window,
+      });
+    } catch {
+      if (isTooling) {
+        setState({
+          events: generateMockEvents(),
+          status: 'ready',
+          source: 'mock',
+          generatedAt: null,
+          window: null,
+        });
+      } else {
+        setState((prev) => ({ ...prev, status: 'error' }));
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    }
   }, []);
 
-  return state;
+  useEffect(() => {
+    if (readDevOverride()) return; // initializer już zastosował override
+    void load();
+  }, [load]);
+
+  /** Retry po błędzie — ponowny fetch bez przeładowania strony. */
+  const refresh = useCallback(() => {
+    if (readDevOverride()) return;
+    setState((prev) => ({ ...prev, status: 'loading' }));
+    void load();
+  }, [load]);
+
+  return { ...state, refresh };
 }

@@ -5,7 +5,7 @@ const FAVORITES_KEY = 'gametime.favoriteTeams';
 
 /** Minimalna implementacja na potrzeby MyTeamsFilter i podświetleń — pełny moduł teams dostanie własne lofi. */
 export function useFavoriteTeams() {
-  const [favorites, setFavorites] = useLocalStorage<FavoriteTeam[]>(FAVORITES_KEY, []);
+  const [favorites, setFavorites, , writeError] = useLocalStorage<FavoriteTeam[]>(FAVORITES_KEY, []);
 
   const favoriteTeamIds = favorites.map((f) => f.teamId);
   const isFavorite = (teamId: string) => favoriteTeamIds.includes(teamId);
@@ -18,5 +18,5 @@ export function useFavoriteTeams() {
     }
   };
 
-  return { favorites, favoriteTeamIds, isFavorite, toggle, storageKey: FAVORITES_KEY };
+  return { favorites, favoriteTeamIds, isFavorite, toggle, storageKey: FAVORITES_KEY, writeError };
 }

@@ -52,8 +52,13 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 
 ## Edge Cases
 
-- **Brak realtime**: statusy live/finished wyliczane z czasu startu + szacowanego czasu trwania (~3h). Przekładania/odwołania widoczne dopiero po przebiegu pipeline'u — lag akceptowany.
-- **Pusty tydzień**: off-season sportu (np. NFL w czerwcu) lub filtry ukryją wszystko → empty state z wyjaśnieniem + skrótem do zdjęcia filtrów (obsłuży proto-edgecases/harden).
+- **Brak realtime**: statusy live/finished wyliczane z czasu startu + szacowanego czasu trwania **per sport** (soccer 2.5h, NHL/NBA 2.75h, NFL 3.5h; F1 per sessionType — race 2h, pozostałe 1.5h). Przekładania/odwołania widoczne dopiero po przebiegu pipeline'u — lag akceptowany.
+- **Ładowanie i błąd fetchu**: skeleton odzwierciedlający strukturę tygodnia → error card z Try again (`refresh()` bez reloadu strony); copy uwzględnia brak połączenia.
+- **Awaria zapisu localStorage** (private mode, quota): zapis przed zmianą stanu UI (wizualny rollback) + zamykalny banner StorageWarning — jedyna droga utraty danych usera nie jest cicha.
+- **Pusty tydzień**: trzy warianty — filtry (CTA Clear filters), faktycznie pusty tydzień (hint off-season), tydzień **poza oknem danych** ("No data for this week" + zakres DataWindow + Back to this week).
+- **Off-season w filtrach**: sporty bez wydarzeń w całym oknie danych dostają w selectie suffix " — no events" (opcja nieblokująca).
+- **Przełożone vs anulowane** (ADR-0011): `postponed` **zostaje na liście** w starym terminie — przygaszony z adnotacją, user planujący oglądanie widzi, że mecz odpada; `canceled` znika (domykanie z feedu — ENTITY_MAP).
+- **Świeżość danych**: stopka "Data as of {data, godzina}" z `generatedAt` snapshota (pipeline odświeża raz dziennie).
 - **Zmiana strefy czasowej / zakresów pasm**: przelicza bucketowanie pasm i nocną grupę — czysta recomputacja, bez przeładowania danych.
 - **Wydarzenie przekracza granicę pasa** (np. start 21:45, trwa do 00:30): pasmo klasyfikujemy po **czasie startu**.
 - **Dziś po północy**: "Today" zaczyna się od bieżącej pory — wciąż działa, bo noc (0:00–6:00) należy do wczorajszego wieczoru; blok Now niezależny od dnia.
