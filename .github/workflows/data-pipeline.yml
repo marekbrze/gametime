@@ -2,11 +2,13 @@ name: Data pipeline
 
 # data-pipeline (ADR-0007): pobiera terminarze lig (ESPN + OpenF1), pisze
 # public/data.json i commituje. Commit triggeruje deploy Pages — świadomy
-# łańcuch "dane → Pages". Cron po pełnej godzinie (mniejszy congestion GitHub).
+# łańcuch "dane → Pages". Raz dziennie 04:23 UTC (6:23 CEST) — świeże dane
+# przed porankiem PL, po nocnych przełożeniach lig US; po pełnej godzinie
+# (mniejszy congestion GitHub).
 
 on:
   schedule:
-    - cron: "23 */6 * * *"
+    - cron: "23 4 * * *"
   workflow_dispatch:
 
 permissions:

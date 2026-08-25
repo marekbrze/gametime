@@ -10,7 +10,7 @@ Feature (planned by proto-feature)
 **Must:**
 - Jeden adapter źródła: **ESPN hidden API** (`site.api.espn.com`, bez klucza, zweryfikowany żywy 2026-08-25) pokrywający wszystkie 8 lig v1 jednym formatem
 - Skrypt Node (`npm run pipeline`) pobierający terminarze w oknie **−7 dni / +14 dni**, normalizujący do kontraktu `SportEvent` i piszący `public/data.json` (katalog + wydarzenia + `generatedAt`)
-- GitHub Action na cronie (co 6h) commitujący odświeżony `data.json`; commit triggeruje deploy Pages → świeże dane bez backendu (architektura rozstrzygnięta w MODULES.md)
+- GitHub Action na cronie (raz dziennie) commitujący odświeżony `data.json`; commit triggeruje deploy Pages → świeże dane bez backendu (architektura rozstrzygnięta w MODULES.md)
 - `data-source`: `useEvents` czyta statyczny `data.json` zamiast generatora mocków; mock zostaje jako fallback dev/Storybook
 - Realny katalog drużyn (endpoint `teams` per liga — stabilne ID numeryczne ESPN, żeby `FavoriteTeam` i moduł `teams` miały pełne listy nawet bez wydarzeń w oknie)
 
@@ -50,7 +50,7 @@ Feature (planned by proto-feature)
   ```
   Mapowanie: `id` → `espn-{espnEventId}` · `startUtc` ← `events[].date` · `teamIds` ← `competitors[].team.id` jako `espn-{teamId}` · F1 `title` → `"{GrandPrix} — {session}"` (bez encji Team dla kierowców — patrz Later) · statusy ESPN mapowane **tylko** na `statusOverride`: `STATUS_POSTPONED` → `postponed`, `STATUS_CANCELED*` → `canceled`; `pre`/`in`/`post` ignorowane (klient wylicza z czasu — ADR-0005)
 - **Actions**: brak użytkownika (CI). Nowe komendy deweloperskie: `npm run pipeline`
-- **Screens & flows**: brak. Workflow: cron `23 */6 * * *` (po pełnej godzinie — mniejszy congestion GitHub Actions) + `workflow_dispatch`; `permissions: contents: write`; commit `data(pipeline): refresh events <ISO>` **tylko gdy plik się zmienił**; bez `[skip ci]` — push świadomie triggeruje deploy
+- **Screens & flows**: brak. Workflow: cron `23 4 * * *` (raz dziennie, po pełnej godzinie — mniejszy congestion GitHub Actions) + `workflow_dispatch`; `permissions: contents: write`; commit `data(pipeline): refresh events <ISO>` **tylko gdy plik się zmienił**; bez `[skip ci]` — push świadomie triggeruje deploy
 - **States (failure modes)**:
   - Fail-soft per liga: błąd jednej ligi ≠ błąd pipeline'u — commituje się to co się udało, błąd w logu runu
   - Action failuje (czerwono) tylko gdy **wszystkie** ligi padły — to sygnał monitoringu "źródło drgnęło"
@@ -91,7 +91,7 @@ Feature (planned by proto-feature)
 - **[create `src/modules/data-pipeline/lib/espn.ts`]** — fetch scoreboard (+ endpoint `teams` per liga do katalogu), mapowanie na `SportEvent` wg tabeli wyżej, fail-soft per liga z wyraźnym logiem
 - **[create `src/modules/data-pipeline/run.ts`]** — wyliczenie `DataWindow` (−7d/+14d), orchestracja lig, skład snapshota, zapis `public/data.json` (pretty-print, deterministyczne sortowanie po `startUtc` — czytelne diffy)
 - **[`package.json` scripts]** — now: brak. change to: `"pipeline": "tsx src/modules/data-pipeline/run.ts"` + devDep `tsx`. why: ręczny refresh lokalny i ten sam entry dla Action
-- **[create `.github/workflows/data-pipeline.yml`]** — cron `23 */6 * * *` + `workflow_dispatch`, checkout → node 22 → `npm ci` → `npm run pipeline` → commit-if-changed z `permissions: contents: write`
+- **[create `.github/workflows/data-pipeline.yml`]** — cron `23 4 * * *` + `workflow_dispatch`, checkout → node 22 → `npm ci` → `npm run pipeline` → commit-if-changed z `permissions: contents: write`
 - **[`src/modules/data-source/hooks/use-events.ts:11-17`]** — now: `useLocalStorage(EVENTS_KEY, generateMockEvents())`. change to: fetch `${import.meta.env.BASE_URL}data.json`, zwraca `{ events, catalog, status, source }`, fallback mock tylko dev-bez-pliku. why: źródłem prawdy staje się snapshot, nie localStorage
 - **[`src/scenarios/full.ts`, `src/scenarios/minimal.ts`]** — now: piszą `gametime.events`. change to: usunąć (albo przenieść na mockowanie fetcha — decyzja na harden; `empty.ts` zostaje jako jawny pusty stan)
 - **[`src/modules/event-calendar/components/EventCalendarScreen.tsx:24`]** — now: `const { events } = useEvents()`. change to: rozpakować też `status` i przekazać do ekranu (puste obsługi na razie — stany dorabia harden)

@@ -18,7 +18,7 @@ Wynik `proto-detail`. Infrastruktura — moduł bez ekranów i akcji użytkownik
 ## User Flows
 
 ### Scheduled refresh (happy path, CI)
-1. Cron `23 */6 * * *` (lub `workflow_dispatch`) odpala Action `data-pipeline`
+1. Cron `23 4 * * *` — raz dziennie o 04:23 UTC / 6:23 CEST (lub `workflow_dispatch`) odpala Action `data-pipeline`
 2. Skrypt liczy `DataWindow`: od dziś −7 dni do dziś +14 dni (UTC)
 3. Per liga zespołowa: jeden request scoreboard dla całego okna + jeden request `teams` (katalog)
 4. F1: request `sessions` + `meetings` dla roku okna; filtracja do okna
@@ -102,7 +102,7 @@ Moduł nie ma akcji użytkownika (rola: brak — CI). Akcje deweloperskie:
 - **Sprint weekend**: 3 sesje zamiast 4 praktyk + Sprint — OpenF1 zwraca `session_name: "Sprint"` automatycznie, adapter nie rozróżnia
 - **Zmiana kształtu ESPN/OpenF1** (API nieudokumentowane): adapter waliduje REQUIRED pola per event; brak pola = drop tego eventu z warningiem, nie crash całej ligi
 - **`public/data.json` nie istnieje** (świeży clone przed pierwszym runem): dev → fallback mocków w `data-source`; prod → stan error z retry (harden)
-- **Commit przy braku zmian danych**: skip — `generatedAt` i granice `window` (liczone od "teraz") są wyłączane z detekcji zmian, żeby cron nie commitował (i nie deployował) szumu 4× dziennie; `generatedAt` w pliku odzwierciedla ostatnią realną zmianę danych
+- **Commit przy braku zmian danych**: skip — `generatedAt` i granice `window` (liczone od "teraz") są wyłączane z detekcji zmian, żeby cron nie commitował (i nie deployował) pustych refreshy (np. poza sezonem); `generatedAt` w pliku odzwierciedla ostatnią realną zmianę danych
 - **Równoległość pipeline ↔ deploy**: oba pushe na main; GitHub serializuje workflow runs — najwyżej kolejka, brak konfliktu
 
 ## Integration Points
