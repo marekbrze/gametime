@@ -11,13 +11,19 @@ import { MoreFilters } from './MoreFilters';
 interface FilterBarProps {
   filters: EventFilters;
   onFiltersChange: (updater: FiltersUpdater) => void;
-  myTeamsOnly: boolean;
-  onMyTeamsChange: (value: boolean) => void;
-  hasFavorites: boolean;
+  /**
+   * Wariant bands-only (ADR-0022): sama grupa pasm + slot dzieci — dla list
+   * jednodrużynowych (terminarz drużyny), gdzie sport/liga/My teams nie niosą
+   * informacji. Propsy wymiarów konkursowych stają się wtedy opcjonalne.
+   */
+  bandsOnly?: boolean;
+  myTeamsOnly?: boolean;
+  onMyTeamsChange?: (value: boolean) => void;
+  hasFavorites?: boolean;
   /** sporty mające wydarzenia w oknie danych — adnotacja off-season (ADR-0011) */
-  sportsWithEvents: Set<string>;
+  sportsWithEvents?: Set<string>;
   /** ligi mające wydarzenia w oknie danych — adnotacja off-season w panelu */
-  leaguesWithEvents: Set<string>;
+  leaguesWithEvents?: Set<string>;
   /** Slot ekranu-listy (np. toggle list ↔ cards — własność event-calendar, nie filters) */
   children?: ReactNode;
 }
@@ -25,16 +31,17 @@ interface FilterBarProps {
 /**
  * Wspólny pasek filtrowania list (ADR-0012). Tier 1 zawsze widoczny:
  * pasma + sport + My teams. Ligi schowane za "More filters" z licznikiem.
- * Bezstanowy — stan trzyma ekran-lista (na event-calendar: URL, ADR-0014).
+ * Bezstanowy — stan trzyma ekran-listy (na event-calendar: URL, ADR-0014).
  */
 export function FilterBar({
   filters,
   onFiltersChange,
-  myTeamsOnly,
+  bandsOnly,
+  myTeamsOnly = false,
   onMyTeamsChange,
-  hasFavorites,
-  sportsWithEvents,
-  leaguesWithEvents,
+  hasFavorites = false,
+  sportsWithEvents = new Set<string>(),
+  leaguesWithEvents = new Set<string>(),
   children,
 }: FilterBarProps) {
   return (
@@ -54,46 +61,52 @@ export function FilterBar({
         ))}
       </div>
 
-      <label className="sr-only" htmlFor="sport-filter">
-        Filter by sport
-      </label>
-      <select
-        id="sport-filter"
-        value={filters.sport}
-        onChange={(e) =>
-          onFiltersChange((prev) => selectSport(prev, e.target.value as SportFilter))
-        }
-        className="h-9 rounded-md border bg-background px-2 text-sm"
-      >
-        <option value="all">All sports</option>
-        {SPORTS.map((s) => (
-          <option key={s.id} value={s.id}>
-            {s.emoji} {s.name}
-            {sportsWithEvents.has(s.id) ? '' : ' — no events'}
-          </option>
-        ))}
-      </select>
+      {!bandsOnly && (
+        <>
+          <label className="sr-only" htmlFor="sport-filter">
+            Filter by sport
+          </label>
+          <select
+            id="sport-filter"
+            value={filters.sport}
+            onChange={(e) =>
+              onFiltersChange((prev) => selectSport(prev, e.target.value as SportFilter))
+            }
+            className="h-9 rounded-md border bg-background px-2 text-sm"
+          >
+            <option value="all">All sports</option>
+            {SPORTS.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.emoji} {s.name}
+                {sportsWithEvents.has(s.id) ? '' : ' — no events'}
+              </option>
+            ))}
+          </select>
 
-      <Button
-        variant={myTeamsOnly ? 'default' : 'outline'}
-        size="sm"
-        aria-pressed={myTeamsOnly}
-        disabled={!hasFavorites}
-        title={hasFavorites ? undefined : 'Add favorite teams first (Teams module)'}
-        onClick={() => onMyTeamsChange(!myTeamsOnly)}
-        className="gap-1.5"
-      >
-        <Star className="size-3.5" aria-hidden="true" />
-        My teams
-      </Button>
+          <Button
+            variant={myTeamsOnly ? 'default' : 'outline'}
+            size="sm"
+            aria-pressed={myTeamsOnly}
+            disabled={!hasFavorites}
+            title={hasFavorites ? undefined : 'Add favorite teams first (Teams module)'}
+            onClick={() => onMyTeamsChange?.(!myTeamsOnly)}
+            className="gap-1.5"
+          >
+            <Star className="size-3.5" aria-hidden="true" />
+            My teams
+          </Button>
 
-      <MoreFilters
-        filters={filters}
-        onFiltersChange={onFiltersChange}
-        leaguesWithEvents={leaguesWithEvents}
-      />
+          <MoreFilters
+            filters={filters}
+            onFiltersChange={onFiltersChange}
+            leaguesWithEvents={leaguesWithEvents}
+          />
+        </>
+      )}
 
-      {children && <div className="ml-auto flex items-center gap-1">{children}</div>}
+      {children && (
+        <div className={`${bandsOnly ? 'ml-auto' : ''} flex items-center gap-1`}>{children}</div>
+      )}
     </div>
   );
 }

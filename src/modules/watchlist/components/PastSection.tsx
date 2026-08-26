@@ -15,7 +15,8 @@ interface PastSectionProps {
   tz: TimeZone;
   now: Date;
   onToggleWatch: (eventId: string) => void;
-  onOpenDetails: (event: SportEvent) => void;
+  /** opcjonalne — terminarz drużyny (teams) nie otwiera dialogu szczegółów */
+  onOpenDetails?: (event: SportEvent) => void;
 }
 
 /**

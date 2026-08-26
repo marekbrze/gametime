@@ -2,11 +2,14 @@ import type { DataWindow, SportEvent, Team } from '../../data-source/types';
 import { espnId, type EspnLeagueConfig, type LeagueFetchResult } from './config';
 
 /** Adapter ESPN hidden API — 7 lig zespołowych (ADR-0007). API nieudokumentowane:
- *  walidujemy wymagane pola per event, brak pola = drop z warningiem, nie crash ligi. */
+ *  walidujemy wymagane pola per event, brak pola = drop z warningiem, nie crash ligi.
+ *  Okno = pełny sezon z metadanych scoreboardu (ADR-0019), fetch w chunkach
+ *  ~30-dniowych z dedupem po id (range `?dates=` bywa capowany na dłuższych zakresach). */
 
 const SITE_API = 'https://site.api.espn.com/apis/site/v2/sports';
 const FETCH_TIMEOUT_MS = 15_000;
 const FETCH_ATTEMPTS = 2;
+const CHUNK_DAYS = 30;
 
 interface EspnRawEvent {
   id?: string;
@@ -19,6 +22,10 @@ interface EspnRawEvent {
 
 interface EspnRawTeams {
   sports?: { leagues?: { teams?: { team?: { id?: string; displayName?: string } }[] }[] }[];
+}
+
+interface EspnRawSeason {
+  leagues?: { season?: { startDate?: string; endDate?: string } }[];
 }
 
 /** Statusy ESPN mapowane na statusOverride; pre/in/post ignorowane (ADR-0005 — klient wylicza). */
@@ -87,22 +94,80 @@ function mapTeams(leagueId: string, raw: EspnRawTeams): Team[] {
     .map((team) => ({ id: espnId(leagueId, team.id), name: team.displayName, leagueId }));
 }
 
+/** Okno ligi = pełny sezon zawierający "dziś" (ADR-0019). Metadane bierze z
+ *  scoreboardu bez parametrów; jak ich brak (zmiana kształtu API) — fallback
+ *  na okno krótkie przekazane przez run.ts, liga żyje dalej oknem −7/+14d. */
+async function fetchSeasonWindow(
+  config: EspnLeagueConfig,
+  fallback: DataWindow,
+): Promise<DataWindow> {
+  const raw = await fetchJson<EspnRawSeason>(`${SITE_API}/${config.espnPath}/scoreboard`, config.leagueId);
+  const season = raw.leagues?.[0]?.season;
+  if (season?.startDate && season?.endDate) {
+    const from = new Date(season.startDate);
+    const to = new Date(season.endDate);
+    if (!Number.isNaN(from.getTime()) && !Number.isNaN(to.getTime()) && from < to) {
+      return { from: from.toISOString(), to: to.toISOString() };
+    }
+  }
+  console.warn(`[${config.leagueId}] no season metadata — fallback to short window`);
+  return fallback;
+}
+
+/** Zakresy `?dates=` (inkluzywne po obu stronach) pokrywające okno chunkami
+ *  po CHUNK_DAYS dni. Chunk idzie po dniach kalendarzowych od `from`. */
+function chunkRanges(window: DataWindow): string[] {
+  const ranges: string[] = [];
+  const DAY_MS = 86_400_000;
+  let start = new Date(window.from);
+  const end = new Date(window.to);
+  // wyrównanie do północy — chunki po pełnych dniach, bez dryfu godziny
+  start = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()));
+  const endDay = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate(), 23, 59, 59));
+  while (start < endDay) {
+    const chunkEnd = new Date(Math.min(start.getTime() + (CHUNK_DAYS - 1) * DAY_MS, endDay.getTime()));
+    ranges.push(`${yyyymmdd(start.toISOString())}-${yyyymmdd(chunkEnd.toISOString())}`);
+    start = new Date(chunkEnd.getTime() + DAY_MS);
+  }
+  return ranges;
+}
+
+export interface EspnLeagueFetch extends LeagueFetchResult {
+  /** okno faktycznie pobrane (sezon albo fallback) — run.ts liczy z nich unię */
+  window: DataWindow;
+}
+
 export async function fetchEspnLeague(
   config: EspnLeagueConfig,
-  window: DataWindow,
-): Promise<LeagueFetchResult> {
-  const dates = `${yyyymmdd(window.from)}-${yyyymmdd(window.to)}`;
-  const [scoreboard, teamsRaw] = await Promise.all([
-    fetchJson<{ events?: EspnRawEvent[] }>(
-      `${SITE_API}/${config.espnPath}/scoreboard?dates=${dates}`,
+  fallbackWindow: DataWindow,
+): Promise<EspnLeagueFetch> {
+  const window = await fetchSeasonWindow(config, fallbackWindow);
+  const ranges = chunkRanges(window);
+
+  // Chunki sekwencyjnie per liga (ligi i tak lecą równolegle w run.ts);
+  // katalog drużyn równolegle do pętli — jedno żądanie.
+  const teamsPromise = fetchJson<EspnRawTeams>(
+    `${SITE_API}/${config.espnPath}/teams?limit=500`,
+    config.leagueId,
+  );
+
+  const byId = new Map<string, SportEvent>();
+  for (const range of ranges) {
+    const raw = await fetchJson<{ events?: EspnRawEvent[] }>(
+      `${SITE_API}/${config.espnPath}/scoreboard?dates=${range}`,
       config.leagueId,
-    ),
-    fetchJson<EspnRawTeams>(`${SITE_API}/${config.espnPath}/teams?limit=500`, config.leagueId),
-  ]);
+    );
+    for (const event of raw.events ?? []) {
+      const mapped = mapEvent(config.leagueId, event);
+      // dedup po id: chunki nachodzą na siebie na granicach dnia
+      if (mapped && inWindow(mapped.startUtc, window)) byId.set(mapped.id, mapped);
+    }
+  }
 
-  const events = (scoreboard.events ?? [])
-    .map((raw) => mapEvent(config.leagueId, raw))
-    .filter((e): e is SportEvent => e !== null && inWindow(e.startUtc, window));
-
-  return { leagueId: config.leagueId, events, teams: mapTeams(config.leagueId, teamsRaw) };
+  return {
+    leagueId: config.leagueId,
+    events: [...byId.values()],
+    teams: mapTeams(config.leagueId, await teamsPromise),
+    window,
+  };
 }

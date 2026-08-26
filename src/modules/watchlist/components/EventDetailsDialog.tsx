@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Apple, Check, CalendarDays, CalendarClock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { SportEvent } from '@/modules/data-source/types';
+import { TEAM_BY_ID } from '@/modules/data-source/data/catalog';
 import { downloadIcs, googleCalendarUrl } from '@/modules/calendar-export/lib/export';
 import { MAX_WEEK_OFFSET } from '@/modules/filters';
 import type { UserSettings } from '@/modules/settings/types';
@@ -115,7 +116,31 @@ export function EventDetailsDialog({
             <span className="text-2xl" aria-hidden="true">
               {sportEmoji(event)}
             </span>
-            <h2 className="text-base font-semibold leading-snug">{participantsLabel(event)}</h2>
+            {/* Uczestnicy jako linki do terminarzy (Go to team schedule,
+                ADR-0022); motorsport bez teamIds zostaje zwykłym tytułem */}
+            <h2 className="text-base font-semibold leading-snug">
+              {(event.teamIds ?? []).length === 0 ? (
+                participantsLabel(event)
+              ) : (
+                <>
+                  {(event.teamIds ?? []).map((id, i) => (
+                    <Fragment key={id}>
+                      {i > 0 && <span className="text-muted-foreground"> vs </span>}
+                      <button
+                        type="button"
+                        className="underline-offset-2 hover:underline focus-visible:underline"
+                        onClick={() => {
+                          dialogRef.current?.close();
+                          navigate(`/teams/team/${id}`);
+                        }}
+                      >
+                        {TEAM_BY_ID.get(id)?.name ?? id}
+                      </button>
+                    </Fragment>
+                  ))}
+                </>
+              )}
+            </h2>
           </div>
           <Button
             variant="ghost"
