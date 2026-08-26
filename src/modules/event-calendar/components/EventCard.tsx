@@ -15,6 +15,8 @@ interface EventCardProps {
   watched: boolean;
   onToggleWatch: () => void;
   favorite: boolean;
+  /** otwarcie szczegółów wydarzenia (klik w etykietę — jump to event z watchlisty) */
+  onOpenDetails?: (event: SportEvent) => void;
 }
 
 /** Widok alternatywny (UserSettings.viewMode = 'cards'): większy format, kolor pasa mocniej. */
@@ -26,6 +28,7 @@ export function EventCard({
   watched,
   onToggleWatch,
   favorite,
+  onOpenDetails,
 }: EventCardProps) {
   const start = new Date(event.startUtc);
 
@@ -58,7 +61,17 @@ export function EventCard({
           <ExportMenu event={event} />
         </div>
       </div>
-      <p className="text-base font-medium leading-snug">{participantsLabel(event)}</p>
+      {onOpenDetails ? (
+        <button
+          type="button"
+          onClick={() => onOpenDetails(event)}
+          className="block w-full text-left text-base font-medium leading-snug underline-offset-2 hover:underline focus-visible:underline"
+        >
+          {participantsLabel(event)}
+        </button>
+      ) : (
+        <p className="text-base font-medium leading-snug">{participantsLabel(event)}</p>
+      )}
       <p className="mt-1 text-sm text-muted-foreground">
         <span className="font-medium tabular-nums text-foreground">
           {formatTimeInZone(start, tz)}

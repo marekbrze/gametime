@@ -16,6 +16,8 @@ interface EventRowProps {
   onToggleWatch: () => void;
   /** którykolwiek uczestnik jest ulubioną drużyną → subtelne podświetlenie */
   favorite: boolean;
+  /** otwarcie szczegółów wydarzenia (klik w etykietę — jump to event z watchlisty) */
+  onOpenDetails?: (event: SportEvent) => void;
 }
 
 export function EventRow({
@@ -26,10 +28,23 @@ export function EventRow({
   watched,
   onToggleWatch,
   favorite,
+  onOpenDetails,
 }: EventRowProps) {
   const start = new Date(event.startUtc);
   /** finished i postponed przygaszone — przełożone zostają widoczne (ADR-0011) */
   const dimmed = status === 'finished' || status === 'postponed';
+
+  const label = (
+    <>
+      {participantsLabel(event)}
+      {status === 'postponed' && (
+        <span className="ml-2 text-xs text-muted-foreground">Postponed</span>
+      )}
+      {status === 'canceled' && (
+        <span className="ml-2 text-xs text-muted-foreground">Canceled</span>
+      )}
+    </>
+  );
 
   return (
     <div
@@ -46,15 +61,17 @@ export function EventRow({
       <span className="w-12 shrink-0 text-sm font-medium tabular-nums">
         {formatTimeInZone(start, tz)}
       </span>
-      <span className="min-w-0 flex-1 truncate text-sm">
-        {participantsLabel(event)}
-        {status === 'postponed' && (
-          <span className="ml-2 text-xs text-muted-foreground">Postponed</span>
-        )}
-        {status === 'canceled' && (
-          <span className="ml-2 text-xs text-muted-foreground">Canceled</span>
-        )}
-      </span>
+      {onOpenDetails ? (
+        <button
+          type="button"
+          onClick={() => onOpenDetails(event)}
+          className="min-w-0 flex-1 truncate text-left text-sm underline-offset-2 hover:underline focus-visible:underline"
+        >
+          {label}
+        </button>
+      ) : (
+        <span className="min-w-0 flex-1 truncate text-sm">{label}</span>
+      )}
       <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
         {leagueName(event)}
       </span>

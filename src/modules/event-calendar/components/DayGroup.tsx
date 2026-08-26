@@ -25,6 +25,8 @@ interface DayGroupProps {
   viewMode: ViewMode;
   tz: TimeZone;
   onToggleWatch: (eventId: string) => void;
+  /** otwarcie szczegółów wydarzenia (klik w etykietę) — opcjonalne, używa watchlist */
+  onOpenDetails?: (event: SportEvent) => void;
 }
 
 const SECTION_ORDER: TimeBandKind[] = ['day', 'evening'];
@@ -33,7 +35,15 @@ const SECTION_ORDER: TimeBandKind[] = ['day', 'evening'];
  * Grupa dnia: nagłówek z podsumowaniem pasm → sekcje Day/Evening (mini-nagłówki
  * z kolorem) → noc zwinięta na końcu ("after midnight" — ViewingDay, ADR-0004).
  */
-export function DayGroup({ dayKey, isToday, items, viewMode, tz, onToggleWatch }: DayGroupProps) {
+export function DayGroup({
+  dayKey,
+  isToday,
+  items,
+  viewMode,
+  tz,
+  onToggleWatch,
+  onOpenDetails,
+}: DayGroupProps) {
   const [nightOpen, setNightOpen] = useState(false);
   const { weekday, date } = formatDayLabel(dayKey);
 
@@ -58,6 +68,7 @@ export function DayGroup({ dayKey, isToday, items, viewMode, tz, onToggleWatch }
             watched={item.watched}
             onToggleWatch={() => onToggleWatch(item.event.id)}
             favorite={item.favorite}
+            onOpenDetails={onOpenDetails}
           />
         ) : (
           <EventRow
@@ -69,6 +80,7 @@ export function DayGroup({ dayKey, isToday, items, viewMode, tz, onToggleWatch }
             watched={item.watched}
             onToggleWatch={() => onToggleWatch(item.event.id)}
             favorite={item.favorite}
+            onOpenDetails={onOpenDetails}
           />
         ),
       );

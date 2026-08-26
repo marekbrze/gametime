@@ -33,6 +33,42 @@ export function googleCalendarUrl(event: SportEvent): string {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
+/** Zbiorczy plik ICS (watchlist): jeden VCALENDAR, wiele VEVENTów — Apple/uniwersalny. */
+export function downloadIcsBundle(events: SportEvent[], calendarName: string): void {
+  const stamp = toIcsStamp(new Date());
+  const vevents = events.map((event) => {
+    const start = new Date(event.startUtc);
+    const end = new Date(start.getTime() + estimatedDurationMs(event));
+    return [
+      'BEGIN:VEVENT',
+      `UID:${event.id}@gametime`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART:${toIcsStamp(start)}`,
+      `DTEND:${toIcsStamp(end)}`,
+      `SUMMARY:${eventTitle(event)}`,
+      'END:VEVENT',
+    ].join('\r\n');
+  });
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//gametime//EN',
+    `X-WR-CALNAME:${calendarName}`,
+    ...vevents,
+    'END:VCALENDAR',
+  ].join('\r\n');
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `${calendarName.replace(/[^\w-]+/g, '_')}.ics`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
 /** Plik ICS (Apple Calendar / uniwersalny) — pobieranie przez blob. */
 export function downloadIcs(event: SportEvent): void {
   const start = new Date(event.startUtc);
