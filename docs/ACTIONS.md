@@ -1,6 +1,6 @@
 # Action Inventory
 
-Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna potwierdzona przez designera: **każda lista w aplikacji filtruje się po pasmach godzinowych** (TimeBand), po sporcie, lidze i zakresie dat.
+Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna potwierdzona przez designera: **każda lista w aplikacji filtruje się po pasmach godzinowych** (TimeBand), sporcie i lidze — wspólnym paskiem modułu filters (ADR-0012). Zakres dat należy do ekranu-listy (pager tygodnia, sezon, podział watchlisty); filtr drużynowy poza paskiem w v1 — team-scoping w module teams.
 
 ## Roles
 
@@ -16,7 +16,7 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 | Browse week list | Domyślny widok po wejściu: aktualny tydzień, wszystkie sporty, zero setupu. | Happy path entry; nocne zwinięte/zdyskretowane |
 | Page weeks | Nawigacja ‹ Previous / Next week › + This week, po tygodniach kalendarzowych. | ADR-0006 |
 | Toggle view type | Przełącznik list ↔ cards; persystencja w `UserSettings.viewMode`. | Eksperyment adopcji (ADR-0006) |
-| Filter list | Po: sporcie, lidze, drużynie, pasmie godzinowym (zakres = tygodnie kalendarzowe). | Zasada uniwersalna — każdy typ listy |
+| Filter list | Po: pasmie, sporcie, lidze (multi-select) + toggle MyTeamsFilter. | Zasada uniwersalna — każdy typ listy; stan per-ekran w pamięci, czysty start wizyty (ADR-0013) |
 | Expand/collapse night section | Rozwinięcie zdyskretowanych wydarzeń nocnych. | |
 | See event status | Prezentacja statusu: scheduled / live / finished / postponed / canceled. | Pasywne, data-driven |
 | Star event | Dodaje WATCHLIST_ENTRY. | Gwiazdka |
@@ -64,9 +64,11 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 
 | Action | Description | Notes |
 |--------|-------------|-------|
-| Filter by sport | Sport nadrzędny wobec ligi w hierarchii filtrowania. | |
-| Filter by league | Liga w ramach wybranego sportu. | |
+| Filter by sport | Sport nadrzędny wobec ligi w hierarchii filtrowania; single-select z "All sports". | Tier 1 paska — ADR-0012 |
+| Filter by league | Multi-select w "More filters", lista pogrupowana po sportach. | Uzgadnianie ze sportem — ADR-0012 |
+| Clear filters | Reset wszystkich wymiarów do stanu czystego. | W empty state zero-match — ADR-0013 |
 | (pasywnie) Sport icon display | Emoji/ikona sportu przy wydarzeniu — rozpoznanie z pierwszego rzutu oka. | 🏒 🏀 🏈 ⚾ ⚽ 🏁 🏐 |
+| (pasywnie) Shareable view URL | Filtry + offset tygodnia w hash query — każdy widok do wysłania. | ADR-0014 |
 
 ## Bilans
 

@@ -48,7 +48,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 | Star / Unstar event | Gwiazdka z wiersza | `WatchlistEntry` | |
 | Export single → calendar | Google (link) / Apple (ICS) z wiersza | `Event` | Moduł calendar-export |
 | See event status | scheduled / live / finished / postponed / canceled | `Event` | Pasywne, data-driven |
-| Filter list | Sport → liga → drużyna → pasmo + MyTeamsFilter (pasek modułu filters) | — | Zasada uniwersalna |
+| Filter list | Pasmo + sport + ligi (More filters) + MyTeamsFilter (FilterBar modułu filters) | — | Zasada uniwersalna; ADR-0012 |
 
 ## Edge Cases
 
@@ -65,7 +65,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 
 ## Integration Points
 
-- **filters**: wspólny pasek nad listą (sport/liga/drużyna/pasmo/MyTeamsFilter) — zasada uniwersalna
+- **filters**: wspólny FilterBar nad listą (pasmo/sport/liga/MyTeamsFilter) — zasada uniwersalna; stan widoku (tydzień + filtry) w URL — ADR-0014
 - **watchlist**: gwiazdka w wierszu; obserwowane nie są tu specjalnie traktowane (ich dom to moduł watchlist)
 - **calendar-export**: ⤓ w wierszu
 - **teams**: podświetlenie ulubionych drużyn w wierszach; link z uczestnika → SeasonSchedule
