@@ -6,7 +6,7 @@ import type { TimeBandKind } from '@/modules/settings/types';
 import type { ViewMode } from '@/modules/settings/types';
 import type { TimeZone } from '@/shared/lib/datetime';
 import { formatDayLabel } from '@/shared/lib/datetime';
-import { BAND_CHIP, BAND_DOT } from '../lib/bands-ui';
+import { BAND_CHIP, BAND_DOT } from '@/modules/settings/lib/bands-ui';
 import { EventCard } from './EventCard';
 import { EventRow } from './EventRow';
 

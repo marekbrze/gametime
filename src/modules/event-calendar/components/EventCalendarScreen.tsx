@@ -1,6 +1,14 @@
 import { useMemo, useState } from 'react';
+import { LayoutGrid, List } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { deriveStatus } from '@/modules/data-source/lib/status';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
+import {
+  FilterBar,
+  hasActiveFilters,
+  matchesEventFilters,
+  useUrlFilters,
+} from '@/modules/filters';
 import { useFavoriteTeams } from '@/modules/teams/hooks/use-favorite-teams';
 import { useSettings } from '@/modules/settings/hooks/use-settings';
 import { bandOfDate } from '@/modules/settings/lib/time-bands';
@@ -16,7 +24,6 @@ import { useNow } from '../hooks/use-now';
 import { DayGroup, type DayItem } from './DayGroup';
 import { EmptyWeek } from './EmptyWeek';
 import { LoadError } from './LoadError';
-import { MiniFilterBar, type BandFilter, type SportFilter } from './MiniFilterBar';
 import { NowBlock } from './NowBlock';
 import { StorageWarning } from './StorageWarning';
 import { WeekPager } from './WeekPager';
@@ -29,9 +36,9 @@ export function EventCalendarScreen() {
   const { favoriteTeamIds, writeError: favoritesError } = useFavoriteTeams();
 
   const now = useNow(30_000);
-  const [weekOffset, setWeekOffset] = useState(0);
-  const [sportFilter, setSportFilter] = useState<SportFilter>('all');
-  const [bandFilter, setBandFilter] = useState<BandFilter>('all');
+  // Filtry i tydzień żyją w URL (ADR-0014): deep-linki, Back po zmianach widoku,
+  // czysty start bez parametrów. MyTeams celowo poza URL (nieprzenośne między userami).
+  const { filters, weekOffset, setFilters, shiftWeek, setWeekOffset, clearFilters } = useUrlFilters();
   const [myTeamsOnly, setMyTeamsOnly] = useState(false);
 
   const tz = settings.timezone === 'system' ? undefined : settings.timezone;
@@ -41,7 +48,7 @@ export function EventCalendarScreen() {
   const displayMonday = shiftWeekKey(currentMonday, weekOffset);
   const weekKeys = useMemo(() => weekDayKeys(displayMonday), [displayMonday]);
   const weekKeySet = useMemo(() => new Set(weekKeys), [weekKeys]);
-  const hasFilters = sportFilter !== 'all' || bandFilter !== 'all' || myTeamsOnly;
+  const hasFilters = hasActiveFilters(filters) || myTeamsOnly;
 
   /** Wyświetlany tydzień poza oknem danych? (klucze dni są 'YYYY-MM-DD', porównywalne leksykograficznie) */
   const beyondWindow =
@@ -65,18 +72,12 @@ export function EventCalendarScreen() {
 
   const filtered = useMemo(
     () =>
-      weekEvents.filter((event) => {
-        if (sportFilter !== 'all' && event.sportId !== sportFilter) return false;
-        if (bandFilter !== 'all' && bandOfDate(new Date(event.startUtc), settings) !== bandFilter)
-          return false;
-        if (
-          myTeamsOnly &&
-          !(event.teamIds ?? []).some((teamId) => favoriteTeamIds.includes(teamId))
-        )
-          return false;
-        return true;
-      }),
-    [weekEvents, sportFilter, bandFilter, myTeamsOnly, settings, favoriteTeamIds],
+      weekEvents.filter(
+        (event) =>
+          matchesEventFilters(event, filters, settings) &&
+          (!myTeamsOnly || (event.teamIds ?? []).some((teamId) => favoriteTeamIds.includes(teamId))),
+      ),
+    [weekEvents, filters, myTeamsOnly, settings, favoriteTeamIds],
   );
 
   /** dayKey → posortowane itemy (DayItem z pasmem i statusem). */
@@ -103,8 +104,9 @@ export function EventCalendarScreen() {
     return groups;
   }, [filtered, settings, tz, now, isWatched, favoriteTeamIds]);
 
-  /** Sporty mające jakiekolwiek wydarzenia w oknie danych — adnotacja off-season w filtrze. */
+  /** Sporty i ligi mające jakiekolwiek wydarzenia w oknie danych — adnotacje off-season. */
   const sportsWithEvents = useMemo(() => new Set(events.map((e) => e.sportId)), [events]);
+  const leaguesWithEvents = useMemo(() => new Set(events.map((e) => e.leagueId)), [events]);
 
   const isCurrentWeek = weekOffset === 0;
   const totalVisible = weekKeys.reduce((sum, key) => sum + (dayGroups.get(key)?.length ?? 0), 0);
@@ -136,22 +138,41 @@ export function EventCalendarScreen() {
           <WeekPager
             mondayKey={displayMonday}
             isCurrentWeek={isCurrentWeek}
-            onShift={(weeks) => setWeekOffset((offset) => offset + weeks)}
+            onShift={shiftWeek}
             onThisWeek={() => setWeekOffset(0)}
           />
 
-          <MiniFilterBar
-            sport={sportFilter}
-            band={bandFilter}
+          <FilterBar
+            filters={filters}
+            onFiltersChange={setFilters}
             myTeamsOnly={myTeamsOnly}
-            hasFavorites={favoriteTeamIds.length > 0}
-            viewMode={settings.viewMode}
-            sportsWithEvents={sportsWithEvents}
-            onSportChange={setSportFilter}
-            onBandChange={setBandFilter}
             onMyTeamsChange={setMyTeamsOnly}
-            onViewModeChange={updateViewMode}
-          />
+            hasFavorites={favoriteTeamIds.length > 0}
+            sportsWithEvents={sportsWithEvents}
+            leaguesWithEvents={leaguesWithEvents}
+          >
+            {/* View-mode to własność tego ekranu (ADR-0006), nie modułu filters */}
+            <div role="group" aria-label="View mode" className="flex items-center gap-1">
+              <Button
+                variant={settings.viewMode === 'list' ? 'default' : 'ghost'}
+                size="icon"
+                aria-label="List view"
+                aria-pressed={settings.viewMode === 'list'}
+                onClick={() => updateViewMode('list')}
+              >
+                <List className="size-4" aria-hidden="true" />
+              </Button>
+              <Button
+                variant={settings.viewMode === 'cards' ? 'default' : 'ghost'}
+                size="icon"
+                aria-label="Cards view"
+                aria-pressed={settings.viewMode === 'cards'}
+                onClick={() => updateViewMode('cards')}
+              >
+                <LayoutGrid className="size-4" aria-hidden="true" />
+              </Button>
+            </div>
+          </FilterBar>
 
           {totalVisible === 0 ? (
             <EmptyWeek
@@ -159,8 +180,7 @@ export function EventCalendarScreen() {
               beyondWindow={beyondWindow}
               dataWindow={dataWindow}
               onClearFilters={() => {
-                setSportFilter('all');
-                setBandFilter('all');
+                clearFilters();
                 setMyTeamsOnly(false);
               }}
               onThisWeek={() => setWeekOffset(0)}

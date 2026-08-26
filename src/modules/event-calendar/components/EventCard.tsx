@@ -4,7 +4,7 @@ import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
-import { BAND_EDGE } from '../lib/bands-ui';
+import { BAND_EDGE } from '@/modules/settings/lib/bands-ui';
 import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
 
 interface EventCardProps {
