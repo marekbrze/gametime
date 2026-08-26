@@ -1,13 +1,27 @@
+import { useMemo } from 'react';
 import { useLocalStorage } from '@/shared/hooks/use-local-storage';
 import type { FavoriteTeam } from '../types';
 
 const FAVORITES_KEY = 'gametime.favoriteTeams';
 
-/** Minimalna implementacja na potrzeby MyTeamsFilter i podświetleń — pełny moduł teams dostanie własne lofi. */
-export function useFavoriteTeams() {
-  const [favorites, setFavorites, , writeError] = useLocalStorage<FavoriteTeam[]>(FAVORITES_KEY, []);
+/** Minimalna implementacja na potrzeby MyTeamsFilter i podświetleń — pełny moduł teams dostanie własne lofi.
+ * Sanityzacja kształtu jak w watchlist (harden #1, ADR-0018). */
+function sanitizeFavorites(raw: unknown): FavoriteTeam[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter(
+    (entry): entry is FavoriteTeam =>
+      typeof entry === 'object' &&
+      entry !== null &&
+      typeof (entry as { teamId?: unknown }).teamId === 'string',
+  );
+}
 
-  const favoriteTeamIds = favorites.map((f) => f.teamId);
+export function useFavoriteTeams() {
+  const [rawFavorites, setFavorites, , writeError] = useLocalStorage<unknown>(FAVORITES_KEY, []);
+
+  const favorites = useMemo(() => sanitizeFavorites(rawFavorites), [rawFavorites]);
+
+  const favoriteTeamIds = useMemo(() => favorites.map((f) => f.teamId), [favorites]);
   const isFavorite = (teamId: string) => favoriteTeamIds.includes(teamId);
 
   const toggle = (teamId: string) => {

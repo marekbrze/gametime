@@ -27,6 +27,8 @@ interface DayGroupProps {
   onToggleWatch: (eventId: string) => void;
   /** otwarcie szczegółów wydarzenia (klik w etykietę) — opcjonalne, używa watchlist */
   onOpenDetails?: (event: SportEvent) => void;
+  /** chip LIVE dla trwających — watchlista (kalendarz ma NowBlock, ADR-0018) */
+  liveIndicator?: boolean;
 }
 
 const SECTION_ORDER: TimeBandKind[] = ['day', 'evening'];
@@ -43,6 +45,7 @@ export function DayGroup({
   tz,
   onToggleWatch,
   onOpenDetails,
+  liveIndicator,
 }: DayGroupProps) {
   const [nightOpen, setNightOpen] = useState(false);
   const { weekday, date } = formatDayLabel(dayKey);
@@ -69,6 +72,7 @@ export function DayGroup({
             onToggleWatch={() => onToggleWatch(item.event.id)}
             favorite={item.favorite}
             onOpenDetails={onOpenDetails}
+            liveIndicator={liveIndicator}
           />
         ) : (
           <EventRow
@@ -81,6 +85,7 @@ export function DayGroup({
             onToggleWatch={() => onToggleWatch(item.event.id)}
             favorite={item.favorite}
             onOpenDetails={onOpenDetails}
+            liveIndicator={liveIndicator}
           />
         ),
       );

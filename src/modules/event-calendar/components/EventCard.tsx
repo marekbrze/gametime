@@ -17,6 +17,8 @@ interface EventCardProps {
   favorite: boolean;
   /** otwarcie szczegółów wydarzenia (klik w etykietę — jump to event z watchlisty) */
   onOpenDetails?: (event: SportEvent) => void;
+  /** chip LIVE dla trwających — watchlista (kalendarz ma własny NowBlock, ADR-0018) */
+  liveIndicator?: boolean;
 }
 
 /** Widok alternatywny (UserSettings.viewMode = 'cards'): większy format, kolor pasa mocniej. */
@@ -29,6 +31,7 @@ export function EventCard({
   onToggleWatch,
   favorite,
   onOpenDetails,
+  liveIndicator,
 }: EventCardProps) {
   const start = new Date(event.startUtc);
 
@@ -38,7 +41,9 @@ export function EventCard({
         'rounded-lg border-l-4 bg-card p-4 shadow-sm',
         BAND_EDGE[band],
         favorite ? 'bg-muted/60' : '',
-        status === 'finished' ? 'opacity-55' : '',
+        status === 'finished' || status === 'postponed' || status === 'canceled'
+          ? 'opacity-55'
+          : '',
       ].join(' ')}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
@@ -77,6 +82,12 @@ export function EventCard({
           {formatTimeInZone(start, tz)}
         </span>{' '}
         · {leagueName(event)}
+        {liveIndicator && status === 'live' && (
+          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-red-500/15 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-red-600">
+            <span className="size-1.5 animate-pulse rounded-full bg-red-600" aria-hidden="true" />
+            Live
+          </span>
+        )}
       </p>
     </div>
   );

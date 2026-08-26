@@ -1,6 +1,7 @@
 # Watchlist — Edge Cases
 
-Wynik `proto-edgecases` (baseline po `proto-lofi`, commit `de8313d`). Audyt całego modułu.
+Wynik `proto-edgecases` (baseline po `proto-lofi`, commit `de8313d`); statusy po `proto-harden`
+(ADR-0018). Audyt całego modułu.
 Uwaga wyjściowa: moduł nie ma własnego specu z `proto-detail` — za baseline wymagań przyjęto
 sekcję **watchlist** z `MODULES.md`, akcje Watchlist z `ACTIONS.md` i encję `WATCHLIST_ENTRY`
 z `ENTITY_MAP.md` (tak samo jak przy budowie lofi).
@@ -10,54 +11,49 @@ z `ENTITY_MAP.md` (tak samo jak przy budowie lofi).
   remove entry jako jedyny sposób sprzątania, jump to event, bulk ICS "wszystkie nadchodzące"
   (ACTIONS.md); upcoming → past automatycznie po zakończeniu, nigdy nie wygasa sama (ENTITY_MAP).
 - **Already handled in code** (lofi + dziedziczone z hardened modułów):
-  - pusta watchlista → wyjaśnienie + CTA "Browse this week" (`WatchlistScreen.tsx:177`, `EmptyWatchlist.tsx`)
-  - zero-match po filtrach → empty state z "Clear filters" (`WatchlistScreen.tsx:188`)
-  - błąd ładowania danych → LoadError + retry (`WatchlistScreen.tsx:118`)
-  - skeleton pierwszego ładowania (`WatchlistScreen.tsx:120`)
-  - awaria zapisu storage → StorageWarning banner, rollback wizualny gwiazdki (`WatchlistScreen.tsx:101`, `use-local-storage.ts:20`)
-  - kanonizacja/deep-link filtrów z URL (`use-url-filters.ts:88`)
-  - postponed widoczny przygaszony — parzystość z ADR-0011 (`EventRow.tsx:33`)
+  - pusta watchlista → wyjaśnienie + CTA "Browse this week" (`WatchlistScreen.tsx`, `EmptyWatchlist.tsx`)
+  - zero-match po filtrach → empty state z "Clear filters"
+  - błąd ładowania danych → LoadError + retry; skeleton pierwszego ładowania
+  - awaria zapisu storage → StorageWarning banner, rollback wizualny gwiazdki (`use-local-storage.ts`)
+  - kanonizacja/deep-link filtrów z URL (`use-url-filters.ts`)
   - dialog: Escape/tło/× + zwrot fokusu (zweryfikowane E2E)
-  - aria-live licznik upcoming (`WatchlistScreen.tsx:174`)
-- **New gaps found**: 14
-- **By severity**: 🔴 1 · 🟡 8 · 🟢 5
+  - aria-live licznik upcoming
+- **Gaps found**: 14 → **closed 13, deferred 1** (po harden)
+- **By severity**: 🔴 1 (✅) · 🟡 8 (✅) · 🟢 5 (4× ✅, 1× ❌)
 
 ## Inventory
 
-| # | Severity | Category | Edge case | Behavior today | Suggested behavior | Where |
-|---|----------|----------|-----------|----------------|--------------------|-------|
-| 1 | 🔴 | Prototype-specific | Parsowalny, ale niewłaściwy kształt w localStorage (np. `gametime.settings = {}` — odtworzone w E2E; analogicznie `gametime.watchlist` bez tablicy) | biały ekran — `bands[kind].start` / `entries.map` na undefined | walidacja kształtu przy odczycie + scalenie z defaultami (setters zostawiają dotychczasowy write-first) | `use-local-storage.ts:13`, `use-settings.ts:7`, `time-bands.ts:11`, `WatchlistScreen.tsx:53` |
-| 2 | 🟡 | Cross-module / lifecycle | Odgwiazdkowane wydarzenie **przełożone**: feed rodzi nową instancję Event z nowym terminem (ENTITY_MAP), wpis dalej wskazuje starą | stara instancja przygaszona w upcoming, po upływie oryginalnego terminu dryfuje do past; nowa instancja nie ma gwiazdki — user traci wydarzenie, które chciał oglądać | wiersz przełożonego wpisu z hintem "Rescheduled — check new date" + gwiazdka na nowej instancji (dopasowanie po league+teamIds w oknie); wymaga decyzji designera | `watchlist-groups.ts:32` (podział czysto czasowy), brak mechanizmu w data modelu |
-| 3 | 🟡 | Cross-module / lifecycle | Odgwiazdkowane wydarzenie **anulowane** | znika bez śladu (filtrowane z watchedEvents) — na liście, którą user świadomie kuratorował, pozycja evaporuje po cichu | pokazać anulowane przygaszone z "Canceled" + łatwe usunięcie (zaufanie do listy), albo utrzymać parzystość z kalendarzem ADR-0011 — decyzja designera | `WatchlistScreen.tsx:54` |
-| 4 | 🟡 | Cross-module / lifecycle | Wpisy poza oknem danych (DataWindow przesunęło się po starych gwiazdkach) — przypadek częściowy | jeżeli CZĘŚĆ wpisów żyje w danych — sieroty są całkowicie niewidoczne (join po id gubi je po cichu), bez licznika i bez śladu | stopka "N entries outside loaded range" + opcja sprzątania sierot | `WatchlistScreen.tsx:52` |
-| 5 | 🟡 | Navigation & flow | "No watched events in the loaded date range" — przypadek całkowity | blok informacyjny bez żadnej akcji — dead end | CTA "Browse this week" (jak EmptyWatchlist) + opcja wyczyszczenia sierot | `WatchlistScreen.tsx:181` |
-| 6 | 🟡 | Action outcomes | Remove entry bez confirm/undo — na pastach nieodwracalne po wyjściu poza okno danych | gwiazdka usuwa wpis natychmiast; wpis z przeszłości poza oknem nie da się odtworzyć | undo toast (~5s) po odgwiazdkowaniu; confirm tylko przy zbiorczym sprzątaniu | `use-watchlist.ts:11`, `EventRow.tsx` (star) |
-| 7 | 🟡 | State transitions | Przejście upcoming → past NA ŻWO na otwartym ekranie (tick 30s) | wiersz znika z Upcoming i ląduje w zwiniętej sekcji Past — bez wyjaśnienia | utrzymać automatyczne przejście (to jest feature), ale po ticku pokazać licznik Past / krótką notę "1 event just finished"; decyzja designera | `watchlist-groups.ts:32`, `PastSection.tsx:34` |
-| 8 | 🟡 | Data states | Wydarzenie LIVE na watchliście nieodróżnialne od scheduled | wiersz bez markera live/elapsed (kalendarz ma NowBlock; EventRow przygasza tylko finished/postponed) | chip "Live" (± elapsed) w wierszu na watchliście albo sekcja Now nad Upcoming; decyzja designera | `EventRow.tsx:33`, `WatchlistScreen.tsx` (brak odpowiednika NowBlock) |
-| 9 | 🟡 | Action outcomes | Eksport zbiorczy pakuje też przełożone | ICS zawiera wydarzenia, które w tym terminie się nie odbędą (statusOverride postponed z przyszłym startem liczone jako upcoming) | wykluczyć postponed z paczki eksportu (zostają w przeglądzie) | `WatchlistScreen.tsx:87` |
-| 10 | 🟢 | Loading & async | Skeleton kształtu tygodnia na ekranie bez pagera | WeekSkeleton rysuje pasek pagera, którego watchlista nie ma | skeleton pod layout watchlisty (nagłówek + wiersze) | `WatchlistScreen.tsx:120` |
-| 11 | 🟢 | Navigation & flow | Parametr `?w=` bez znaczenia na /watchlist | deep-link z w jest kanonizowany i utrzymywany w URL, nic nie robi | stripować `w` przy kanonizacji na watchliście (shared `useUrlFilters` z opcją) | `use-url-filters.ts:40`, `WatchlistScreen.tsx:39` |
-| 12 | 🟢 | Navigation & flow | Dialog "Show in calendar" bez clamp offsetu tygodnia | event z dev-override latającego datą generuje `?w=999`; kalendarz clampuje do ±52 i pokazuje nie ten tydzień | clamp ±52 przy liczeniu offsetu w dialogu | `EventDetailsDialog.tsx:85` vs `use-url-filters.ts:40` |
-| 13 | 🟢 | Prototype-specific | Offline w prod | fetch data.json pada → LoadError, choć wpisy watchlisty są lokalne | zaakceptować (cała app zależna od snapshota); ewentualnie przyszły SW-cache | `use-events.ts:79` |
-| 14 | 🟢 | Action outcomes | Eksport bez feedbacku | klik = pobranie pliku w ciszy (tylko pasek przeglądarki) | krótki toast "Downloaded N events" | `WatchlistScreen.tsx:130` |
+| # | Severity | Category | Edge case | Behavior today (przed harden) | Suggested behavior | Where | Po harden |
+|---|----------|----------|-----------|----------------|--------------------|-------|-----------|
+| 1 | 🔴 | Prototype-specific | Parsowalny, ale niewłaściwy kształt w localStorage (np. `gametime.settings = {}` — odtworzone w E2E; analogicznie `gametime.watchlist` bez tablicy) | biały ekran — `bands[kind].start` / `entries.map` na undefined | walidacja kształtu przy odczycie + scalenie z defaultami | `use-local-storage.ts`, `use-settings.ts`, `time-bands.ts` | ✅ `settings/lib/sanitize.ts` + `use-settings.ts:10`; `use-watchlist.ts:12`; `use-favorite-teams.ts:10`; bonus: łańcuchowanie funkcyjnych updaterów w `use-local-storage.ts:31` |
+| 2 | 🟡 | Cross-module / lifecycle | Odgwiazdkowane wydarzenie **przełożone**: feed rodzi nową instancję Event z nowym terminem (ENTITY_MAP), wpis dalej wskazuje starą | stara instancja przygaszona, po terminie dryfuje do past; nowa bez gwiazdki | hint "Rescheduled" + gwiazdka na nowej instancji | `watchlist-groups.ts:32` | ✅ decyzja designera: dialog pokazuje "Rescheduled → nowy termin" + "Watch new date" migrujący gwiazdkę — `lib/reschedule.ts`, `EventDetailsDialog.tsx` |
+| 3 | 🟡 | Cross-module / lifecycle | Odgwiazdkowane wydarzenie **anulowane** | znika bez śladu — na liście usera pozycja evaporuje po cichu | pokazać anulowane przygaszone z "Canceled" | `WatchlistScreen.tsx:54` | ✅ decyzja designera: canceled zostaje przygaszony z plakietką, poza eksportem — `WatchlistScreen.tsx` (join bez filtra), `EventRow.tsx` (dimmed), eksport `!statusOverride` |
+| 4 | 🟡 | Cross-module / lifecycle | Wpisy poza oknem danych — przypadek częściowy | sieroty całkowicie niewidoczne | stopka z licznikiem + opcja sprzątania | `WatchlistScreen.tsx:52` | ✅ nota "N starred events outside the loaded date range" + Clear z undo — `WatchlistScreen.tsx` (`orphanedEntries`, `handleClearOrphans`) |
+| 5 | 🟡 | Navigation & flow | "No watched events in the loaded date range" — przypadek całkowity | blok bez akcji — dead end | CTA + sprzątanie sierot | `WatchlistScreen.tsx:181` | ✅ "Browse this week" + "Clear N stale entries" — `WatchlistScreen.tsx` |
+| 6 | 🟡 | Action outcomes | Remove entry bez confirm/undo | natychmiastowe usunięcie, na pastach nieodwracalne poza oknem | undo toast | `use-watchlist.ts:11` | ✅ decyzja designera: undo toast 5s ("Removed from watchlist [Undo]") — `WatchlistToast.tsx`, `handleToggleWatch`; wpis wraca verbatim (addedAt) |
+| 7 | 🟡 | State transitions | Przejście upcoming → past NA ŻWO (tick 30s) | wiersz znika w zwiniętym Past bez wyjaśnienia | liczniki + nota | `watchlist-groups.ts:32` | ✅ zaakceptowany default (bez dodatkowego UI): liczniki Past i aria-live aktualizują się w tym samym ticku; do odwiedzenia po testach z userami |
+| 8 | 🟡 | Data states | Wydarzenie LIVE nieodróżnialne od scheduled | brak markera | chip Live / sekcja Now | `EventRow.tsx` | ✅ decyzja designera: chip LIVE w wierszu (tylko watchlista; kalendarz ma NowBlock) — `EventRow.tsx`/`EventCard.tsx` `liveIndicator` |
+| 9 | 🟡 | Action outcomes | Eksport zbiorczy pakuje też przełożone | ICS z wydarzeń, które się nie odbędą | wykluczyć postponed | `WatchlistScreen.tsx:87` | ✅ eksport filtruje `!statusOverride` (postponed + canceled) — `WatchlistScreen.tsx` `exportEvents` |
+| 10 | 🟢 | Loading & async | Skeleton kształtu tygodnia na ekranie bez pagera | WeekSkeleton z pagerem | skeleton pod layout watchlisty | `WatchlistScreen.tsx:120` | ✅ `WatchlistSkeleton.tsx` |
+| 11 | 🟢 | Navigation & flow | Parametr `?w=` bez znaczenia na /watchlist | utrzymywany w URL, nic nie robi | stripować `w` | `use-url-filters.ts:40` | ✅ `useUrlFilters({ week: false })` — `w` nieemitowany/stripowany; kalendarz bez zmian (default `week: true`) |
+| 12 | 🟢 | Navigation & flow | Dialog "Show in calendar" bez clamp offsetu | `?w=999` z dev-override | clamp ±52 | `EventDetailsDialog.tsx:85` | ✅ clamp po wyeksportowanym `MAX_WEEK_OFFSET` — `EventDetailsDialog.tsx`, `filters/index.ts` |
+| 13 | 🟢 | Prototype-specific | Offline w prod | LoadError mimo lokalnych wpisów | zaakceptować / przyszły SW-cache | `use-events.ts:79` | ❌ świadomie odroczone — cała app zależna od snapshota; cache to decyzja platformowa, nie modułowa |
+| 14 | 🟢 | Action outcomes | Eksport bez feedbacku | pobranie w ciszy | toast | `WatchlistScreen.tsx:130` | ✅ toast "Downloaded N events" — `handleExport`, `WatchlistToast.tsx` |
 
 Kategorie sprawdzone bez gapów: **Forms & input** (moduł nie ma formularzy — jedyne wejścia to
 filtry i gwiazdka, oba obsłużone), **Errors/validation** (brak pól user-input), **Boundary values**
-(offsety/daty clampowane po stronie kalendarza), **very long values** (etykiety truncatowane w wierszach,
-dialog zawija tytuł).
+(offsety/daty clampowane), **very long values** (etykiety truncatowane w wierszach, dialog zawija tytuł).
 
 ## Priority list
-1. **#1 walidacja kształtu storage** — realny white-screen (odtworzony), tani fix, chroni wszystkie ekrany.
-2. **#3 + #2 canceled/postponed na watchliście** — trust do jedynej listy, którą user kuratorował; silent vanish i utrata przełożonego meczu to najgłębsze productowe dziury modułu.
-3. **#4 + #5 sieroty poza oknem** — dead end i niewidzialne wpisy; razem z #1 domykają lifecycle WATCHLIST_ENTRY.
-4. **#8 live na watchliście + #7 żywe przejście do past** — widoczność "co się dzieje teraz" na liście planowanej na dziś.
-5. **#6 undo odgwiazdkowania, #9 postponed w eksporcie** — bezpieczeństwo akcji niszczących i prawdomówność ICS.
-6. Pozostałe 🟢 (#10–#14) — po drodze.
+1. ~~#1 walidacja kształtu storage~~ ✅
+2. ~~#3 + #2 canceled/postponed na watchliście~~ ✅
+3. ~~#4 + #5 sieroty poza oknem~~ ✅
+4. ~~#8 live + #7 żywe przejście do past~~ ✅ (default)
+5. ~~#6 undo, #9 postponed w eksporcie~~ ✅
+6. ~~pozostałe 🟢 (#10–#12, #14)~~ ✅; #13 ❌ (odroczone)
 
 ## Hand-off to proto-harden
-Najpierw z pytaniem do designera (jedno naraz, z suggested behavior jako defaultem):
-- #3 canceled (pokać vs znikać) i #2 postponed (carry-over gwiazdki na nową instancję — określa zakres v1)
-- #8 live (chip w wierszu vs sekcja Now) i #7 (nota po żywym przejściu)
-- #6 undo toast vs confirm
-
-Bez decyzji designera, do wdrożenia od razu: #1, #4, #5, #9, #10, #11, #12.
+Zrealizowane w całości (patrz kolumna „Po harden"). Jedyne odkładane: #13 offline (platformowe).
+Weryfikacja: E2E harden 25/25 + regresja happy-path 8/8 (chromium), stories
+`Watchlist/WatchlistScreen` (WithData/Empty/OnlyPast/FilteredToEmpty/WithCanceledAndLive/WithOrphans/OnlyOrphaned)
+i `Watchlist/States` (Loading/UndoToast/InfoToast).

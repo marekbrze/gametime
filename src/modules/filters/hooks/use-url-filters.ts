@@ -36,8 +36,9 @@ function parseFilters(params: URLSearchParams): EventFilters {
 }
 
 /** Granica sensownego offsetu tygodnia (± rok) — `?w=99999` z deep-linka
- * nie generuje absurdalnych dat; poza oknem danych i tak ratuje EmptyWeek. */
-const MAX_WEEK_OFFSET = 52;
+ * nie generuje absurdalnych dat; poza oknem danych i tak ratuje EmptyWeek.
+ * Eksportowany — dialog szczegółów watchlisty clampuje link „Show in calendar”. */
+export const MAX_WEEK_OFFSET = 52;
 
 function parseWeek(params: URLSearchParams): number {
   const raw = Number.parseInt(params.get('w') ?? '0', 10);
@@ -45,10 +46,16 @@ function parseWeek(params: URLSearchParams): number {
   return Math.max(-MAX_WEEK_OFFSET, Math.min(MAX_WEEK_OFFSET, raw));
 }
 
-/** Parametry tylko dla wartości niedomyślnych — czysty stan = czysty URL. */
-function toSearchParams(filters: EventFilters, weekOffset: number): URLSearchParams {
+/** Parametry tylko dla wartości niedomyślnych — czysty stan = czysty URL.
+ * `includeWeek = false` (ekrany bez pagera, np. watchlista) nigdy nie emituje `w`
+ * — parametr z obcego linku jest stripowany przy kanonizacji. */
+function toSearchParams(
+  filters: EventFilters,
+  weekOffset: number,
+  includeWeek = true,
+): URLSearchParams {
   const params = new URLSearchParams();
-  if (weekOffset !== 0) params.set('w', String(weekOffset));
+  if (includeWeek && weekOffset !== 0) params.set('w', String(weekOffset));
   if (filters.band !== 'all') params.set('band', filters.band);
   if (filters.sport !== 'all') params.set('sport', filters.sport);
   if (filters.leagues.length > 0) params.set('league', filters.leagues.join(','));
@@ -58,11 +65,12 @@ function toSearchParams(filters: EventFilters, weekOffset: number): URLSearchPar
 /** Aktualizacja filtrów wyliczona od ich bieżącego stanu (funkcjonalny updater). */
 export type FiltersUpdater = (prev: EventFilters) => EventFilters;
 
-export function useUrlFilters() {
+export function useUrlFilters(options?: { week?: boolean }) {
+  const week = options?.week !== false;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const filters = useMemo(() => parseFilters(searchParams), [searchParams]);
-  const weekOffset = parseWeek(searchParams);
+  const weekOffset = week ? parseWeek(searchParams) : 0;
 
   // Stan bieżący (równy URL-owi) do łańcuchowania szybkich zmian: render może
   // jeszcze nie zobaczyć ostatniej nawigacji, a ref już tak. Back/forward
@@ -91,12 +99,16 @@ export function useUrlFilters() {
   useEffect(() => {
     const raw = window.location.hash.split('?')[1] ?? '';
     const urlParams = new URLSearchParams(raw);
-    const canonical = toSearchParams(parseFilters(urlParams), parseWeek(urlParams)).toString();
+    const canonical = toSearchParams(
+      parseFilters(urlParams),
+      week ? parseWeek(urlParams) : 0,
+      week,
+    ).toString();
     if (raw !== canonical) {
       setSearchParams(new URLSearchParams(canonical), { replace: true });
     }
     // raz na mount, czyta okno zamiast stanu
-  }, [setSearchParams]);
+  }, [setSearchParams, week]);
 
   /** Push — Back ma wracać po zmianach widoku (#13 z ADR-0010). Wyjątek
    * (ADR-0016): seria zmian w <500ms (szybkie checkboxy, +1 +1 w pagerze)
@@ -116,15 +128,15 @@ export function useUrlFilters() {
         const urlParams = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
         base = { filters: parseFilters(urlParams), weekOffset: parseWeek(urlParams) };
       }
-      const next = mutate(base);
+      const next = week ? mutate(base) : { ...mutate(base), weekOffset: 0 };
       current.current = next;
-      const params = toSearchParams(next.filters, next.weekOffset);
+      const params = toSearchParams(next.filters, next.weekOffset, week);
       pending.current = params.toString();
       const replace = Date.now() - lastPushAt.current < COALESCE_MS;
       lastPushAt.current = Date.now();
       setSearchParams(params, { replace });
     },
-    [setSearchParams],
+    [setSearchParams, week],
   );
 
   const setFilters = useCallback(

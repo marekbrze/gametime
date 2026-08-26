@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Apple, Check, CalendarDays, X } from 'lucide-react';
+import { Apple, Check, CalendarDays, CalendarClock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { SportEvent } from '@/modules/data-source/types';
 import { downloadIcs, googleCalendarUrl } from '@/modules/calendar-export/lib/export';
+import { MAX_WEEK_OFFSET } from '@/modules/filters';
 import type { UserSettings } from '@/modules/settings/types';
 import { bandOfDate } from '@/modules/settings/lib/time-bands';
 import { BAND_CHIP } from '@/modules/settings/lib/bands-ui';
@@ -18,10 +19,15 @@ import {
 import { leagueName, participantsLabel, sportEmoji } from '@/modules/event-calendar/lib/event-labels';
 import { deriveStatus } from '@/modules/data-source/lib/status';
 import { useNow } from '@/modules/event-calendar/hooks/use-now';
+import { findRescheduled } from '../lib/reschedule';
 
 interface EventDetailsDialogProps {
   /** null = zamknięty; otwarcie przez wybór wydarzenia (jump to event z ACTIONS.md) */
   event: SportEvent | null;
+  /** pełny zbiór wydarzeń — szukanie nowej instancji przełożonego (#2, ADR-0018) */
+  allEvents: SportEvent[];
+  /** migracja gwiazdki na nową instancję („Watch new date") */
+  onMigrate: (from: SportEvent, to: SportEvent) => void;
   settings: UserSettings;
   tz: TimeZone;
   onClose: () => void;
@@ -34,7 +40,14 @@ interface EventDetailsDialogProps {
  * zamknięcia (Escape, tło, ×, „Show in calendar") przechodzi przez native
  * 'close', które oddaje fokus elementowi otwierającemu i sprząta stan rodzica.
  */
-export function EventDetailsDialog({ event, settings, tz, onClose }: EventDetailsDialogProps) {
+export function EventDetailsDialog({
+  event,
+  allEvents,
+  onMigrate,
+  settings,
+  tz,
+  onClose,
+}: EventDetailsDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
@@ -77,13 +90,18 @@ export function EventDetailsDialog({ event, settings, tz, onClose }: EventDetail
   const viewingKey = viewingDayKeyInZone(start, tz, band === 'night');
   const { weekday, date } = formatDayLabel(viewingKey);
 
-  /** Offset tygodnia wydarzenia względem bieżącego — link do kalendarza (ADR-0014). */
+  /** Offset tygodnia wydarzenia względem bieżącego — link do kalendarza (ADR-0014),
+   * clamp ±52 jak w parserze URL (#12, ADR-0018). */
   const weekOffset = (() => {
     const eventMonday = weekStartKey(viewingKey);
     const currentMonday = weekStartKey(dayKeyInZone(now, tz));
     const toUtc = (key: string) => new Date(`${key}T00:00:00Z`).getTime();
-    return Math.round((toUtc(eventMonday) - toUtc(currentMonday)) / (7 * 86_400_000));
+    const raw = Math.round((toUtc(eventMonday) - toUtc(currentMonday)) / (7 * 86_400_000));
+    return Math.max(-MAX_WEEK_OFFSET, Math.min(MAX_WEEK_OFFSET, raw));
   })();
+
+  /** Przełożone: szukamy nowej instancji w danych (harden #2, ADR-0018). */
+  const rescheduled = findRescheduled(event, allEvents);
 
   return (
     <dialog
@@ -136,6 +154,39 @@ export function EventDetailsDialog({ event, settings, tz, onClose }: EventDetail
             <dd className="font-medium capitalize">{status}</dd>
           </div>
         </dl>
+
+        {rescheduled && (
+          <div
+            role="status"
+            className="mt-3 flex flex-wrap items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm"
+          >
+            <CalendarClock className="size-4 text-amber-600" aria-hidden="true" />
+            <span>
+              Rescheduled →{' '}
+              <span className="font-medium">
+                {(() => {
+                  const newStart = new Date(rescheduled.startUtc);
+                  const newBand = bandOfDate(newStart, settings);
+                  const { weekday: wd, date: d } = formatDayLabel(
+                    viewingDayKeyInZone(newStart, tz, newBand === 'night'),
+                  );
+                  return `${wd}, ${d} · ${formatTimeInZone(newStart, tz)}`;
+                })()}
+              </span>
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              className="ml-auto"
+              onClick={() => {
+                onMigrate(event, rescheduled);
+                dialogRef.current?.close();
+              }}
+            >
+              Watch new date
+            </Button>
+          </div>
+        )}
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <a

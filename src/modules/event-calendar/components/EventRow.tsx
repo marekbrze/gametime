@@ -18,6 +18,8 @@ interface EventRowProps {
   favorite: boolean;
   /** otwarcie szczegółów wydarzenia (klik w etykietę — jump to event z watchlisty) */
   onOpenDetails?: (event: SportEvent) => void;
+  /** chip LIVE dla trwających — watchlista (kalendarz ma własny NowBlock, ADR-0018) */
+  liveIndicator?: boolean;
 }
 
 export function EventRow({
@@ -29,10 +31,12 @@ export function EventRow({
   onToggleWatch,
   favorite,
   onOpenDetails,
+  liveIndicator,
 }: EventRowProps) {
   const start = new Date(event.startUtc);
-  /** finished i postponed przygaszone — przełożone zostają widoczne (ADR-0011) */
-  const dimmed = status === 'finished' || status === 'postponed';
+  /** finished/postponed przygaszone — przełożone zostają widoczne (ADR-0011);
+   * canceled też (na watchliście lista usera nie traci wpisów po cichu, ADR-0018) */
+  const dimmed = status === 'finished' || status === 'postponed' || status === 'canceled';
 
   const label = (
     <>
@@ -75,6 +79,12 @@ export function EventRow({
       <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
         {leagueName(event)}
       </span>
+      {liveIndicator && status === 'live' && (
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-red-500/15 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-red-600">
+          <span className="size-1.5 animate-pulse rounded-full bg-red-600" aria-hidden="true" />
+          Live
+        </span>
+      )}
       <Button
         variant="ghost"
         size="icon"

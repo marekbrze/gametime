@@ -24,6 +24,13 @@ function seedWatchlist(indices: number[]) {
   localStorage.setItem('gametime.favoriteTeams', JSON.stringify([]));
 }
 
+/** Mutowalna kopia mocków — statusy na potrzeby stories (canceled itp.). */
+function eventsWithOverride(index: number, statusOverride: 'canceled' | 'postponed') {
+  const events = generateMockEvents();
+  events[index] = { ...events[index], statusOverride };
+  return events;
+}
+
 /** Pełna watchlista: live/soon dziś, pasma, noc za północy, weekend, przeszłość. */
 export const WithData: Story = {
   decorators: [
@@ -74,4 +81,55 @@ export const FilteredToEmpty: Story = {
       },
     },
   },
+};
+
+/** Harden (ADR-0018): canceled zostaje przygaszony z plakietką; trwający ma chip LIVE. */
+export const WithCanceledAndLive: Story = {
+  decorators: [
+    (Story) => {
+      const events = eventsWithOverride(5, 'canceled'); // la liga dziś → canceled
+      localStorage.setItem('gametime.devEvents', JSON.stringify(events));
+      localStorage.setItem(
+        'gametime.watchlist',
+        JSON.stringify(
+          [5, 0, 2].map((i) => ({ eventId: events[i].id, addedAt: new Date().toISOString() })),
+        ),
+      );
+      localStorage.setItem('gametime.favoriteTeams', JSON.stringify([]));
+      return <Story />;
+    },
+  ],
+};
+
+/** Harden #4: część wpisów poza oknem danych — nota + Clear przy żywej liście. */
+export const WithOrphans: Story = {
+  decorators: [
+    (Story) => {
+      const events = generateMockEvents();
+      const watchlist = [
+        { eventId: events[5].id, addedAt: new Date().toISOString() },
+        { eventId: 'gone-from-feed-1', addedAt: '2026-01-01T00:00:00.000Z' },
+        { eventId: 'gone-from-feed-2', addedAt: '2026-01-02T00:00:00.000Z' },
+      ];
+      localStorage.setItem('gametime.devEvents', JSON.stringify(events));
+      localStorage.setItem('gametime.watchlist', JSON.stringify(watchlist));
+      localStorage.setItem('gametime.favoriteTeams', JSON.stringify([]));
+      return <Story />;
+    },
+  ],
+};
+
+/** Harden #5: wszystkie wpisy poza oknem — blok z CTA i sprzątaniem sierot. */
+export const OnlyOrphaned: Story = {
+  decorators: [
+    (Story) => {
+      localStorage.setItem('gametime.devEvents', JSON.stringify(generateMockEvents()));
+      localStorage.setItem(
+        'gametime.watchlist',
+        JSON.stringify([{ eventId: 'gone-from-feed-1', addedAt: '2026-01-01T00:00:00.000Z' }]),
+      );
+      localStorage.setItem('gametime.favoriteTeams', JSON.stringify([]));
+      return <Story />;
+    },
+  ],
 };
