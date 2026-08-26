@@ -49,8 +49,9 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 
 | Action | Description | Notes |
 |--------|-------------|-------|
-| Browse teams | Nawigacja: sport → liga → drużyny. | Hierarchia zgodna z GLOSSARY |
-| View season schedule | Pełny terminarz sezonu drużyny. | Filtruje się po pasmach (zasada uniwersalna) |
+| Browse teams | Nawigacja: sport → liga → drużyny. | Hierarchia zgodna z GLOSSARY; dwa poziomy ekranów (ADR-0020) |
+| Search teams | Tekstowe filtrowanie listy drużyn na ekranie ligi. | Mechanika widoku (ADR-0020) |
+| View season schedule | Pełny terminarz sezonu drużyny. | Filtruje się po pasmach (zasada uniwersalna, wariant FilterBar bands-only); wymaga sezonowego okna pipeline (ADR-0019) |
 
 ### UserSettings
 

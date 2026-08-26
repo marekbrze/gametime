@@ -36,7 +36,7 @@ Moduły `filters`, `calendar-export`, `data-source`, `data-pipeline` **nie są d
 
 ## Routing
 - `HashRouter` (nie `BrowserRouter`) — cel deploy to statyczne GitHub Pages, gdzie deep-link pathowy daje 404 po odświeżeniu; hash routing jest odporny na to bez trików z `404.html`. Koszt: `#/` w URL.
-- Ścieżki modułów: `/event-calendar`, `/watchlist`, `/teams`, `/settings` + `/teams/:teamId` (przyszły terminarz sezonu — doda `proto-lofi` modułu teams)
+- Ścieżki modułów: `/event-calendar`, `/watchlist`, `/teams`, `/settings` + dwupoziomowa nawigacja teams (ADR-0020): `/teams/league/:leagueId` (lista drużyn ligi) i `/teams/team/:teamId` (terminarz sezonu) — jawne prefiksy, bo przestrzenie id lig i drużyn kolidują wzorcem
 - Placeholder `RoutePlaceholder` na każdą ścieżkę — `proto-lofi` podmienia na rzeczywiste ekrany
 
 ## Implementacja
