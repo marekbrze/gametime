@@ -57,16 +57,19 @@ Kluczowa decyzja tej fazy (designer): **terminarz sezonu ma być prawdziwy** —
 
 ## Edge Cases
 
-Captured podczas rozmowy — systematyczny audyt to `proto-edgecases`:
+Systematyczny audyt: `teams-edgecases.md` (proto-edgecases → proto-harden, ADR-0024 — wszystkie 10 gapów obsłużone):
 
-- **Liga w off-season** (NHL/NBA w sierpniu): terminarz pusty, ale sezon 2026-27 jest w danych od publikacji harmonogramu — normalny stan z wyjaśnieniem, nie błąd.
-- **Sierota ulubiona**: FAVORITE_TEAM wskazuje teamId, którego nie ma w katalogu (zmiana snapshotu) — kafel w My teams nie może wywalić ekranu.
-- **Deep-link na nieistniejący teamId / leagueId** (stary URL po zmianie danych): stan not-found z powrotem do `/teams`.
-- **Deep-link na `/teams/league/f1`**: stan „F1 has no teams in v1" (świadome ukrycie — ADR-0021).
-- **Snapshot loading/error** na ekranach teams: te same stany co kalendarz (WeekSkeleton/LoadError — wzorce z ADR-0011).
-- **localStorage favorites o zepsutym kształcie**: sanityzacja już istnieje (use-favorite-teams, ADR-0018).
-- **Długa lista drużyn** (32 NHL): scroll + search; bez paginacji.
-- **Sezon z wieloma miesiącami przeszłości**: Past zwinięte domyślnie — setki finished nie zaśmiecają widoku.
+- **Liga w off-season** (NHL/NBA w sierpniu): terminarz pusty z wyjaśnieniem — normalny stan; sezon w danych od publikacji harmonogramu.
+- **Sierota ulubiona** (teamId zniknęło ze snapshota): nota „n favorites are outside the current data catalog" + Clear z undo 5s, wpisy wracają verbatim (decyzja designera — parita z sierotami watchlisty).
+- **Deep-link na nieistniejący teamId / leagueId**: not-found z powrotem do `/teams`.
+- **Deep-link na `/teams/league/f1`**: „F1 has no teams in v1" + CTA na kalendarz (ADR-0021).
+- **Snapshot loading/error**: skeleton/LoadError z retry na 3 ekranach.
+- **localStorage favorites**: sanityzacja + dedup po teamId (ADR-0018 + 0024); pad zapisu → StorageWarning z rollbackiem wizualnym.
+- **Długa lista drużyn**: scroll + search niewrażliwy na diakrytyki („Atletico" znajduje „Atlético").
+- **Sezon z wieloma miesiącami**: Past zwinięte, separatory miesięcy w Upcoming i Past.
+- **Obce parametry URL na terminarzu** (`?sport`/`?league`): stripowane przy kanonizacji — terminarz czyta wyłącznie `?band` (decyzja designera, ADR-0024).
+- **Od-ulubienie**: undo toast 5s na kaflu, wierszu ligi i nagłówku terminarza (decyzja designera); nieznany uczestnik w dialogu → „Unknown team" bez linku.
+- **Odroczone platformowo**: offline w prod (brak service workera — jak ADR-0018 #13).
 
 ## Integration Points
 

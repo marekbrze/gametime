@@ -1,3 +1,4 @@
+import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,10 @@ import {
 } from '@/modules/data-source/data/catalog';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
+import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
+import { WatchlistToast, type WatchlistToastState } from '@/modules/watchlist/components/WatchlistToast';
 import { useFavoriteTeams } from '../hooks/use-favorite-teams';
+import type { FavoriteTeam } from '../types';
 import { TeamsSkeleton } from './TeamsSkeleton';
 
 /** F1 ukryta w katalogu teams (ADR-0021) — brak encji Team dla kierowców w v1. */
@@ -19,19 +23,62 @@ const HIDDEN_LEAGUE_IDS = new Set(['f1']);
  * Ekran katalogu drużyn, poziom 1 nawigacji (ADR-0020): sekcja My teams
  * (szybki dostęp do terminarzy ulubionych — ENTITY_MAP) + karty lig
  * pogrupowane po sportach.
+ *
+ * Harden (ADR-0024): sieroty ulubionych dostają notę + Clear z undo (parita
+ * z sierotami watchlisty, ADR-0018 #4); od-ulubienie z kafla ma undo 5s;
+ * pad zapisu localStorage widoczny jako StorageWarning.
  */
 export function TeamsScreen() {
   const { status, refresh } = useEvents();
-  const { favorites, toggle: toggleFavorite } = useFavoriteTeams();
+  const { favorites, writeError, add, remove } = useFavoriteTeams();
+  const [toast, setToast] = useState<WatchlistToastState | null>(null);
+  const showToast = useCallback(
+    (message: string, onAction?: () => void, actionLabel?: string) => {
+      setToast({ id: Date.now(), message, onAction, actionLabel });
+    },
+    [],
+  );
+
+  // Hooki bezwarunkowo (rules of hooks) — early returny dopiero pod spodem
+  /** Ulubione rozwiązane przez katalog; sieroty (teamId poza katalogiem po
+   * zmianie snapshota) dostają notę + sprzątanie z undo (ADR-0024). */
+  const orphanedFavorites = useMemo(
+    () => favorites.filter((f) => !TEAM_BY_ID.has(f.teamId)),
+    [favorites, status], // katalog live rozszerza się po fetchu — status wymusza przeliczenie
+  );
+  const favoriteTeams = useMemo(
+    () =>
+      favorites
+        .map((f) => TEAM_BY_ID.get(f.teamId))
+        .filter((team): team is NonNullable<typeof team> => Boolean(team)),
+    [favorites, status],
+  );
+
+  /** Od-ulubienie z undo 5s — wpis wraca verbatim z oryginalnym addedAt. */
+  const handleRemoveFavorite = useCallback(
+    (teamId: string, teamName: string) => {
+      const entry = favorites.find((f) => f.teamId === teamId);
+      remove(teamId);
+      showToast(`Removed ${teamName} from favorites`, () => add(teamId, entry?.addedAt));
+    },
+    [favorites, remove, add, showToast],
+  );
+
+  /** Sprzątanie sierot — z undo, wpisy wracają verbatim (parita z ADR-0018 #4). */
+  const handleClearOrphans = useCallback(() => {
+    if (orphanedFavorites.length === 0) return;
+    const removed: FavoriteTeam[] = orphanedFavorites;
+    for (const entry of removed) remove(entry.teamId);
+    showToast(
+      `Removed ${removed.length} stale ${removed.length === 1 ? 'favorite' : 'favorites'}`,
+      () => {
+        for (const entry of removed) add(entry.teamId, entry.addedAt);
+      },
+    );
+  }, [orphanedFavorites, remove, add, showToast]);
 
   if (status === 'error') return <LoadError onRetry={refresh} />;
   if (status === 'loading') return <TeamsSkeleton />;
-
-  /** Ulubione rozwiązane przez katalog; sieroty (teamId poza katalogiem po
-   * zmianie snapshotu) pomijamy w widoku — sprzątanie/prosta nota to edgecases. */
-  const favoriteTeams = favorites
-    .map((f) => TEAM_BY_ID.get(f.teamId))
-    .filter((team): team is NonNullable<typeof team> => Boolean(team));
 
   const teamCountByLeague = new Map<string, number>();
   for (const team of TEAMS) {
@@ -42,6 +89,8 @@ export function TeamsScreen() {
 
   return (
     <div>
+      {Boolean(writeError) && <StorageWarning />}
+
       <h1 className="mb-4 text-xl font-semibold tracking-tight">Teams</h1>
 
       <section aria-labelledby="my-teams" className="mb-8">
@@ -76,13 +125,31 @@ export function TeamsScreen() {
                   size="icon"
                   aria-label={`Remove ${team.name} from favorites`}
                   aria-pressed={false}
-                  onClick={() => toggleFavorite(team.id)}
+                  onClick={() => handleRemoveFavorite(team.id, team.name)}
                 >
                   <Star className="size-4 fill-current text-amber-500" aria-hidden="true" />
                 </Button>
               </li>
             ))}
           </ul>
+        )}
+
+        {orphanedFavorites.length > 0 && (
+          <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <span>
+              {orphanedFavorites.length}{' '}
+              {orphanedFavorites.length === 1 ? 'favorite is' : 'favorites are'} outside the
+              current data catalog.
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-xs"
+              onClick={handleClearOrphans}
+            >
+              Clear
+            </Button>
+          </p>
         )}
       </section>
 
@@ -116,6 +183,8 @@ export function TeamsScreen() {
           </section>
         );
       })}
+
+      {toast && <WatchlistToast toast={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
 }

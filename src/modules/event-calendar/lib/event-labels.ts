@@ -9,10 +9,11 @@ export function leagueName(event: SportEvent): string {
   return LEAGUE_BY_ID.get(event.leagueId)?.name ?? event.leagueId;
 }
 
-/** "Toronto Maple Leafs vs Boston Bruins" albo tytuł sesji motorsportu. */
+/** "Toronto Maple Leafs vs Boston Bruins" albo tytuł sesji motorsportu.
+ * Uczestnik poza katalogiem → "Unknown team", surowe id nie ląduje w UI (ADR-0024). */
 export function participantsLabel(event: SportEvent): string {
   if (event.title) return event.title;
   return (event.teamIds ?? [])
-    .map((id) => TEAM_BY_ID.get(id)?.name ?? id)
+    .map((id) => TEAM_BY_ID.get(id)?.name ?? 'Unknown team')
     .join(' vs ');
 }

@@ -5,4 +5,5 @@ export {
   useUrlFilters,
   MAX_WEEK_OFFSET,
   type FiltersUpdater,
+  type FilterDimensions,
 } from './hooks/use-url-filters';

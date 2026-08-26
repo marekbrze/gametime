@@ -50,3 +50,22 @@ export const EmptyFavorites: Story = {
     withRouter('/teams'),
   ],
 };
+
+/** Harden #2 (ADR-0024): sierota ulubiona — nota + Clear z undo pod sekcją My teams. */
+export const WithOrphanedFavorites: Story = {
+  decorators: [
+    (Story) => {
+      localStorage.setItem('gametime.devEvents', JSON.stringify(generateMockEvents()));
+      localStorage.setItem(
+        'gametime.favoriteTeams',
+        JSON.stringify([
+          { teamId: 'nhl-tor', addedAt: '2026-08-20T10:00:00.000Z' },
+          { teamId: 'gone-from-snapshot-1', addedAt: '2026-01-01T00:00:00.000Z' },
+          { teamId: 'gone-from-snapshot-2', addedAt: '2026-01-02T00:00:00.000Z' },
+        ]),
+      );
+      return <Story />;
+    },
+    withRouter('/teams'),
+  ],
+};

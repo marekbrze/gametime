@@ -126,16 +126,22 @@ export function EventDetailsDialog({
                   {(event.teamIds ?? []).map((id, i) => (
                     <Fragment key={id}>
                       {i > 0 && <span className="text-muted-foreground"> vs </span>}
-                      <button
-                        type="button"
-                        className="underline-offset-2 hover:underline focus-visible:underline"
-                        onClick={() => {
-                          dialogRef.current?.close();
-                          navigate(`/teams/team/${id}`);
-                        }}
-                      >
-                        {TEAM_BY_ID.get(id)?.name ?? id}
-                      </button>
+                      {TEAM_BY_ID.has(id) ? (
+                        <button
+                          type="button"
+                          className="underline-offset-2 hover:underline focus-visible:underline"
+                          onClick={() => {
+                            dialogRef.current?.close();
+                            navigate(`/teams/team/${id}`);
+                          }}
+                        >
+                          {TEAM_BY_ID.get(id)?.name}
+                        </button>
+                      ) : (
+                        /* drużyna poza katalogiem — zwykły tekst, surowe id ani link
+                           prowadzący na gwarantowany not-found nie lądują w UI (ADR-0024) */
+                        <span>Unknown team</span>
+                      )}
                     </Fragment>
                   ))}
                 </>

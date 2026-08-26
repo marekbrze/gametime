@@ -50,16 +50,3 @@ export function buildScheduleGroups(
   }
   return { upcoming, past };
 }
-
-const MONTHS_LONG = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-];
-
-/** "September 2026" z klucza dnia — separator miesiąca w terminarzu (ADR-0022:
- *  sezon rozciąga się na wiele miesięcy, sam nagłówek dnia nie wystarcza). */
-export function monthLabel(dayKey: string): string {
-  const y = Number(dayKey.slice(0, 4));
-  const m = Number(dayKey.slice(5, 7));
-  return `${MONTHS_LONG[m - 1]} ${y}`;
-}

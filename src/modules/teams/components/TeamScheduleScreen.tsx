@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { LayoutGrid, List, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,31 +7,43 @@ import { useEvents } from '@/modules/data-source/hooks/use-events';
 import { FilterBar, matchesEventFilters, useUrlFilters } from '@/modules/filters';
 import { DayGroup } from '@/modules/event-calendar/components/DayGroup';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
+import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
 import { PastSection } from '@/modules/watchlist/components/PastSection';
+import { WatchlistToast, type WatchlistToastState } from '@/modules/watchlist/components/WatchlistToast';
 import { useNow } from '@/modules/event-calendar/hooks/use-now';
 import { useWatchlist } from '@/modules/watchlist/hooks/use-watchlist';
 import { useSettings } from '@/modules/settings/hooks/use-settings';
-import { dayKeyInZone } from '@/shared/lib/datetime';
+import { dayKeyInZone, formatMonthLabel } from '@/shared/lib/datetime';
 import { useFavoriteTeams } from '../hooks/use-favorite-teams';
-import { buildScheduleGroups, monthLabel } from '../lib/schedule-groups';
+import { buildScheduleGroups } from '../lib/schedule-groups';
 import { TeamsSkeleton } from './TeamsSkeleton';
 
 /**
  * Terminarz drużyny (MODULES.md): pełny sezon z okna pipeline (ADR-0019) w
  * strefie usera. Prezentacja jak watchlista (ADR-0022): nadchodzące po dniach
- * widokowych z separatorami miesięcy + zwinięte Past na dole. Filtr: wspólny
- * FilterBar w wariancie bands-only — sport/liga przy jednej drużynie nie niosą
- * informacji (zasada uniwersalna dotyczy list wielodrużynowych).
+ * widokowych z separatorami miesięcy + zwinięte Past na dole (separatory też,
+ * harden #7). Filtr: wspólny FilterBar w wariancie bands-only — sport/liga
+ * przy jednej drużynie nie niosą informacji, a ich obce parametry URL są
+ * stripowane przy kanonizacji (harden #3, ADR-0024).
+ * Harden: od-ulubienie z undo 5s; pad zapisu (favorites/watchlist) → StorageWarning.
  */
 export function TeamScheduleScreen() {
   const { teamId } = useParams<{ teamId: string }>();
   const { events, status, source, generatedAt, window: dataWindow, refresh } = useEvents();
-  const { settings, updateViewMode } = useSettings();
-  const { entries, add, remove } = useWatchlist();
-  const { favoriteTeamIds, isFavorite, toggle: toggleFavorite } = useFavoriteTeams();
+  const { settings, updateViewMode, writeError: settingsError } = useSettings();
+  const { entries, add, remove, writeError: watchlistError } = useWatchlist();
+  const {
+    favorites: favoriteEntries,
+    favoriteTeamIds,
+    isFavorite,
+    add: addFavorite,
+    remove: removeFavorite,
+    writeError: favoritesError,
+  } = useFavoriteTeams();
 
   const now = useNow(30_000);
-  const { filters, setFilters, clearFilters } = useUrlFilters({ week: false });
+  const { filters, setFilters, clearFilters } = useUrlFilters({ week: false, dimensions: 'bands' });
+  const [toast, setToast] = useState<WatchlistToastState | null>(null);
 
   const tz = settings.timezone === 'system' ? undefined : settings.timezone;
   const todayKey = dayKeyInZone(now, tz);
@@ -74,6 +86,22 @@ export function TeamScheduleScreen() {
     else add(eventId);
   };
 
+  /** Od-ulubienie z nagłówka z undo 5s — wpis wraca verbatim (ADR-0024). */
+  const handleToggleFavorite = useCallback(() => {
+    if (!team) return;
+    const entry = favoriteEntries.find((f) => f.teamId === team.id);
+    if (entry) {
+      removeFavorite(team.id);
+      setToast({
+        id: Date.now(),
+        message: `Removed ${team.name} from favorites`,
+        onAction: () => addFavorite(team.id, entry.addedAt),
+      });
+    } else {
+      addFavorite(team.id);
+    }
+  }, [team, favoriteEntries, removeFavorite, addFavorite]);
+
   if (status === 'error') return <LoadError onRetry={refresh} />;
   if (status === 'loading') return <TeamsSkeleton />;
 
@@ -95,11 +123,14 @@ export function TeamScheduleScreen() {
   }
 
   const dataRange =
-    dataWindow &&
-    `${formatDateLabel(dataWindow.from)} – ${formatDateLabel(dataWindow.to)}`;
+    dataWindow && `Data range: ${formatDateLabel(dataWindow.from)} – ${formatDateLabel(dataWindow.to)}`;
+
+  const storageFailed = Boolean(favoritesError ?? watchlistError ?? settingsError);
 
   return (
     <div>
+      {storageFailed && <StorageWarning />}
+
       <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           {sport && (
@@ -111,7 +142,7 @@ export function TeamScheduleScreen() {
             <h1 className="text-xl font-semibold tracking-tight">{team.name}</h1>
             <p className="text-xs text-muted-foreground">
               {league?.name ?? team.leagueId}
-              {dataRange && ` · data ${dataRange}`}
+              {dataRange && ` · ${dataRange}`}
             </p>
           </div>
           <Button
@@ -123,7 +154,7 @@ export function TeamScheduleScreen() {
                 : `Add ${team.name} to favorites`
             }
             aria-pressed={isFavorite(team.id)}
-            onClick={() => toggleFavorite(team.id)}
+            onClick={handleToggleFavorite}
             className="ml-1"
           >
             <Star
@@ -220,6 +251,7 @@ export function TeamScheduleScreen() {
             tz={tz}
             now={now}
             onToggleWatch={handleToggleWatch}
+            monthSeparators
           />
         </>
       )}
@@ -229,6 +261,8 @@ export function TeamScheduleScreen() {
           Data as of {new Date(generatedAt).toLocaleString()}
         </p>
       )}
+
+      {toast && <WatchlistToast toast={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
 }
@@ -236,8 +270,8 @@ export function TeamScheduleScreen() {
 /** Separator miesiąca przed pierwszym dniem danego miesiąca (ADR-0022). */
 function MonthSeparator({ dayKey }: { dayKey: string }) {
   return (
-    <p className="mb-3 mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground first:mt-0">
-      {monthLabel(dayKey)}
+    <p className="mb-3 mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+      {formatMonthLabel(dayKey)}
     </p>
   );
 }

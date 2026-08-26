@@ -78,6 +78,19 @@ export function formatDayLabel(dayKey: string): { weekday: string; date: string 
   return { weekday: WEEKDAYS_LONG[wd], date: `${MONTHS_SHORT[m - 1]} ${d}` };
 }
 
+const MONTHS_LONG = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+/** "September 2026" z klucza dnia — separator miesiąca w listach wielomiesięcznych
+ * (terminarz sezonu, ADR-0022/0024). */
+export function formatMonthLabel(dayKey: string): string {
+  const y = Number(dayKey.slice(0, 4));
+  const m = Number(dayKey.slice(5, 7));
+  return `${MONTHS_LONG[m - 1]} ${y}`;
+}
+
 /** "Aug 24 – 30" / "Sep 28 – Oct 4" dla zakresu kluczy [first, last]. */
 export function formatWeekRange(firstKey: string, lastKey: string): string {
   const fm = Number(firstKey.slice(5, 7));

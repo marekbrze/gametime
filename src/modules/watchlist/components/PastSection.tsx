@@ -6,7 +6,7 @@ import { DayGroup } from '@/modules/event-calendar/components/DayGroup';
 import type { DayItem } from '@/modules/event-calendar/components/DayGroup';
 import type { ViewMode } from '@/modules/settings/types';
 import type { TimeZone } from '@/shared/lib/datetime';
-import { dayKeyInZone } from '@/shared/lib/datetime';
+import { dayKeyInZone, formatMonthLabel } from '@/shared/lib/datetime';
 
 interface PastSectionProps {
   /** dayKey → itemy przeszłe (już przefiltrowane) */
@@ -17,6 +17,8 @@ interface PastSectionProps {
   onToggleWatch: (eventId: string) => void;
   /** opcjonalne — terminarz drużyny (teams) nie otwiera dialogu szczegółów */
   onOpenDetails?: (event: SportEvent) => void;
+  /** separatory miesięcy między grupami dni — terminarz sezonu (harden #7, ADR-0024) */
+  monthSeparators?: boolean;
 }
 
 /**
@@ -31,6 +33,7 @@ export function PastSection({
   now,
   onToggleWatch,
   onOpenDetails,
+  monthSeparators,
 }: PastSectionProps) {
   const [open, setOpen] = useState(false);
   const total = [...pastDays.values()].reduce((sum, list) => sum + list.length, 0);
@@ -55,18 +58,28 @@ export function PastSection({
       </Button>
       {open && (
         <div className="mt-2">
-          {dayKeys.map((key) => (
-            <DayGroup
-              key={key}
-              dayKey={key}
-              isToday={key === todayKey}
-              items={pastDays.get(key) ?? []}
-              viewMode={viewMode}
-              tz={tz}
-              onToggleWatch={onToggleWatch}
-              onOpenDetails={onOpenDetails}
-            />
-          ))}
+          {dayKeys.map((key, i) => {
+            const prev = dayKeys[i - 1];
+            const monthChanged = !prev || prev.slice(0, 7) !== key.slice(0, 7);
+            return (
+              <div key={key}>
+                {monthSeparators && monthChanged && (
+                  <p className="mb-3 mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {formatMonthLabel(key)}
+                  </p>
+                )}
+                <DayGroup
+                  dayKey={key}
+                  isToday={key === todayKey}
+                  items={pastDays.get(key) ?? []}
+                  viewMode={viewMode}
+                  tz={tz}
+                  onToggleWatch={onToggleWatch}
+                  onOpenDetails={onOpenDetails}
+                />
+              </div>
+            );
+          })}
         </div>
       )}
     </section>

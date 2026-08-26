@@ -58,3 +58,15 @@ export const NotFound: Story = {
     withRouter('/teams/team/does-not-exist'),
   ],
 };
+
+/** Harden #3 (ADR-0024): obce parametry URL (?sport/?league) są stripowane przy
+ * kanonizacji — terminarz czyta wyłącznie ?band, lista nie ginie na niewidocznym filtrze. */
+export const ForeignUrlParamsStripped: Story = {
+  decorators: [
+    (Story) => {
+      seed(generateMockEvents());
+      return <Story />;
+    },
+    withRouter('/teams/team/nhl-col?sport=soccer&league=la-liga'),
+  ],
+};

@@ -21,9 +21,16 @@ import { reconcileSport } from '../lib/filter-events';
  */
 const BANDS: BandFilter[] = ['day', 'evening', 'night'];
 
-function parseFilters(params: URLSearchParams): EventFilters {
+/** Tryb wymiarów: 'bands' (terminarz drużyny) czyta/pisze wyłącznie `band` —
+ * obce `?sport`/`?league` z deep-linka są stripowane przy kanonizacji, żeby
+ * niewidoczny filtr nie zabijał listy (harden #3, ADR-0024; analogia do
+ * stripowania `?w` na watchliście, ADR-0018 #11). */
+export type FilterDimensions = 'full' | 'bands';
+
+function parseFilters(params: URLSearchParams, dimensions: FilterDimensions): EventFilters {
   const bandParam = params.get('band');
   const band = BANDS.includes(bandParam as BandFilter) ? (bandParam as BandFilter) : 'all';
+  if (dimensions === 'bands') return { sport: 'all', band, leagues: [] };
 
   const sportParam = params.get('sport');
   const sport = sportParam !== null && SPORT_BY_ID.has(sportParam) ? sportParam : 'all';
@@ -48,28 +55,33 @@ function parseWeek(params: URLSearchParams): number {
 
 /** Parametry tylko dla wartości niedomyślnych — czysty stan = czysty URL.
  * `includeWeek = false` (ekrany bez pagera, np. watchlista) nigdy nie emituje `w`
- * — parametr z obcego linku jest stripowany przy kanonizacji. */
+ * — parametr z obcego linku jest stripowany przy kanonizacji. Analogicznie
+ * `dimensions: 'bands'` nigdy nie emituje `sport`/`league`. */
 function toSearchParams(
   filters: EventFilters,
   weekOffset: number,
   includeWeek = true,
+  dimensions: FilterDimensions = 'full',
 ): URLSearchParams {
   const params = new URLSearchParams();
   if (includeWeek && weekOffset !== 0) params.set('w', String(weekOffset));
   if (filters.band !== 'all') params.set('band', filters.band);
-  if (filters.sport !== 'all') params.set('sport', filters.sport);
-  if (filters.leagues.length > 0) params.set('league', filters.leagues.join(','));
+  if (dimensions === 'full') {
+    if (filters.sport !== 'all') params.set('sport', filters.sport);
+    if (filters.leagues.length > 0) params.set('league', filters.leagues.join(','));
+  }
   return params;
 }
 
 /** Aktualizacja filtrów wyliczona od ich bieżącego stanu (funkcjonalny updater). */
 export type FiltersUpdater = (prev: EventFilters) => EventFilters;
 
-export function useUrlFilters(options?: { week?: boolean }) {
+export function useUrlFilters(options?: { week?: boolean; dimensions?: FilterDimensions }) {
   const week = options?.week !== false;
+  const dimensions = options?.dimensions ?? 'full';
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const filters = useMemo(() => parseFilters(searchParams), [searchParams]);
+  const filters = useMemo(() => parseFilters(searchParams, dimensions), [searchParams, dimensions]);
   const weekOffset = week ? parseWeek(searchParams) : 0;
 
   // Stan bieżący (równy URL-owi) do łańcuchowania szybkich zmian: render może
@@ -95,20 +107,22 @@ export function useUrlFilters(options?: { week?: boolean }) {
   /** Kanonizacja URL na wejściu (ADR-0016): link z konfliktem
    * (?sport=hockey&league=premier-league), duplikatami parametrów albo
    * nieznanych id dostaje replace na formę kanoniczną — URL nie rozjeżdża
-   * się z selectem sportu, który pokazuje uzgodniony stan. */
+   * się z selectem sportu, który pokazuje uzgodniony stan. Tryb 'bands'
+   * (terminarz) dodatkowo stripuje obce ?sport/?league (ADR-0024). */
   useEffect(() => {
     const raw = window.location.hash.split('?')[1] ?? '';
     const urlParams = new URLSearchParams(raw);
     const canonical = toSearchParams(
-      parseFilters(urlParams),
+      parseFilters(urlParams, dimensions),
       week ? parseWeek(urlParams) : 0,
       week,
+      dimensions,
     ).toString();
     if (raw !== canonical) {
       setSearchParams(new URLSearchParams(canonical), { replace: true });
     }
     // raz na mount, czyta okno zamiast stanu
-  }, [setSearchParams, week]);
+  }, [setSearchParams, week, dimensions]);
 
   /** Push — Back ma wracać po zmianach widoku (#13 z ADR-0010). Wyjątek
    * (ADR-0016): seria zmian w <500ms (szybkie checkboxy, +1 +1 w pagerze)
@@ -126,17 +140,20 @@ export function useUrlFilters(options?: { week?: boolean }) {
       let base = current.current;
       if (pending.current === null) {
         const urlParams = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
-        base = { filters: parseFilters(urlParams), weekOffset: parseWeek(urlParams) };
+        base = {
+          filters: parseFilters(urlParams, dimensions),
+          weekOffset: parseWeek(urlParams),
+        };
       }
       const next = week ? mutate(base) : { ...mutate(base), weekOffset: 0 };
       current.current = next;
-      const params = toSearchParams(next.filters, next.weekOffset, week);
+      const params = toSearchParams(next.filters, next.weekOffset, week, dimensions);
       pending.current = params.toString();
       const replace = Date.now() - lastPushAt.current < COALESCE_MS;
       lastPushAt.current = Date.now();
       setSearchParams(params, { replace });
     },
-    [setSearchParams, week],
+    [setSearchParams, week, dimensions],
   );
 
   const setFilters = useCallback(

@@ -1,22 +1,32 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Search, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LEAGUE_BY_ID, SPORT_BY_ID, TEAMS } from '@/modules/data-source/data/catalog';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
+import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
+import { WatchlistToast, type WatchlistToastState } from '@/modules/watchlist/components/WatchlistToast';
 import { useFavoriteTeams } from '../hooks/use-favorite-teams';
 import { TeamsSkeleton } from './TeamsSkeleton';
+
+/** Search niewrażliwy na diakrytyki (harden #6, ADR-0024): "Atletico" znajduje
+ * "Atlético" — realny katalog ESPN ma nazwy akcentowane (Mönchengladbach, Málaga). */
+function fold(value: string): string {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
 
 /**
  * Ekran ligi, poziom 2 nawigacji (ADR-0020): pełna lista drużyn alfabetycznie,
  * search tekstowy + gwiazdka ulubionego w każdym wierszu. Klik w drużynę → terminarz.
+ * Harden (ADR-0024): od-ulubienie z undo 5s; pad zapisu → StorageWarning.
  */
 export function LeagueScreen() {
   const { leagueId } = useParams<{ leagueId: string }>();
   const { status, refresh } = useEvents();
-  const { isFavorite, toggle: toggleFavorite } = useFavoriteTeams();
+  const { favorites, isFavorite, add, remove, writeError } = useFavoriteTeams();
   const [query, setQuery] = useState('');
+  const [toast, setToast] = useState<WatchlistToastState | null>(null);
 
   const league = leagueId ? LEAGUE_BY_ID.get(leagueId) : undefined;
 
@@ -24,10 +34,27 @@ export function LeagueScreen() {
   const teams = useMemo(
     () =>
       TEAMS.filter((t) => league && t.leagueId === league.id)
-        .filter((t) => t.name.toLowerCase().includes(query.trim().toLowerCase()))
+        .filter((t) => fold(t.name).includes(fold(query.trim())))
         .sort((a, b) => a.name.localeCompare(b.name)),
     // TEAMS (katalog live) rośnie po fetchu snapshota — status w deps wymusza przeliczenie
     [league, query, status],
+  );
+
+  const handleToggleFavorite = useCallback(
+    (teamId: string, teamName: string) => {
+      const entry = favorites.find((f) => f.teamId === teamId);
+      if (entry) {
+        remove(teamId);
+        setToast({
+          id: Date.now(),
+          message: `Removed ${teamName} from favorites`,
+          onAction: () => add(teamId, entry.addedAt),
+        });
+      } else {
+        add(teamId);
+      }
+    },
+    [favorites, add, remove],
   );
 
   if (!league) {
@@ -80,6 +107,8 @@ export function LeagueScreen() {
 
   return (
     <div>
+      {Boolean(writeError) && <StorageWarning />}
+
       <LeagueHeader leagueName={league.name} sportEmoji={sport?.emoji} />
 
       <div className="mb-4 relative">
@@ -132,7 +161,7 @@ export function LeagueScreen() {
                     : `Add ${team.name} to favorites`
                 }
                 aria-pressed={isFavorite(team.id)}
-                onClick={() => toggleFavorite(team.id)}
+                onClick={() => handleToggleFavorite(team.id, team.name)}
               >
                 <Star
                   className={`size-4 ${isFavorite(team.id) ? 'fill-current text-amber-500' : 'text-muted-foreground'}`}
@@ -147,6 +176,8 @@ export function LeagueScreen() {
       <p className="sr-only" aria-live="polite">
         {teams.length} {teams.length === 1 ? 'team' : 'teams'} shown
       </p>
+
+      {toast && <WatchlistToast toast={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
 }
