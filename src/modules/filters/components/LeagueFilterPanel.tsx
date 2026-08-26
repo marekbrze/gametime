@@ -22,6 +22,11 @@ export function LeagueFilterPanel({
 }: LeagueFilterPanelProps) {
   return (
     <div className="flex flex-col gap-3">
+      {filters.sport !== 'all' && (
+        <p className="text-xs text-muted-foreground">
+          Picking a league from another sport resets the sport filter to All sports.
+        </p>
+      )}
       {SPORTS.map((sport) => {
         const sportLeagues = LEAGUES.filter((league) => league.sportId === sport.id);
         return (

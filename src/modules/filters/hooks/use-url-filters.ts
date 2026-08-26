@@ -28,16 +28,21 @@ function parseFilters(params: URLSearchParams): EventFilters {
   const sportParam = params.get('sport');
   const sport = sportParam !== null && SPORT_BY_ID.has(sportParam) ? sportParam : 'all';
 
-  const leagues = [...new Set(params.get('league')?.split(',') ?? [])].filter((id) =>
-    LEAGUE_BY_ID.has(id),
-  );
+  const leagues = [
+    ...new Set(params.getAll('league').flatMap((value) => value.split(','))),
+  ].filter((id) => LEAGUE_BY_ID.has(id));
 
   return reconcileSport({ sport, band, leagues });
 }
 
+/** Granica sensownego offsetu tygodnia (± rok) — `?w=99999` z deep-linka
+ * nie generuje absurdalnych dat; poza oknem danych i tak ratuje EmptyWeek. */
+const MAX_WEEK_OFFSET = 52;
+
 function parseWeek(params: URLSearchParams): number {
   const raw = Number.parseInt(params.get('w') ?? '0', 10);
-  return Number.isInteger(raw) ? raw : 0;
+  if (!Number.isInteger(raw)) return 0;
+  return Math.max(-MAX_WEEK_OFFSET, Math.min(MAX_WEEK_OFFSET, raw));
 }
 
 /** Parametry tylko dla wartości niedomyślnych — czysty stan = czysty URL. */
@@ -79,7 +84,26 @@ export function useUrlFilters() {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  /** Push (nie replace) — Back ma wracać po zmianach widoku (#13 z ADR-0010). */
+  /** Kanonizacja URL na wejściu (ADR-0016): link z konfliktem
+   * (?sport=hockey&league=premier-league), duplikatami parametrów albo
+   * nieznanych id dostaje replace na formę kanoniczną — URL nie rozjeżdża
+   * się z selectem sportu, który pokazuje uzgodniony stan. */
+  useEffect(() => {
+    const raw = window.location.hash.split('?')[1] ?? '';
+    const urlParams = new URLSearchParams(raw);
+    const canonical = toSearchParams(parseFilters(urlParams), parseWeek(urlParams)).toString();
+    if (raw !== canonical) {
+      setSearchParams(new URLSearchParams(canonical), { replace: true });
+    }
+    // raz na mount, czyta okno zamiast stanu
+  }, [setSearchParams]);
+
+  /** Push — Back ma wracać po zmianach widoku (#13 z ADR-0010). Wyjątek
+   * (ADR-0016): seria zmian w <500ms (szybkie checkboxy, +1 +1 w pagerze)
+   * replace'uje zamiast pushować — Back chodzi po stanach, nie po tickach. */
+  const COALESCE_MS = 500;
+  const lastPushAt = useRef(0);
+
   const update = useCallback(
     (
       mutate: (prev: { filters: EventFilters; weekOffset: number }) => {
@@ -96,7 +120,9 @@ export function useUrlFilters() {
       current.current = next;
       const params = toSearchParams(next.filters, next.weekOffset);
       pending.current = params.toString();
-      setSearchParams(params);
+      const replace = Date.now() - lastPushAt.current < COALESCE_MS;
+      lastPushAt.current = Date.now();
+      setSearchParams(params, { replace });
     },
     [setSearchParams],
   );

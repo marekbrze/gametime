@@ -4,9 +4,11 @@ import type { DataWindow } from '@/modules/data-source/types';
 
 /**
  * Pusty tydzień — trzy różne powody wymagają różnych wyjaśnień:
- * filtry / faktycznie pusty tydzień (off-season) / tydzień poza oknem danych
- * (DataWindow). Komunikat nie może kłamać: "off-season" na tygodniu, dla
- * którego po prostu nie mamy danych, byłby przekłamaniem.
+ * tydzień poza oknem danych (DataWindow) / filtry / faktycznie pusty tydzień
+ * (off-season). Komunikat nie może kłamać: "off-season" na tygodniu, dla
+ * którego po prostu nie mamy danych, byłby przekłamaniem — a "nie pasuje do
+ * filtrów" na tygodniu, w którym nie mamy żadnych danych, też (ADR-0016).
+ * Dlatego beyondWindow ma pierwszeństwo przed hasFilters.
  */
 interface EmptyWeekProps {
   hasFilters: boolean;
@@ -33,7 +35,9 @@ export function EmptyWeek({
   return (
     <div className="rounded-lg border border-dashed p-10 text-center">
       <CalendarX2 className="mx-auto mb-3 size-8 text-muted-foreground" aria-hidden="true" />
-      {hasFilters ? (
+      {beyondWindow ? (
+        <p className="font-medium">No data for this week</p>
+      ) : hasFilters ? (
         <>
           <p className="font-medium">No events match your filters this week</p>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -43,8 +47,6 @@ export function EmptyWeek({
             Clear filters
           </Button>
         </>
-      ) : beyondWindow ? (
-        <p className="font-medium">No data for this week</p>
       ) : (
         <>
           <p className="font-medium">No events this week</p>

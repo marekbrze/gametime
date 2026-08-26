@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { CLEAN_FILTERS, type EventFilters } from '../types';
 import { FilterBar } from './FilterBar';
+import { LeagueFilterPanel } from './LeagueFilterPanel';
 
 const meta: Meta<typeof FilterBar> = {
   title: 'Filters/FilterBar',
@@ -86,4 +87,18 @@ export const OffSeason: Story = {
 /** Toggle My teams wyłączony, gdy user nie ma ulubionych drużyn. */
 export const MyTeamsDisabled: Story = {
   render: () => <Frame hasFavorites={false} />,
+};
+
+/** Panel lig z wybranym sportem — podpowiedź o uzgadnianiu (ADR-0016):
+ * obca liga zeruje wybór sportu, user wie o tym zanim kliknie. */
+export const LeaguePanelSportSelected: Story = {
+  render: () => (
+    <div className="w-80">
+      <LeagueFilterPanel
+        filters={{ sport: 'soccer', band: 'all', leagues: [] }}
+        onFiltersChange={() => {}}
+        leaguesWithEvents={ALL_LEAGUES}
+      />
+    </div>
+  ),
 };

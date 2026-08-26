@@ -56,14 +56,22 @@ Sport i ligi to dwa widoki jednego stanu — uzgadniają się automatycznie, że
 
 ## Edge Cases
 
-- **Zero match po filtrach**: inline empty state + Clear filters — conciousnie odrębny od wariantów off-season i beyond-window (ADR-0011); to jedyny empty state z CTA resetu.
+- **Zero match po filtrach**: inline empty state + Clear filters — świadomie odrębny od wariantów off-season i beyond-window (ADR-0011); to jedyny empty state z CTA resetu.
+- **Beyond-window dominuje nad filtrami** (ADR-0016): deep-link typu `?w=30&league=nhl` pokazuje "No data for this week" + notę o oknie, nie "nie pasuje do filtrów" — brak danych to silniejszy powód pustki niż zawężenie.
 - **Off-season lig**: analogicznie do sportów — ligi bez wydarzeń w oknie danych dostają suffix "— no events" w panelu (opcja nieblokująca).
-- **Martwy AND sport × liga**: niemożliwy dzięki regułom uzgadniania (wybór sportu odznacza obce ligi; obca liga przestawia sport na All).
+- **Martwy AND sport × liga**: niemożliwy dzięki regułom uzgadniania (wybór sportu odznacza obce ligi; obca liga przestawia sport na All); przy wybranym sporcie panel pokazuje podpowiedź o tym efekcie (ADR-0016).
+- **Filtry obowiązują cały ekran listy** (decyzja designera, ADR-0016): blok Now czyta ten sam predykat co lista tygodnia — filtrowanie do piłki znika live NBA ze szczytu; pusty zbiór = blok Now znika.
 - **Skrajny przypadek paska na innych listach**: SeasonSchedule drużyny ma sport/ligę ustalone przez drużynę → pasek zredukowany do samych pasm (MyTeams bez sensu na liście jednej drużyny); watchlist dostaje pełny pasek.
-- **Nieprawidłowe wartości w URL** (nieznane id ligi/sportu, zły band): ignorowane cicho, dany wymiar wraca do czystego — nie errorujemy użytkownika linkiem.
-- **Konflikt w URL** (`sport=hockey&league=premier-league`): parsowane przez tę samą regułę uzgadniania co UI (liga wygrywa, sport → All).
+- **Nieprawidłowe wartości w URL** (nieznane id ligi/sportu, zły band): ignorowane cicho, dany wymiar wraca do czystego — nie errorujemy użytkownika linkiem; URL jest przy tym kanonizowany replace'em na wejściu (konflikty/duplikaty nie wiszą w pasku adresu).
+- **Powtórzone parametry** `?league=nhl&league=nba` scalane w jeden wybór (ADR-0016).
+- **`?w=` clamp do ±52** tygodni — absurdalne deep-linki nie generują absurdalnych dat (ADR-0016).
+- **Historia: coalescing rapid changes** (ADR-0016, precyzja ADR-0014): pierwsza zmiana widoku pushuje wpis, kolejne w <500 ms replace'ują — Back wraca po stanach widoku, nie po pojedynczych tickach checkboxów.
+- **Filtry w obrębie wizyty przy zmianie taby**: taba Calendar wraca z ostatnim query kalendarza (pamięć AppShell, w obrębie sesji); świeża wizyta nadal zaczyna czysto (ADR-0013).
+- **SR**: zawężenie listy ogłaszane `aria-live` (liczba widocznych wydarzeń) — filtr nie jest ciszą dla czytników (ADR-0016).
 - **URL a świeżość**: `w` to offset względem *bieżącego* tygodnia otwierającego, nie data — link "next week" postarza się o tydzień; akceptowalne dla udostępniania krótkoterminowego.
 - **Filtr vs scenariusze dev**: scenariusze DevToolbar żyją w localStorage, parametry widoku w hash — nie kolidują.
+
+**Odroczone** (ADR-0015/0016): dryf katalogu statyczny vs snapshot → moduł data-source (`registerCatalogTeams` rozszerzone o sports/leagues); mock/dev bez DataWindow → zakres event-calendar; resize md-boundary z otwartym panelem → zaakceptowane.
 
 ## Integration Points
 

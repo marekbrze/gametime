@@ -51,7 +51,7 @@ export function MoreFilters({ filters, onFiltersChange, leaguesWithEvents }: Mor
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger render={trigger} />
-        <PopoverContent align="start" className="w-80">
+        <PopoverContent align="start" className="max-h-96 w-80 overflow-y-auto">
           <PopoverHeader>
             <PopoverTitle>Leagues</PopoverTitle>
             <PopoverDescription>Pick leagues — grouped by sport</PopoverDescription>

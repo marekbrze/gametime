@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useRef, type ReactNode } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { CalendarDays, Settings, Star, Trophy } from 'lucide-react'
 import { cn } from '../../lib/utils'
 
@@ -10,7 +10,29 @@ const NAV_ITEMS = [
   { path: '/settings', label: 'Settings', icon: Settings },
 ] as const
 
+/**
+ * Zapamiętany ostatni query kalendarza (filtry + tydzień, ADR-0014) — wraca
+ * z taby Calendar po powrocie z innej taby. Tylko w pamięci: w obrębie wizyty
+ * stan per-ekran żyje (ADR-0013), świeża wizyta nadal zaczyna czysto.
+ */
+function useCalendarSearch(): string {
+  const { pathname, search } = useLocation()
+  const lastSearch = useRef('')
+  useEffect(() => {
+    if (pathname === '/event-calendar' && search) {
+      lastSearch.current = search
+    }
+  }, [pathname, search])
+  return lastSearch.current
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
+  const calendarSearch = useCalendarSearch()
+  const navTo = (path: string) =>
+    path === '/event-calendar' && calendarSearch
+      ? { pathname: path, search: calendarSearch }
+      : path
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <header className="sticky top-0 z-10 border-b bg-background">
@@ -22,7 +44,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.path}
-                to={item.path}
+                to={navTo(item.path)}
                 className={({ isActive }) =>
                   cn(
                     'rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground',
@@ -69,7 +91,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.path}
-              to={item.path}
+              to={navTo(item.path)}
               className={({ isActive }) =>
                 cn(
                   'flex flex-col items-center gap-1 py-2 text-xs font-medium text-muted-foreground',

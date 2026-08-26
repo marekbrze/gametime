@@ -47,3 +47,16 @@ export const EmptyBeyondWindow: StoryObj<typeof EmptyWeek> = {
     />
   ),
 };
+
+/** ADR-0016: brak danych dominuje nad filtrami — deep-link ?w=50&league=nhl
+ * nie twierdzi "nie pasuje do filtrów" na tygodniu bez danych. */
+export const EmptyBeyondWindowWithFilters: StoryObj<typeof EmptyWeek> = {
+  render: () => (
+    <EmptyWeek
+      {...emptyWeekProps}
+      hasFilters
+      beyondWindow
+      dataWindow={{ from: '2026-08-18T00:00:00Z', to: '2026-09-08T23:59:59Z' }}
+    />
+  ),
+};

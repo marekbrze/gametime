@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { LayoutGrid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { SportEvent } from '@/modules/data-source/types';
 import { deriveStatus } from '@/modules/data-source/lib/status';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
 import {
@@ -70,14 +71,26 @@ export function EventCalendarScreen() {
     [events, settings, tz, weekKeySet],
   );
 
+  /** Predykat wspólny dla całego ekranu (decyzja harden, ADR-0016): filtry
+   * obowiązują też blok Now — pasek jest soczewką na wszystko, co widać. */
+  const passesScreenFilters = useCallback(
+    (event: SportEvent) =>
+      event.statusOverride !== 'canceled' &&
+      matchesEventFilters(event, filters, settings) &&
+      (!myTeamsOnly || (event.teamIds ?? []).some((teamId) => favoriteTeamIds.includes(teamId))),
+    [filters, myTeamsOnly, settings, favoriteTeamIds],
+  );
+
   const filtered = useMemo(
-    () =>
-      weekEvents.filter(
-        (event) =>
-          matchesEventFilters(event, filters, settings) &&
-          (!myTeamsOnly || (event.teamIds ?? []).some((teamId) => favoriteTeamIds.includes(teamId))),
-      ),
-    [weekEvents, filters, myTeamsOnly, settings, favoriteTeamIds],
+    () => weekEvents.filter(passesScreenFilters),
+    [weekEvents, passesScreenFilters],
+  );
+
+  /** Blok Now czyta ten sam predykat co lista tygodnia — live/soon w obrębie
+   * przefiltrowanego zbioru (pusty zbiór = blok znika, ADR-0016). */
+  const nowEvents = useMemo(
+    () => events.filter(passesScreenFilters),
+    [events, passesScreenFilters],
   );
 
   /** dayKey → posortowane itemy (DayItem z pasmem i statusem). */
@@ -133,7 +146,7 @@ export function EventCalendarScreen() {
         <WeekSkeleton />
       ) : (
         <>
-          <NowBlock events={events} now={now} tz={tz} />
+          <NowBlock events={nowEvents} now={now} tz={tz} />
 
           <WeekPager
             mondayKey={displayMonday}
@@ -173,6 +186,11 @@ export function EventCalendarScreen() {
               </Button>
             </div>
           </FilterBar>
+
+          {/* SR: zawężenie listy ogłaszane live — bez tego filtr to cisza dla czytników (ADR-0016) */}
+          <p className="sr-only" aria-live="polite">
+            {totalVisible} events shown this week
+          </p>
 
           {totalVisible === 0 ? (
             <EmptyWeek
