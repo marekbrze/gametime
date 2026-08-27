@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T19:41:38.895Z",
+  "generatedAt": "2026-08-27T15:19:50.118Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -78,7 +78,7 @@
     "teams": [
       {
         "id": "espn-bundesliga-10388",
-        "name": "SV Elversberg",
+        "name": "SV ELVERSBERG",
         "leagueId": "bundesliga"
       },
       {
