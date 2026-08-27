@@ -76,7 +76,7 @@ erDiagram
 **Contains**: 3 × TimeBand, timezone, viewMode (`'list' | 'cards'`, default `'list'` — ADR-0006)
 
 ### TIME_BAND
-**Description**: Pasmo godzinowe z zakresem i kolorem. Domyślnie: Dzień 6:00–22:00, Wieczór 22:00–24:00, Noc 0:00–6:00. Służy do filtrowania (zasada uniwersalna: **każda lista w aplikacji filtruje się po pasmach**) i wizualnej klasyfikacji "da się obejrzeć" vs "w nocy". Klasyfikacja pasma wydarzenia: po **czasie startu**. Zdarzenia z pasa Night prezentują się pod **wieczorem dnia poprzedniego** (ViewingDay — ADR-0004).
+**Description**: Pasmo godzinowe z zakresem i kolorem. Domyślnie: Dzień 6:00–22:00, Wieczór 22:00–24:00, Noc 0:00–6:00. Edytowalne wyłącznie dwiema granicami (Day starts / Evening starts); Noc zawsze zaczyna się o północy — pasma zawsze pokrywają całą dobę bez luk i nakładek (ADR-0025). Służy do filtrowania (zasada uniwersalna: **każda lista w aplikacji filtruje się po pasmach**) i wizualnej klasyfikacji "da się obejrzeć" vs "w nocy". Klasyfikacja pasma wydarzenia: po **czasie startu**. Zdarzenia z pasa Night prezentują się pod **wieczorem dnia poprzedniego** (ViewingDay — ADR-0004).
 **Instances per user**: dokładnie 3 (w USER_SETTINGS)
 **Ownership**: User
 **Lifecycle**: jak UserSettings

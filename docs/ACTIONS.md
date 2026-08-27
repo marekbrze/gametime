@@ -57,9 +57,9 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 
 | Action | Description | Notes |
 |--------|-------------|-------|
-| Change timezone | Prezentacja wszystkich godzin w wybranej strefie. | Domyślnie strefa przeglądarki |
-| Edit band ranges | Zakresy godzin trzech TimeBandów (start/koniec). | Domyślnie 6–22 / 22–24 / 0–6 |
-| Reset to defaults | Powrót do ustawień domyślnych. | |
+| Change timezone | Prezentacja wszystkich godzin w wybranej strefie. | Domyślnie strefa przeglądarki; pełna lista IANA (ADR-0026) |
+| Edit band ranges | Zakresy godzin trzech TimeBandów (start/koniec). | Model dwugraniczny: Day starts / Evening starts, noc przypięta do północy (ADR-0025) |
+| Reset to defaults | Powrót do ustawień domyślnych. | Dialog potwierdzenia; resetuje strefę + pasma + viewMode (ADR-0026) |
 
 ### Sport / League
 
