@@ -38,7 +38,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-10 border-b bg-background">
         <div className="container mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4">
           <Link to="/event-calendar" className="text-lg font-semibold tracking-tight">
-            gametime
+            {/* Sygnatura brandowa: papayowa kropka — „gametime." jak na tablicy wyników */}
+            gametime<span className="text-primary">.</span>
           </Link>
           <nav aria-label="Main navigation" className="hidden md:flex md:items-center md:gap-1">
             {NAV_ITEMS.map((item) => (

@@ -46,7 +46,7 @@ export function ExportMenu({ event }: { event: SportEvent }) {
             className="fixed inset-0 z-10 cursor-default"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 z-20 mt-1 w-44 rounded-md border bg-background p-1 shadow-sm">
+          <div className="absolute right-0 z-20 mt-1 w-44 rounded-md border bg-popover p-1 shadow-sm">
             <a
               href={googleCalendarUrl(event)}
               target="_blank"

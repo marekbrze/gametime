@@ -1,7 +1,7 @@
 # 0030 - Hi-fi design applied: token layer + event-calendar
 
 **Date**: 2026-08-28
-**Module**: event-calendar (+ warstwa tokenów project-wide, słownictwo współdzielone)
+**Module**: event-calendar (+ warstwa tokenów project-wide, słownictwo współdzielone); pass 2 domyka pozostałe moduły
 **Status**: Accepted
 
 ## Context
@@ -26,3 +26,14 @@ Wdrożono DESIGN.md przez mechanizm Tailwind v4 + shadcn (`:root`/`.dark` OKLCH 
 - **Odkryty istniejący bug (poza zakresem designu, potwierdzony na bundlu sprzed zmian)**: pierwsza nawigacja `setSearchParams` po załadowaniu strony aktualizuje hash bez re-renderu (kolejne nadganiają stan) — routing do `proto-bug`
 - Znalezione podczas przeglądu, przekazane `proto-polish`: gwiazda papaya na jasnej karcie ≈1.9:1 jako wskaźnik stanu (floor 3:1 dla UI) — rozważyć papayowe tło pod gwiazdką lub ciemniejszy fill
 - Projekt storybook-vitest (`vitest run --project storybook`) pada w tym środowisku na imporcie setupu (aria-query/elementRoles) — niezależnie od zmian (weryfikacja na czystym drzewie); weryfikacja E2E szła skryptem playwright wg konwencji z memory
+
+## Pass 2 — pozostałe moduły (ten sam dzień)
+
+Tokeny i współdzielony DayGroup/EwentRow/BAND_CHIP przeniosły design na watchlistę, terminarz drużyny i ustawienia automatycznie (zweryfikowane zrzutami + kliknięciem drill-down teams → schedule). Dedykowane zmiany:
+
+- **AppShell**: sygnatura brandowa w logo — „gametime**.**" z papayową kropką (tablica wyników); nawigacja/stopka/taby mobilne na tokenach bez zmian strukturalnych (restrained)
+- **calendar-export**: dropdown ExportMenu `bg-background` → `bg-popover` (uniesiona powierzchnia — poprawna głębia w dark: 0.23 vs 0.15)
+- **filters**: wiersz pasm FilterBar — aktywny chip pasma niesie tint+tekst pasma (BAND_CHIP przez twMerge nadpisuje wariant default); „Any time"/aktywne filtry niepasmowe = papaya (akcent = bieżący wybór)
+- **settings**: BandsPreview odziedziczył nowe hue pasm bez zmian kodu (tokeny), screen na tokenach
+
+Regresja playwright 5/5: kropka logo w DOM papaya, popover oklch(1 0 0), drill-down teams → terminarz (DayGroup), settings dark system-following.
