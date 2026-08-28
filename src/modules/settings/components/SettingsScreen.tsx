@@ -29,7 +29,13 @@ export function SettingsScreen() {
   const storageFailed = Boolean(writeError);
 
   const systemZone = useMemo(() => detectedTimezone(), []);
-  const grouped = useMemo(() => groupTimezones(timezoneOptions()), []);
+  const zones = useMemo(() => timezoneOptions(), []);
+  const grouped = useMemo(() => groupTimezones(zones), [zones]);
+  // Strefa poprawna dla Intl, ale nieobecna na liście (legacy alias typu
+  // 'Poland') — bez tego optionu select renderowałby się pusty i aktywna
+  // strefa byłaby niewidoczna (harden #3, ADR-0027).
+  const savedZoneMissing =
+    settings.timezone !== 'system' && !zones.includes(settings.timezone);
   const tz = settings.timezone === 'system' ? undefined : settings.timezone;
 
   // Dwie granice (ADR-0025) odczytane z pasm; przesunięcia ze wzajemnym clampem
@@ -70,6 +76,9 @@ export function SettingsScreen() {
           onChange={(e) => updateTimezone(e.target.value)}
         >
           <option value="system">System default ({zoneLabel(systemZone)})</option>
+          {savedZoneMissing && (
+            <option value={settings.timezone}>Saved: {zoneLabel(settings.timezone)}</option>
+          )}
           {grouped.map((group) => (
             <optgroup key={group.region} label={group.region}>
               {group.zones.map((zone) => (

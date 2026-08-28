@@ -49,7 +49,10 @@ export function BandsPreview({ bands, tz }: BandsPreviewProps) {
           <span aria-hidden="true" className="mt-0.5 h-[18px] w-0.5 rounded bg-foreground" />
         </div>
 
-        {/* Segmenty pasm — szerokości proporcjonalne do długości pasma */}
+        {/* Segmenty pasm — szerokości proporcjonalne do długości pasma.
+            Bez etykiet wewnątrz segmentów: biały tekst na amber/sky nie
+            przechodzi AA (harden #6, ADR-0027); nazwy niosą legenda pod
+            paskiem (kropka + zakres), a czytniki — aria-label wyżej. */}
         <div className="flex h-8 overflow-hidden rounded-md border">
           {BAND_ORDER.map((kind) => {
             const band = bands[kind];
@@ -57,16 +60,9 @@ export function BandsPreview({ bands, tz }: BandsPreviewProps) {
             return (
               <div
                 key={kind}
-                className={cn('flex items-center justify-center', BAND_DOT[kind])}
+                className={cn(BAND_DOT[kind])}
                 style={{ width: `${width}%` }}
-              >
-                {/* Etykieta tylko gdy segment zmieści tekst (~12% doby) */}
-                {width >= 12 && (
-                  <span className="px-1 text-xs font-medium text-white">
-                    {BAND_LABELS[kind]}
-                  </span>
-                )}
-              </div>
+              />
             );
           })}
         </div>

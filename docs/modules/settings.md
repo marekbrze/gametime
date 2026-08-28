@@ -50,13 +50,15 @@ Moduł jest mały (Low-Medium design priority), ale **pasma napędzają cały sy
 
 ## Edge Cases
 
-Systematyczny audyt: `settings-edgecases.md` (proto-edgecases → proto-harden). Captured na etapie detail:
+Systematyczny audyt: `settings-edgecases.md` (baseline ADR-0027, harden ADR-0028 — 5/6 wdrożonych). Zachowania po harden:
 
 - **Granice skrajne**: day=23:30, evening=23:30 dozwolone (pasma się degenerują, ale doba pokryta); stepper clampuje wzajemnie — nie da się ustawić day ≥ evening.
-- **Pad zapisu localStorage**: `writeError` z useLocalStorage już zwracany przez `useSettings` — ekran musi go skonsumować (wzorzec StorageWarning z ADR-0011/0024).
-- **Zepsuty kształt w storage**: sanitizeSettings scala z defaultami (ADR-0018) — ekran zawsze startuje od sensownego stanu.
-- **`Intl.supportedValuesOf` niedostępne** (stare Safari): fallback — lista offsetów? krótk lista ręczna? → do rozstrzygnięcia w edgecases.
-- **Zmiana strefy zmienia klasyfikację pasm** — godzina startu tego samego wydarzenia wpada do innego pasa; zamierzone, ale podgląd powinien pokazywać godziny w aktualnie wybranej strefie.
+- **Pad zapisu localStorage**: `writeError` konsumowany przez StorageWarning (wzorzec ADR-0011/0024), zapis z rollbackiem wizualnym.
+- **Zepsuty kształt w storage**: `sanitizeSettings` scala z defaultami (ADR-0018); po harden waliduje też **wartość strefy** (probe Intl; śmieci → `system`) i **spójność pasm** (noc@0:00, wieczór@24:00, siatka 30 min bez luk — niespójne → defaults, decyzja designera ADR-0028).
+- **Strefa poprawna dla Intl, ale nieobecna na liście** (legacy aliasy `Poland`, `US/Pacific`): przypięty option „Saved: {zone}" — select nigdy nie renderuje się pusty.
+- **`Intl.supportedValuesOf` niedostępne** (stare Safari): fallback = krótka lista ręczna 12 stref + System default (**zaakceptowane**, ADR-0028 — rozpoznana strefa zawsze działa).
+- **Zmiana strefy zmienia klasyfikację pasm** — zamierzone; podgląd pokazuje godziny w aktualnie wybranej strefie.
+- **Multi-tab**: brak synchronizacji między kartami — odroczone platformowo (ADR-0028, analogia offline z ADR-0018/0024).
 
 ## Integration Points
 
