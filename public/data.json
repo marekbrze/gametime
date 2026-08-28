@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T15:19:50.118Z",
+  "generatedAt": "2026-08-28T16:43:16.649Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -267,13 +267,63 @@
         "leagueId": "la-liga"
       },
       {
+        "id": "espn-nba-1",
+        "name": "Atlanta Hawks",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-10",
+        "name": "Houston Rockets",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-11",
+        "name": "Indiana Pacers",
+        "leagueId": "nba"
+      },
+      {
         "id": "espn-nba-12",
         "name": "LA Clippers",
         "leagueId": "nba"
       },
       {
-        "id": "espn-nba-134478",
-        "name": "London Lions",
+        "id": "espn-nba-13",
+        "name": "Los Angeles Lakers",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-14",
+        "name": "Miami Heat",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-15",
+        "name": "Milwaukee Bucks",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-16",
+        "name": "Minnesota Timberwolves",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-17",
+        "name": "Brooklyn Nets",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-18",
+        "name": "New York Knicks",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-19",
+        "name": "Orlando Magic",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-2",
+        "name": "Boston Celtics",
         "leagueId": "nba"
       },
       {
@@ -292,13 +342,28 @@
         "leagueId": "nba"
       },
       {
+        "id": "espn-nba-23",
+        "name": "Sacramento Kings",
+        "leagueId": "nba"
+      },
+      {
         "id": "espn-nba-24",
         "name": "San Antonio Spurs",
         "leagueId": "nba"
       },
       {
+        "id": "espn-nba-25",
+        "name": "Oklahoma City Thunder",
+        "leagueId": "nba"
+      },
+      {
         "id": "espn-nba-26",
         "name": "Utah Jazz",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-27",
+        "name": "Washington Wizards",
         "leagueId": "nba"
       },
       {
@@ -324,6 +389,26 @@
       {
         "id": "espn-nba-4",
         "name": "Chicago Bulls",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-5",
+        "name": "Cleveland Cavaliers",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-6",
+        "name": "Dallas Mavericks",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-7",
+        "name": "Denver Nuggets",
+        "leagueId": "nba"
+      },
+      {
+        "id": "espn-nba-8",
+        "name": "Detroit Pistons",
         "leagueId": "nba"
       },
       {
@@ -1113,22 +1198,6 @@
         "espn-nfl-24",
         "espn-nfl-25"
       ]
-    },
-    {
-      "id": "f1-11343",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-08-21T10:30:00.000Z",
-      "title": "Dutch Grand Prix — Practice 1",
-      "sessionType": "practice"
-    },
-    {
-      "id": "f1-11344",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-08-21T14:30:00.000Z",
-      "title": "Dutch Grand Prix — Sprint Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-la-liga-401882914",
@@ -2578,7 +2647,7 @@
       "id": "espn-serie-a-401874943",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-09-07T16:00:00.000Z",
+      "startUtc": "2026-09-07T16:30:00.000Z",
       "teamIds": [
         "espn-serie-a-2925",
         "espn-serie-a-113"
@@ -2633,6 +2702,22 @@
         "espn-nfl-14",
         "espn-nfl-25"
       ]
+    },
+    {
+      "id": "f1-11362",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-11T11:30:00.000Z",
+      "title": "Spanish Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
+      "id": "f1-11363",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-11T15:00:00.000Z",
+      "title": "Spanish Grand Prix — Practice 2",
+      "sessionType": "practice"
     },
     {
       "id": "espn-bundesliga-401884793",
