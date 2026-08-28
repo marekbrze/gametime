@@ -41,36 +41,38 @@ export function NowBlock({ events, now, tz }: NowBlockProps) {
   return (
     <section
       aria-labelledby="now-heading"
-      className="mb-6 rounded-lg border bg-card p-4"
+      // Signature surface: papayowy wash — „co jest teraz" to odpowiedź produktu
+      className="mb-6 rounded-lg border border-primary/25 bg-primary/8 p-4"
     >
       <h2 id="now-heading" className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        <Radio className="size-4 animate-pulse text-red-500" aria-hidden="true" />
+        <Radio className="size-4 text-live" aria-hidden="true" />
         Now
       </h2>
       <ul className="space-y-2">
         {live.map(({ event, deltaMs }) => (
           <li key={event.id} className="flex items-center gap-3 text-sm">
-            <span className="flex items-center gap-1.5 rounded bg-red-100 px-1.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-950 dark:text-red-300">
-              <span className="size-1.5 animate-pulse rounded-full bg-red-600 dark:bg-red-400" aria-hidden="true" />
+            <span className="flex items-center gap-1.5 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">
+              <span className="size-1.5 animate-live-pulse rounded-full bg-live" aria-hidden="true" />
               LIVE
             </span>
             <span aria-hidden="true">{sportEmoji(event)}</span>
             <span className="min-w-0 flex-1 truncate font-medium">{participantsLabel(event)}</span>
             <span className="hidden text-xs text-muted-foreground sm:inline">{leagueName(event)}</span>
-            <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+            <span className="shrink-0 text-xs text-muted-foreground">
               Started {formatDuration(deltaMs)} ago
             </span>
           </li>
         ))}
         {soon.map(({ event, deltaMs }) => (
           <li key={event.id} className="flex items-center gap-3 text-sm">
-            <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground">
+            {/* SOON = wskaźnik stanu → akcent brandowy (DESIGN.md: akcent = akcje/stany) */}
+            <span className="rounded-full bg-primary/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-brand-text">
               SOON
             </span>
             <span aria-hidden="true">{sportEmoji(event)}</span>
             <span className="min-w-0 flex-1 truncate font-medium">{participantsLabel(event)}</span>
             <span className="hidden text-xs text-muted-foreground sm:inline">{leagueName(event)}</span>
-            <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+            <span className="shrink-0 text-xs text-muted-foreground">
               {formatTimeInZone(new Date(event.startUtc), tz)} · in {formatDuration(deltaMs)}
             </span>
           </li>

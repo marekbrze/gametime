@@ -14,9 +14,9 @@ export function StorageWarning() {
   return (
     <div
       role="alert"
-      className="mb-4 flex items-start gap-2 rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-sm"
+      className="mb-4 flex items-start gap-2 rounded-lg border border-warning/50 bg-warning/10 p-3 text-sm"
     >
-      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-warning-text" aria-hidden="true" />
       <p className="flex-1">
         Couldn't save your change — browser storage is unavailable or full.
         The last change wasn't saved and has been reverted.

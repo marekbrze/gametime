@@ -4,7 +4,7 @@ import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
-import { BAND_EDGE } from '@/modules/settings/lib/bands-ui';
+import { BAND_CARD, BAND_DOT } from '@/modules/settings/lib/bands-ui';
 import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
 
 interface EventCardProps {
@@ -38,8 +38,9 @@ export function EventCard({
   return (
     <div
       className={[
-        'rounded-lg border-l-4 bg-card p-4 shadow-sm',
-        BAND_EDGE[band],
+        // Karta widoku cards: kolor pasa mocniej — tint całej powierzchni (DESIGN.md)
+        'rounded-lg border p-4',
+        BAND_CARD[band],
         favorite ? 'bg-muted/60' : '',
         status === 'finished' || status === 'postponed' || status === 'canceled'
           ? 'opacity-55'
@@ -47,9 +48,13 @@ export function EventCard({
       ].join(' ')}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
-        <span className="text-2xl" aria-hidden="true">
-          {sportEmoji(event)}
-        </span>
+        <div className="flex items-center gap-2">
+          {/* Kropka wiodąca pasma — zamiast zbanowanego side-stripe'a (ADR-0029) */}
+          <span className={`size-2 rounded-full ${BAND_DOT[band]}`} aria-hidden="true" />
+          <span className="text-2xl" aria-hidden="true">
+            {sportEmoji(event)}
+          </span>
+        </div>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"
@@ -58,8 +63,9 @@ export function EventCard({
             aria-pressed={watched}
             onClick={onToggleWatch}
           >
+            {/* Gwiazdka = akcja brandowa: papaya */}
             <Star
-              className={`size-4 ${watched ? 'fill-current text-amber-500' : 'text-muted-foreground'}`}
+              className={`size-4 ${watched ? 'fill-current text-primary' : 'text-muted-foreground'}`}
               aria-hidden="true"
             />
           </Button>
@@ -78,13 +84,13 @@ export function EventCard({
         <p className="text-base font-medium leading-snug">{participantsLabel(event)}</p>
       )}
       <p className="mt-1 text-sm text-muted-foreground">
-        <span className="font-medium tabular-nums text-foreground">
+        <span className="font-medium text-foreground">
           {formatTimeInZone(start, tz)}
         </span>{' '}
         · {leagueName(event)}
         {liveIndicator && status === 'live' && (
-          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-red-500/15 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-red-600">
-            <span className="size-1.5 animate-pulse rounded-full bg-red-600" aria-hidden="true" />
+          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">
+            <span className="size-1.5 animate-live-pulse rounded-full bg-live" aria-hidden="true" />
             Live
           </span>
         )}

@@ -4,7 +4,7 @@ import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
-import { BAND_EDGE } from '@/modules/settings/lib/bands-ui';
+import { BAND_DOT } from '@/modules/settings/lib/bands-ui';
 import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
 
 interface EventRowProps {
@@ -53,16 +53,20 @@ export function EventRow({
   return (
     <div
       className={[
-        'flex items-center gap-3 rounded-md border-l-4 bg-card px-3 py-2',
-        BAND_EDGE[band],
+        'flex items-center gap-3 rounded-md border bg-card px-3 py-2 transition-colors duration-150',
         favorite ? 'bg-muted/60' : '',
         dimmed ? 'opacity-55' : '',
       ].join(' ')}
     >
+      {/* Kropka wiodąca pasma — zamiast zbanowanego side-stripe'a (ADR-0029) */}
+      <span
+        className={`size-2 shrink-0 rounded-full ${BAND_DOT[band]}`}
+        aria-hidden="true"
+      />
       <span className="text-lg" aria-hidden="true">
         {sportEmoji(event)}
       </span>
-      <span className="w-12 shrink-0 text-sm font-medium tabular-nums">
+      <span className="w-12 shrink-0 text-sm font-medium">
         {formatTimeInZone(start, tz)}
       </span>
       {onOpenDetails ? (
@@ -80,8 +84,8 @@ export function EventRow({
         {leagueName(event)}
       </span>
       {liveIndicator && status === 'live' && (
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-red-500/15 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-red-600">
-          <span className="size-1.5 animate-pulse rounded-full bg-red-600" aria-hidden="true" />
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">
+          <span className="size-1.5 animate-live-pulse rounded-full bg-live" aria-hidden="true" />
           Live
         </span>
       )}
@@ -92,8 +96,9 @@ export function EventRow({
         aria-pressed={watched}
         onClick={onToggleWatch}
       >
+        {/* Gwiazdka = akcja brandowa: papaya (DESIGN.md — akcent tylko akcje/stany) */}
         <Star
-          className={`size-4 ${watched ? 'fill-current text-amber-500' : 'text-muted-foreground'}`}
+          className={`size-4 ${watched ? 'fill-current text-primary' : 'text-muted-foreground'}`}
           aria-hidden="true"
         />
       </Button>

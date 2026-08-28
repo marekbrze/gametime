@@ -1,20 +1,35 @@
 import type { TimeBandKind } from '@/modules/settings/types';
 
-/** Lo-fi: trzy rozróżnialne, stonowane odcienie pasm (finalne kolory → proto-design). */
-export const BAND_EDGE: Record<TimeBandKind, string> = {
-  day: 'border-l-sky-600 dark:border-l-sky-400',
-  evening: 'border-l-amber-500 dark:border-l-amber-400',
-  night: 'border-l-violet-600 dark:border-l-violet-400',
+/**
+ * Słownictwo kolorów pasm (DESIGN.md/ADR-0029): hue rozłączne z papayą akcentu —
+ * azure 225 / sunset magenta 335 / indigo 275, w obu tematach (tokeny CSS).
+ *
+ * Side-stripe (`border-l-*`, dawne BAND_EDGE) zbanowany absolutnie — wiersz
+ * wydarzenia prowadzi kropka (BAND_DOT), kartę i chipy niesie tint pasma.
+ * Kolor pasma nigdy nie jest jedynym nośnikiem informacji (etykieta + pozycja).
+ */
+export const BAND_DOT: Record<TimeBandKind, string> = {
+  day: 'bg-band-day',
+  evening: 'bg-band-evening',
+  night: 'bg-band-night',
 };
 
 export const BAND_CHIP: Record<TimeBandKind, string> = {
-  day: 'bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-200',
-  evening: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
-  night: 'bg-violet-100 text-violet-900 dark:bg-violet-950 dark:text-violet-200',
+  day: 'bg-band-day-tint text-band-day-text',
+  evening: 'bg-band-evening-tint text-band-evening-text',
+  night: 'bg-band-night-tint text-band-night-text',
 };
 
-export const BAND_DOT: Record<TimeBandKind, string> = {
-  day: 'bg-sky-600 dark:bg-sky-400',
-  evening: 'bg-amber-500 dark:bg-amber-400',
-  night: 'bg-violet-600 dark:bg-violet-400',
+/** Widok cards: kolor pasa mocniej (DESIGN.md — karta niesie tint całej powierzchni). */
+export const BAND_CARD: Record<TimeBandKind, string> = {
+  day: 'bg-band-day-tint',
+  evening: 'bg-band-evening-tint',
+  night: 'bg-band-night-tint',
+};
+
+/** Czas w kolorze pasma (AA na tintach w obu tematach). */
+export const BAND_TIME: Record<TimeBandKind, string> = {
+  day: 'text-band-day-text',
+  evening: 'text-band-evening-text',
+  night: 'text-band-night-text',
 };

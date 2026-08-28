@@ -189,9 +189,9 @@ export function EventDetailsDialog({
         {rescheduled && (
           <div
             role="status"
-            className="mt-3 flex flex-wrap items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm"
+            className="mt-3 flex flex-wrap items-center gap-2 rounded-md border border-warning/40 bg-warning/10 px-3 py-2 text-sm"
           >
-            <CalendarClock className="size-4 text-amber-600" aria-hidden="true" />
+            <CalendarClock className="size-4 text-warning-text" aria-hidden="true" />
             <span>
               Rescheduled →{' '}
               <span className="font-medium">
