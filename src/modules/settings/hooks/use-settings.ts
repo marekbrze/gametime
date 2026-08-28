@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useLocalStorage } from '@/shared/hooks/use-local-storage';
 import { DEFAULT_SETTINGS, type UserSettings } from '../types';
 import { sanitizeSettings } from '../lib/sanitize';
+import { bandsFromBoundaries, type BandBoundaries } from '../lib/band-boundaries';
 
 const SETTINGS_KEY = 'gametime.settings';
 
@@ -16,7 +17,10 @@ export function useSettings() {
 
   const updateTimezone = (timezone: string) => setSettings({ ...settings, timezone });
   const updateViewMode = (viewMode: UserSettings['viewMode']) => setSettings({ ...settings, viewMode });
+  /** Edycja pasm przez dwie granice (ADR-0025); clamp wykonuje ekran na shift. */
+  const updateBands = (boundaries: BandBoundaries) =>
+    setSettings({ ...settings, bands: bandsFromBoundaries(boundaries) });
   const reset = () => setSettings(DEFAULT_SETTINGS);
 
-  return { settings, setSettings, updateTimezone, updateViewMode, reset, writeError };
+  return { settings, setSettings, updateTimezone, updateViewMode, updateBands, reset, writeError };
 }
