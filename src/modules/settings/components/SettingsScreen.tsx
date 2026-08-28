@@ -54,7 +54,7 @@ export function SettingsScreen() {
   return (
     <div className="mx-auto max-w-2xl space-y-8">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Changes apply everywhere immediately — no save button.
         </p>

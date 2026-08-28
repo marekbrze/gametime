@@ -158,7 +158,7 @@ export function TeamScheduleScreen() {
             className="ml-1"
           >
             <Star
-              className={`size-5 ${isFavorite(team.id) ? 'fill-current text-primary' : 'text-muted-foreground'}`}
+              className={`size-5 ${isFavorite(team.id) ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
               aria-hidden="true"
             />
           </Button>

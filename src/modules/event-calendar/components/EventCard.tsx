@@ -65,7 +65,7 @@ export function EventCard({
           >
             {/* Gwiazdka = akcja brandowa: papaya */}
             <Star
-              className={`size-4 ${watched ? 'fill-current text-primary' : 'text-muted-foreground'}`}
+              className={`size-4 ${watched ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
               aria-hidden="true"
             />
           </Button>

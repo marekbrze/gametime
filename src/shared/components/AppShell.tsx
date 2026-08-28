@@ -37,7 +37,10 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <header className="sticky top-0 z-10 border-b bg-background">
         <div className="container mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4">
-          <Link to="/event-calendar" className="text-lg font-semibold tracking-tight">
+          <Link
+            to="/event-calendar"
+            className="rounded-sm text-lg font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
             {/* Sygnatura brandowa: papayowa kropka — „gametime." jak na tablicy wyników */}
             gametime<span className="text-primary">.</span>
           </Link>
@@ -48,7 +51,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 to={navTo(item.path)}
                 className={({ isActive }) =>
                   cn(
-                    'rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground',
+                    'rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
                     isActive && 'bg-muted text-foreground',
                   )
                 }
@@ -95,7 +98,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               to={navTo(item.path)}
               className={({ isActive }) =>
                 cn(
-                  'flex flex-col items-center gap-1 py-2 text-xs font-medium text-muted-foreground',
+                  'flex flex-col items-center gap-1 rounded-sm py-2 text-xs font-medium text-muted-foreground focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring',
                   isActive && 'text-foreground',
                 )
               }

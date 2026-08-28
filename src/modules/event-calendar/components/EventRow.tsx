@@ -92,13 +92,14 @@ export function EventRow({
       <Button
         variant="ghost"
         size="icon"
+        className="relative after:absolute after:-inset-1.5 after:content-['']"
         aria-label={watched ? 'Remove from watchlist' : 'Add to watchlist'}
         aria-pressed={watched}
         onClick={onToggleWatch}
       >
         {/* Gwiazdka = akcja brandowa: papaya (DESIGN.md — akcent tylko akcje/stany) */}
         <Star
-          className={`size-4 ${watched ? 'fill-current text-primary' : 'text-muted-foreground'}`}
+          className={`size-4 ${watched ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
           aria-hidden="true"
         />
       </Button>

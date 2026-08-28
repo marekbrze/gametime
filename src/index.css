@@ -165,7 +165,7 @@
     --band-night-tint: oklch(0.25 0.05 275);
     --band-night-text: oklch(0.78 0.08 275);
     --live: oklch(0.68 0.18 25);
-    --live-text: oklch(0.72 0.16 25);
+    --live-text: oklch(0.76 0.15 25);
     --warning: oklch(0.78 0.11 80);
     --warning-text: oklch(0.82 0.1 80);
     --brand-text: oklch(0.82 0.12 52);
@@ -202,9 +202,11 @@
     font-variant-numeric: tabular-nums;
     }
   /* Sygnaturowy moment (jedyne dekoracyjne-dozwolone motion): puls LIVE.
-     reduced-motion → pełny brak (DESIGN.md). */
+     reduced-motion → pełny brak pulsów (LIVE + szkielety loadingu), stany
+     pozostają czytelne bez animacji (DESIGN.md). */
   @media (prefers-reduced-motion: reduce) {
-    .animate-live-pulse {
+    .animate-live-pulse,
+    .animate-pulse {
       animation: none;
     }
   }

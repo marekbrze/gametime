@@ -59,7 +59,7 @@ export function EmptyWeek({
         <p className="mt-3 text-xs text-muted-foreground">
           We load schedules {formatDate(dataWindow.from)} – {formatDate(dataWindow.to)}, about two
           weeks ahead and one week back.{' '}
-          <button type="button" className="underline underline-offset-2" onClick={onThisWeek}>
+          <button type="button" className="rounded-sm underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" onClick={onThisWeek}>
             Back to this week
           </button>
         </p>

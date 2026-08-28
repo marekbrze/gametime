@@ -56,7 +56,7 @@ export function FilterBar({
             onClick={() => onFiltersChange((prev) => selectBand(prev, option))}
             className={option !== 'all' && filters.band === option ? BAND_CHIP[option] : ''}
           >
-            {option === 'all' ? 'Any time' : option}
+            {option === 'all' ? 'Any time' : option[0].toUpperCase() + option.slice(1)}
           </Button>
         ))}
       </div>

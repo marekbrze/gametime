@@ -164,7 +164,7 @@ export function LeagueScreen() {
                 onClick={() => handleToggleFavorite(team.id, team.name)}
               >
                 <Star
-                  className={`size-4 ${isFavorite(team.id) ? 'fill-current text-primary' : 'text-muted-foreground'}`}
+                  className={`size-4 ${isFavorite(team.id) ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
                   aria-hidden="true"
                 />
               </Button>

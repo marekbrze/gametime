@@ -138,6 +138,9 @@ export function EventCalendarScreen() {
 
   return (
     <div>
+      {/* h1 per ekran (a11y: kolejność nagłówków zaczyna się od h1); „Calendar"
+          jak label nawigacji — header appki jest linkiem-brandem, nie nagłówkiem */}
+      <h1 className="sr-only">Calendar</h1>
       {storageFailed && <StorageWarning />}
 
       {status === 'error' ? (

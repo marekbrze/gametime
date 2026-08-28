@@ -31,6 +31,7 @@ export function ExportMenu({ event }: { event: SportEvent }) {
         ref={triggerRef}
         variant="ghost"
         size="icon"
+        className="relative after:absolute after:-inset-1.5 after:content-['']"
         aria-label="Add to calendar"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -51,7 +52,7 @@ export function ExportMenu({ event }: { event: SportEvent }) {
               href={googleCalendarUrl(event)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-muted"
+              className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
               onClick={() => setOpen(false)}
             >
               <Check className="size-4" aria-hidden="true" />
@@ -59,7 +60,7 @@ export function ExportMenu({ event }: { event: SportEvent }) {
             </a>
             <button
               type="button"
-              className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm hover:bg-muted"
+              className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
               onClick={() => {
                 downloadIcs(event);
                 setOpen(false);

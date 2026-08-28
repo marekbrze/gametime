@@ -127,7 +127,7 @@ export function TeamsScreen() {
                   aria-pressed={false}
                   onClick={() => handleRemoveFavorite(team.id, team.name)}
                 >
-                  <Star className="size-4 fill-current text-primary" aria-hidden="true" />
+                  <Star className="size-4 fill-current text-brand-text" aria-hidden="true" />
                 </Button>
               </li>
             ))}

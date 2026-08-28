@@ -115,7 +115,8 @@ export function DayGroup({
                   className={`rounded-full px-2 py-0.5 ${BAND_CHIP[kind]}`}
                   title={`${counts[kind]} ${kind} events`}
                 >
-                  {kind === 'night' ? '🌙' : counts[kind]} {kind}
+                  {kind === 'night' ? '🌙' : counts[kind]}{' '}
+                  {kind[0].toUpperCase() + kind.slice(1)}
                 </span>
               ),
           )}
