@@ -1,8 +1,10 @@
 import type { TimeBandKind } from '@/modules/settings/types';
 
 /**
- * Słownictwo kolorów pasm (DESIGN.md/ADR-0029): hue rozłączne z papayą akcentu —
- * azure 225 / sunset magenta 335 / indigo 275, w obu tematach (tokeny CSS).
+ * Słownictwo kolorów pasm (DESIGN.md/ADR-0032): sygnalizacja świetlna —
+ * zieleń 150 (dzień) / złoto 85 (wieczór) / czerwień 27 (noc), w obu tematach
+ * (tokeny CSS). Metafora czytelna bez nauki: zielono = komfortowo, żółto =
+ * prime time, czerwono = po północy.
  *
  * Side-stripe (`border-l-*`, dawne BAND_EDGE) zbanowany absolutnie — wiersz
  * wydarzenia prowadzi kropka (BAND_DOT), kartę i chipy niesie tint pasma.

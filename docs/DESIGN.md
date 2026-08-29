@@ -63,15 +63,15 @@ Kibic sprawdza terminarz **o dowolnej porze i w pełnym spektrum światła** —
 
 Głębia na dark pochodzi z **jasności surfaców** (0.15 → 0.19 → 0.23), nie z cieni. Akcenty na dark lekkę zdesaturowane (chroma −0.02); body weight bez zmian (Geist ma czytelne 400 na dark).
 
-### Time bands — hue rozłączne z papają i z semantyką (przemapowane z lo-fi sky/amber/violet!)
+### Time bands — sygnalizacja świetlna: zielono / żółto / czerwono (ADR-0032; wcześniejsze azure/magenta/indigo z ADR-0029)
 
 | Band | Hue | Base (dot/mark) | Tint bg (light) | Text on tint (light) | Fill (dark) | Text (dark) |
 |------|-----|-------|------|------|------|------|
-| day | azure 225 | oklch(0.58 0.10 225) | oklch(0.93 0.03 225) | oklch(0.42 0.08 225) | oklch(0.26 0.045 225) | oklch(0.80 0.08 225) |
-| evening | sunset magenta 335 | oklch(0.66 0.14 335) | oklch(0.94 0.03 335) | oklch(0.45 0.11 335) | oklch(0.27 0.05 335) | oklch(0.82 0.08 335) |
-| night | indigo 275 | oklch(0.54 0.12 275) | oklch(0.93 0.03 275) | oklch(0.44 0.10 275) | oklch(0.25 0.05 275) | oklch(0.78 0.08 275) |
+| day | zieleń 150 | oklch(0.55 0.12 150) | oklch(0.94 0.035 150) | oklch(0.40 0.09 150) | oklch(0.26 0.05 150) | oklch(0.80 0.09 150) |
+| evening | złoto 85 | oklch(0.65 0.13 85) | oklch(0.95 0.05 90) | oklch(0.42 0.09 85) | oklch(0.28 0.055 90) | oklch(0.84 0.10 90) |
+| night | czerwień 27 | oklch(0.55 0.19 27) | oklch(0.94 0.03 27) | oklch(0.45 0.16 27) | oklch(0.26 0.055 27) | oklch(0.80 0.12 27) |
 
-Dlaczego przemapowanie: lo-fi amber wieczoru kolidowałby z papają akcentu (hue 75 vs 48 — too close na kropce 8px). Nowe kotwice semantyczne: **azure = dzienne niebo, magenta = ostatni żar zachodu, indigo = noc**. Min. odstęp hue w zbiorze {papaya 48, azure 225, magenta 335, indigo 275} ≈ 40°. Kolor pasma **nigdy nie jest jedynym nośnikiem** — zawsze etykieta + pozycja w cyklu + grupowanie.
+Dlaczego przemapowanie (druga iteracja): decyzja designera — klasyfikacja pory meczu ma być czytelna **bez nauki legendy**, a sygnalizacja świetlna to uniwersalny kod: zielono = komfortowo w ciągu dnia, żółto = prime time wieczorem, czerwono = po północy („późno — świadoma decyzja"). Złoto celowo głębokie (L 0.65, nie żółć 0.8+): kropka 8px na jasnym card trzyma ≥3:1 (zmierzone: złoto 3.17, zieleń 4.46, czerwień 5.19; teksty na tintach 6.7–7.5 light / 8.0–8.9 dark). Zbieżność rodzin z semantykami (zieleń ≈ success, czerwień ≈ live/destructive) świadoma — pasma zawsze niosą też etykietę i pozycję, więc kolor nie jest jedynym nośnikiem; kształt odróżnia (kropka pasma vs chip LIVE vs gwiazdka brandowa).
 
 ### Semantic
 
