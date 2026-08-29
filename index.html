@@ -66,11 +66,15 @@
       }
     </script>
 
-    <!-- Umami (ADR-0036): self-hosted, defer — nie blokuje renderu -->
+    <!-- Umami (ADR-0036): self-hosted, defer — nie blokuje renderu.
+         data-auto-track="false": hash-SPA ma jeden pathname dla wszystkich tras,
+         auto-track liczyłby wszystko jako "/" — pageviewy per trasa wysyła
+         UmamiPageviews (src/shared/components/) z URL-em routera. -->
     <script
       defer
       src="https://analytics.at.marekbrze.dev/script.js"
       data-website-id="cfa2ad28-4714-4e64-aca7-52f3aa768f70"
+      data-auto-track="false"
     ></script>
   </head>
   <body>

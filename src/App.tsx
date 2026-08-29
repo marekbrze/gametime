@@ -1,6 +1,7 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './shared/components/AppShell'
 import { DevToolbar } from './shared/components/DevToolbar'
+import { UmamiPageviews } from './shared/components/UmamiPageviews'
 import { EventCalendarScreen } from './modules/event-calendar/components/EventCalendarScreen'
 import { WatchlistScreen } from './modules/watchlist/components/WatchlistScreen'
 import { TeamsScreen } from './modules/teams/components/TeamsScreen'
@@ -11,6 +12,7 @@ import { SettingsScreen } from './modules/settings/components/SettingsScreen'
 function App() {
   return (
     <HashRouter>
+      <UmamiPageviews />
       <AppShell>
         <Routes>
           <Route index element={<Navigate to="/event-calendar" replace />} />

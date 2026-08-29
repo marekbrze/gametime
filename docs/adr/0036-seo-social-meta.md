@@ -13,7 +13,7 @@ Strona działa na GitHub Pages, ale `index.html` był minimalny: `lang="en"`, ty
 2. **Tytuł karty per ekran** przez `useDocumentTitle` (shared/hooks) — celowo UX-owy (karta/historia), nie SEO-owy; statyczny head niesie SEO.
 3. **Brand assety generowane z DESIGN.md, nie ręcznie**: faviconi (papaya + tusz, glif = wielkie geometryczne "G" — małe "g" czytało się jako "q"; PNG 16/32/180/192/512, manifest, bez `.ico` — brak ImageMagick, PNG pokrywa przeglądarki) i `og-image.png` 1200×630 (Geist + papaya + trzy kropki pasm — kluczowy insight produktu) przez skrypty `scripts/generate-{icons,og-image}.mjs` w repo (raster: headless chromium).
 4. **Stałe brandu w `src/shared/lib/seo.ts`** (SITE_NAME/SITE_URL/DEFAULT_TITLE/DEFAULT_DESCRIPTION) — nazwa produktu to open question z PROJECT.md, więc jedna lokacja na zmianę.
-5. **Umami** (self-hosted `analytics.at.marekbrze.dev`, website-id `cfa2ad28-4714-4e64-aca7-52f3aa768f70`) — tag w head. Śledzenie zmian hasha odroczone (Later).
+5. **Umami** (self-hosted `analytics.at.marekbrze.dev`, website-id `cfa2ad28-4714-4e64-aca7-52f3aa768f70`) — tag w head z `data-auto-track="false"` + `UmamiPageviews` (shared/components) trackuje pageview per trasa z URL-em routera; hash-SPA ma jeden pathname, więc auto-track liczyłby wszystko jako "/".
 6. **`robots.txt`** allow-all. Sitemap celowo poza zakresem (hash-SPA = 1 URL).
 
 Plan w `docs/changes/seo-social-meta.md`. Bez nowego modułu — czysto infrastrukturalna zmiana (routing: favicon-gen + residual direct edits, bez detail/lofi/harden).

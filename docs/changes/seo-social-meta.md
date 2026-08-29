@@ -12,10 +12,9 @@ Feature (planned by proto-feature)
 3. **Zestaw faviconów wg brandu** (DESIGN.md: papaya + tusz): nowy `favicon.svg` (ink-on-papaya), PNG 16/32, `apple-touch-icon.png` 180, `icon-192/512` + `site.webmanifest` z `theme_color`. Generacja przez skill `favicon-gen` (workflow) + własny skrypt `scripts/generate-icons.mjs` (rasteryzacja chromium — w środowisku nie ma ImageMagick). **Glif: wielkie geometryczne "G"** — małe "g" po dwóch iteracjach czytało się jako "q"; przy 16 px rozpoznawalność wygrywa. `favicon.ico` celowo pominięty (brak narzędzia; SVG + PNG 16/32 pokrywają przeglądarki 2026).
 4. **`og-image.png` 1200×630** — wygenerowany z brandu (Geist, papaya, tusz, trzy kropki pasm = kluczowy insight produktu), skrypt w `scripts/og-image/` (render chromium → screenshot), artefakt commitowany do `public/`.
 5. **`robots.txt`** (allow all) — tani sygnał "strona zaprasza".
-6. **Umami analytics** — tag `<script defer src="https://analytics.at.marekbrze.dev/script.js" data-website-id="cfa2ad28-4714-4e64-aca7-52f3aa768f70">` w head (dostarczony przez właściciela; self-hosted instancja).
+6. **Umami analytics** — tag `<script defer src="https://analytics.at.marekbrze.dev/script.js" data-website-id="cfa2ad28-4714-4e64-aca7-52f3aa768f70">` w head (dostarczony przez właściciela; self-hosted instancja), z `data-auto-track="false"` + komponent `UmamiPageviews`: pageview per trasa z URL-em routera (`/teams`, nie hash; hash-SPA ma jeden pathname dla wszystkich tras). Dedupe module-level wycisza sporadyczny remount drzewa przy inicjalizacji HashRoutera; pełny reset stanu przy przeładowaniu liczy pageview od nowa (słusznie). Zmiany filtrów w search nie dublują pageviewów (deps tylko pathname).
 
 ### Later (deferred)
-- Śledzenie zmian trasy hash-SPA w Umami (`umami.track()` na przejściu routera) — domyślnie script liczy pageview per załadowanie dokumentu, a HashRouter nie zmienia pathname.
 - Dynamiczne per-wydarzenie karty OG (wymaga prerenderingu — sprzeczne z hash-SPA bez backendu).
 - `sitemap.xml` — hash-SPA = 1 realny URL, zero wartości.
 - Per-ekranowe meta description (rotowane kliencie — kosmetyka, po MVP jeśli w ogóle).
