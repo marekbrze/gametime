@@ -115,3 +115,54 @@ export const NightBandFilterAutoOpen: Story = {
     },
   ],
 };
+
+/** Dni przeszłe zwinięte pod nagłówkiem (skan tygodnia zaczyna się od Today):
+ * nagłówki z chipami liczników zostają, treść po kliknięciu. */
+const weekWithPast = () => [
+  {
+    id: 'past-1',
+    sportId: 'basketball',
+    leagueId: 'nba',
+    startUtc: atLocal(-3, 19, 30),
+    teamIds: ['nba-bos', 'nba-lal'],
+  },
+  {
+    id: 'past-2',
+    sportId: 'hockey',
+    leagueId: 'nhl',
+    startUtc: atLocal(-3, 22, 0),
+    teamIds: ['nhl-veg', 'nhl-col'],
+  },
+  {
+    id: 'past-3',
+    sportId: 'soccer',
+    leagueId: 'premier-league',
+    startUtc: atLocal(-1, 15, 0),
+    teamIds: ['epl-liv', 'epl-mci'],
+  },
+  {
+    id: 'today-1',
+    sportId: 'basketball',
+    leagueId: 'nba',
+    startUtc: atLocal(0, 19, 30),
+    teamIds: ['nba-gsw', 'nba-lal'],
+  },
+  {
+    id: 'future-1',
+    sportId: 'hockey',
+    leagueId: 'nhl',
+    startUtc: atLocal(2, 18, 0),
+    teamIds: ['nhl-bos', 'nhl-det'],
+  },
+];
+
+export const PastDaysCollapsed: Story = {
+  decorators: [
+    (Story) => {
+      localStorage.setItem('gametime.devEvents', JSON.stringify(weekWithPast()));
+      localStorage.setItem('gametime.favoriteTeams', '[]');
+      localStorage.setItem('gametime.watchlist', '[]');
+      return <Story />;
+    },
+  ],
+};

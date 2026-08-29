@@ -38,7 +38,7 @@ Sport i ligi to dwa widoki jednego stanu — uzgadniają się automatycznie, że
 
 ## Screens (rough)
 
-- **FilterBar** (wspólny element nad każdą listą): tier 1 — chipsy pasm (Any time / Day / Evening / Night), select sportu (z suffixem "— no events" dla off-season, ADR-0011), toggle My teams (disabled bez ulubionych), przycisk **More filters · N**. View-mode toggle (list ↔ cards) pozostaje własnością event-calendar, nie tego modułu.
+- **FilterBar** (wspólny element nad każdą listą): tier 1 — chipsy pasm (Any time / Day / Evening / Night), select sportu (z suffixem "— no events" dla off-season, ADR-0011), toggle My teams (disabled bez ulubionych), przycisk **More filters · N**. View-mode toggle (list ↔ cards) pozostaje własnością event-calendar, nie tego modułu. Na **<768 px pełny wariant zwija się do przycisku "Filters · N"** (N = aktywne wymiary: pasmo+sport+ligi+My teams); view-mode zostaje na wierzhu; panel rozwija się inline (ADR-0033). Wariant bands-only nie zwija się (mieści się w jednym wierszu 375 px).
 - **More filters panel**: checkboxy lig pogrupowane po sportach; dokładna powierzchnia (popover desktop / bottom sheet mobile) i moment stosowania (natychmiast vs Apply) — decyzja proto-lofi.
 - **FilteredEmptyState** (element listy): "No matches for these filters" + Clear filters — odrębny wariant od off-season i beyond-window (ADR-0011).
 
@@ -62,6 +62,7 @@ Sport i ligi to dwa widoki jednego stanu — uzgadniają się automatycznie, że
 - **Martwy AND sport × liga**: niemożliwy dzięki regułom uzgadniania (wybór sportu odznacza obce ligi; obca liga przestawia sport na All); przy wybranym sporcie panel pokazuje podpowiedź o tym efekcie (ADR-0016).
 - **Filtry obowiązują cały ekran listy** (decyzja designera, ADR-0016): blok Now czyta ten sam predykat co lista tygodnia — filtrowanie do piłki znika live NBA ze szczytu; pusty zbiór = blok Now znika.
 - **Skrajny przypadek paska na innych listach**: SeasonSchedule drużyny ma sport/ligę ustalone przez drużynę → pasek zredukowany do samych pasm (MyTeams bez sensu na liście jednej drużyny); watchlist dostaje pełny pasek.
+- **Zwijanie na mobile** (ADR-0033): <md pełny pasek schowany za "Filters" — deep-link z aktywnymi filtrami startuje rozwinięty (złoty filtr widać, nie domyślny); stan `open` to czysta prezentacja, nie ląduje w URL; breakpoint md zbieżny z drawerem More filters.
 - **Nieprawidłowe wartości w URL** (nieznane id ligi/sportu, zły band): ignorowane cicho, dany wymiar wraca do czystego — nie errorujemy użytkownika linkiem; URL jest przy tym kanonizowany replace'em na wejściu (konflikty/duplikaty nie wiszą w pasku adresu).
 - **Powtórzone parametry** `?league=nhl&league=nba` scalane w jeden wybór (ADR-0016).
 - **`?w=` clamp do ±52** tygodni — absurdalne deep-linki nie generują absurdalnych dat (ADR-0016).

@@ -212,6 +212,7 @@ export function EventCalendarScreen() {
                 key={key}
                 dayKey={key}
                 isToday={key === todayKey}
+                isPast={key < todayKey}
                 items={dayGroups.get(key) ?? []}
                 viewMode={settings.viewMode}
                 tz={tz}

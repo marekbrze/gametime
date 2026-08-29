@@ -90,12 +90,14 @@ export function EventRow({
         <button
           type="button"
           onClick={() => onOpenDetails(event)}
-          className="min-w-0 flex-1 truncate text-left text-sm underline-offset-2 hover:underline focus-visible:underline"
+          // Mobilnie bez truncate: karta może zająć 2-3 wiersze, żeby pełne
+          // nazwy drużyn były czytelne (375 px); ≥sm gęstość jednowierszowa wraca.
+          className="min-w-0 flex-1 text-left text-sm leading-snug underline-offset-2 hover:underline focus-visible:underline sm:truncate"
         >
           {label}
         </button>
       ) : (
-        <span className="min-w-0 flex-1 truncate text-sm">{label}</span>
+        <span className="min-w-0 flex-1 text-sm leading-snug sm:truncate">{label}</span>
       )}
       <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
         {leagueName(event)}

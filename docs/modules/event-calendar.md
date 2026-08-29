@@ -10,11 +10,16 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 
 ### Otwarcie i skan (happy path)
 1. User otwiera `/` → redirect na `/event-calendar` (ADR-0001)
-2. Widzi blok **Now** na szczycie: trwające wydarzenia (badge LIVE + "Started 1h 12m ago") oraz startujące w ≤60 min ("in 42 min")
-3. Pod spodem aktualny tydzień kalendarzowy: dni z nagłówkami-podsumowaniami pasm, Today wyróżnione
+2. Widzi blok **Now** na szczycu: trwające wydarzenia (badge LIVE + "Started 1h 12m ago") oraz startujące w ≤60 min ("in 42 min")
+3. Pod spodem aktualny tydzień kalendarzowy: dni z nagłówkami-podsumowaniami pasm, Today wyróżnione; **dni przeszłe zwinięte pod nagłówkiem** (chipy liczników zostają — ADR-0033), skan zaczyna się od Today
 4. Skanuje sekcje Day/Evening dni, ignoruje zwinięte nocne
 5. Oznacza gwiazdką interesujący mecz → trafia do Watchlisty
 6. Ewentualnie ⤓ eksport pojedynczego wydarzenia do kalendarza
+
+### Rozwinięcie dnia przeszłego (ADR-0033)
+1. User chce sprawdzić wynik/wydarzenie, które już się odbyło
+2. Klika **nagłówek zwiniętego dnia** (pełna szerokość, chevron jak disclosure nocy) — treść rozwija się inline
+3. Chipy nagłówka wciąż pokazują podsumowanie pasm także po zwinięciu — dzień da się "przeczytać" bez rozwijania
 
 ### Rozwinięcie nocy (ADR-0032)
 1. User po whole-day skanowaniu chce sprawdzić, co było/bydzie nocą
@@ -33,7 +38,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 
 ## Screens (rough)
 
-- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", chipsy pasm z licznikami, kolory sygnalizacji świetlnej ADR-0032) → mini-sekcje "Day" i "Evening" → zwinięty disclosure Night na końcu (rozwija się sam, gdy jest jedynym pasmem dnia). Wiersz: kropka pasma, emoji sportu, godzina w kolorze pasma, uczestnicy ("A vs B"; motorsport: seria + nazwa GP), badge ligi, ☆, ⤓. Ulubione drużyny: subtelne podświetlenie wiersza.
+- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", chipsy pasm z licznikami, kolory sygnalizacji świetlnej ADR-0032) → mini-sekcje "Day" i "Evening" → zwinięty disclosure Night na końcu (rozwija się sam, gdy jest jedynym pasmem dnia). **Dzień przeszły zwinięty pod nagłówkiem-przyciskiem** (ADR-0033). Wiersz: kropka pasma, emoji sportu, godzina w kolorze pasma, uczestnicy ("A vs B"; motorsport: seria + nazwa GP), badge ligi, ☆, ⤓; na <sm etykieta uczestników zawija się do pełnych nazw drużyn (2–3 linie, ADR-0033). Ulubione drużyny: subtelne podświetlenie wiersza.
 - **Cards view** (alternatywny, eksperyment): te same dane, wydarzenie jako karta (większy format, mocniej kolor pasa) — dla użytkowników wolących "kanban" tygodnia.
 - **Blok Now** (element, nie osobny ekran): trwające + starting soon w jednym zintegrowanym bloku.
 
@@ -45,6 +50,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 | Browse week list | Aktualny tydzień kalendarzowy, wszystkie sporty | `Event` | Domyślny widok |
 | Page weeks | ‹ Previous / Next week › + This week; ruchome po tygodniach kalendarzowych | — | ADR-0006 |
 | Expand/collapse night section | Per dzień; widoczny przycisk-tint z liczbą "events after midnight", Show/Hide + chevron | `Event` | Noc należy do wieczoru poprzedniego — ADR-0004; auto-open gdy noc jedynym pasmem — ADR-0032 |
+| Expand/collapse past day | Nagłówek dnia przeszłego = przycisk (chevron, aria-expanded); chipsy liczników zostają w nagłówku | `Event` | Domyślnie zwinięte — ADR-0033 |
 | Toggle view type | list ↔ cards; persystencja w `UserSettings.viewMode` | `UserSettings` | Eksperyment adopcji — ADR-0006 |
 | Star / Unstar event | Gwiazdka z wiersza | `WatchlistEntry` | |
 | Export single → calendar | Google (link) / Apple (ICS) z wiersza | `Event` | Moduł calendar-export |
@@ -63,6 +69,8 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 - **Zmiana strefy czasowej / zakresów pasm**: przelicza bucketowanie pasm i nocną grupę — czysta recomputacja, bez przeładowania danych.
 - **Wydarzenie przekracza granicę pasa** (np. start 21:45, trwa do 00:30): pasmo klasyfikujemy po **czasie startu**.
 - **Dziś po północy**: "Today" zaczyna się od bieżącej pory — wciąż działa, bo noc (0:00–6:00) należy do wczorajszego wieczoru; blok Now niezależny od dnia.
+- **Tydzień przeszły po przewinięciu wstecz**: wszystkie dni zwinięte (reguła `isPast` nie zna wyjątków, ADR-0033) — chipsy nagłówków dają przegląd wyników, szczegóły po rozwinięciu dnia.
+- **Zawijanie etykiet na mobile**: <sm wiersz rośnie w głąb (pełne nazwy drużyn, 2–3 linie), ≥sm wraca gęstość jednowierszowa z truncate (ADR-0033).
 
 ## Integration Points
 

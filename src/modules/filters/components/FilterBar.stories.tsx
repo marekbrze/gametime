@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { CLEAN_FILTERS, type EventFilters } from '../types';
 import { FilterBar } from './FilterBar';
@@ -100,5 +100,59 @@ export const LeaguePanelSportSelected: Story = {
         leaguesWithEvents={ALL_LEAGUES}
       />
     </div>
+  ),
+};
+
+/**
+ * Story-only shim "mobile": stubuje matchMedia, żeby '(min-width: 768px)'
+ * nie matchowało (SB10 bez addonu viewport; useMediaQuery czyta matchMedia
+ * przy montowaniu). Przywraca prawdziwe matchMedia na odmontowaniu story.
+ */
+function withMobileViewport(Story: () => ReactElement): ReactElement {
+  const real = window.matchMedia;
+  const neverMatching = (query: string): MediaQueryList =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+  window.matchMedia = (query: string) =>
+    query.includes('768px') ? neverMatching(query) : real.call(window, query);
+  const Restore = () => {
+    useEffect(() => () => void (window.matchMedia = real), [real]);
+    return null;
+  };
+  return (
+    <div className="w-[375px]">
+      <Restore />
+      <Story />
+    </div>
+  );
+}
+
+/** Mobilka, stan czysty: pełny pasek schowany za "Filters", wiersz summary
+ * + slot dzieci (view mode) na wierzchu. */
+export const MobileCollapsed: Story = {
+  decorators: [(Story) => withMobileViewport(Story)],
+  render: () => <Frame />,
+};
+
+/** Mobilka z aktywnymi filtrami (pasmo + sport + 2 ligi = licznik 4):
+ * panel startuje rozwinięty — złoty filtr widać, nie domyślny. */
+export const MobileExpandedWithCount: Story = {
+  decorators: [(Story) => withMobileViewport(Story)],
+  render: () => (
+    <Frame
+      initial={{
+        band: 'evening',
+        sport: 'soccer',
+        leagues: ['premier-league', 'bundesliga'],
+      }}
+    />
   ),
 };
