@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { LEAGUE_BY_ID, SPORT_BY_ID, TEAM_BY_ID } from '@/modules/data-source/data/catalog';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
 import { FilterBar, matchesEventFilters, useUrlFilters } from '@/modules/filters';
-import { DayGroup } from '@/modules/event-calendar/components/DayGroup';
+import { EventCard } from '@/modules/event-calendar/components/EventCard';
+import { EventRow } from '@/modules/event-calendar/components/EventRow';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
 import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
 import { PastSection } from '@/modules/watchlist/components/PastSection';
@@ -13,18 +14,19 @@ import { WatchlistToast, type WatchlistToastState } from '@/modules/watchlist/co
 import { useNow } from '@/modules/event-calendar/hooks/use-now';
 import { useWatchlist } from '@/modules/watchlist/hooks/use-watchlist';
 import { useSettings } from '@/modules/settings/hooks/use-settings';
-import { dayKeyInZone, formatMonthLabel } from '@/shared/lib/datetime';
+import { dayKeyInZone, formatShortDateParts } from '@/shared/lib/datetime';
 import { useFavoriteTeams } from '../hooks/use-favorite-teams';
 import { buildScheduleGroups } from '../lib/schedule-groups';
 import { TeamsSkeleton } from './TeamsSkeleton';
 
 /**
  * Terminarz drużyny (MODULES.md): pełny sezon z okna pipeline (ADR-0019) w
- * strefie usera. Prezentacja jak watchlista (ADR-0022): nadchodzące po dniach
- * widokowych z separatorami miesięcy + zwinięte Past na dole (separatory też,
- * harden #7). Filtr: wspólny FilterBar w wariancie bands-only — sport/liga
- * przy jednej drużynie nie niosą informacji, a ich obce parametry URL są
- * stripowane przy kanonizacji (harden #3, ADR-0024).
+ * strefie usera. Prezentacja PŁASKA (ADR-0032, decyzja designera — iteracja
+ * po ADR-0022): nadchodzące jedną listą chronologiczną z datą w wierszu, bez
+ * grup dnia i bez separatorów miesięcy; zawężanie robi filtr pasm (FilterBar
+ * bands-only — sport/liga przy jednej drużynie nie niosą informacji, obce
+ * parametry URL stripowane przy kanonizacji, ADR-0024). Past zwinięte na
+ * dole, w środku też płasko.
  * Harden: od-ulubienie z undo 5s; pad zapisu (favorites/watchlist) → StorageWarning.
  */
 export function TeamScheduleScreen() {
@@ -76,9 +78,24 @@ export function TeamScheduleScreen() {
     [groups],
   );
 
-  const upcomingDayKeys = useMemo(
-    () => [...groups.upcoming.keys()].sort((a, b) => a.localeCompare(b)),
+  /** Płaska lista nadchodzących (ADR-0032): chronologicznie, z datą w wierszu;
+   * dzisiejsze mecze dostają „Today" zamiast skrótu dnia tygodnia. */
+  const upcomingItems = useMemo(
+    () =>
+      [...groups.upcoming.values()]
+        .flat()
+        .sort((a, b) => a.event.startUtc.localeCompare(b.event.startUtc)),
     [groups],
+  );
+
+  const dateLabelFor = useCallback(
+    (iso: string) => {
+      const parts = formatShortDateParts(new Date(iso), tz);
+      return dayKeyInZone(new Date(iso), tz) === todayKey
+        ? { ...parts, weekday: 'Today' }
+        : parts;
+    },
+    [tz, todayKey],
   );
 
   const handleToggleWatch = (eventId: string) => {
@@ -225,24 +242,41 @@ export function TeamScheduleScreen() {
             >
               Upcoming ({upcomingCount})
             </h2>
-            {upcomingDayKeys.map((key, i) => {
-              const prev = upcomingDayKeys[i - 1];
-              const monthChanged = !prev || prev.slice(0, 7) !== key.slice(0, 7);
-              return (
-                <div key={key}>
-                  {monthChanged && <MonthSeparator dayKey={key} />}
-                  <DayGroup
-                    dayKey={key}
-                    isToday={key === todayKey}
-                    items={groups.upcoming.get(key) ?? []}
-                    viewMode={settings.viewMode}
+            {settings.viewMode === 'cards' ? (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {upcomingItems.map((item) => (
+                  <EventCard
+                    key={item.event.id}
+                    event={item.event}
+                    status={item.status}
+                    band={item.band}
                     tz={tz}
-                    onToggleWatch={handleToggleWatch}
+                    watched={item.watched}
+                    onToggleWatch={() => handleToggleWatch(item.event.id)}
+                    favorite={item.favorite}
                     liveIndicator
+                    dateLabel={dateLabelFor(item.event.startUtc)}
                   />
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            ) : (
+              <ul className="space-y-1.5">
+                {upcomingItems.map((item) => (
+                  <EventRow
+                    key={item.event.id}
+                    event={item.event}
+                    status={item.status}
+                    band={item.band}
+                    tz={tz}
+                    watched={item.watched}
+                    onToggleWatch={() => handleToggleWatch(item.event.id)}
+                    favorite={item.favorite}
+                    liveIndicator
+                    dateLabel={dateLabelFor(item.event.startUtc)}
+                  />
+                ))}
+              </ul>
+            )}
           </section>
 
           <PastSection
@@ -251,7 +285,7 @@ export function TeamScheduleScreen() {
             tz={tz}
             now={now}
             onToggleWatch={handleToggleWatch}
-            monthSeparators
+            flat
           />
         </>
       )}
@@ -264,15 +298,6 @@ export function TeamScheduleScreen() {
 
       {toast && <WatchlistToast toast={toast} onDismiss={() => setToast(null)} />}
     </div>
-  );
-}
-
-/** Separator miesiąca przed pierwszym dniem danego miesiąca (ADR-0022). */
-function MonthSeparator({ dayKey }: { dayKey: string }) {
-  return (
-    <p className="mb-3 mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-      {formatMonthLabel(dayKey)}
-    </p>
   );
 }
 

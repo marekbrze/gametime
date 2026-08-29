@@ -69,6 +69,7 @@ export function formatTimeInZone(date: Date, tz: TimeZone): string {
 }
 
 const WEEKDAYS_LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const WEEKDAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /** "Wednesday, Aug 26" z klucza dnia 'YYYY-MM-DD'. */
@@ -82,6 +83,17 @@ const MONTHS_LONG = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
+
+/** "Sat" + "Sep 6" ze startu w strefie usera — kolumna daty wiersza w płaskich
+ * listach sezonu (terminarz drużyny, ADR-0032: bez grupowania po dniach).
+ * Dwie linie, żeby zmieścić się na 375px bez zjadania etykiety meczu. */
+export function formatShortDateParts(date: Date, tz: TimeZone): {
+  weekday: string;
+  date: string;
+} {
+  const p = zonedParts(date, tz);
+  return { weekday: WEEKDAYS_SHORT[p.weekday], date: `${MONTHS_SHORT[p.month - 1]} ${p.day}` };
+}
 
 /** "September 2026" z klucza dnia — separator miesiąca w listach wielomiesięcznych
  * (terminarz sezonu, ADR-0022/0024). */
