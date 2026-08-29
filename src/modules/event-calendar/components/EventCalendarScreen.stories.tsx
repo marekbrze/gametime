@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { generateMockEvents } from '@/modules/data-source/data/mock-events';
+import { DEFAULT_SETTINGS } from '@/modules/settings/types';
 import { EventCalendarScreen } from './EventCalendarScreen';
 
 const meta: Meta<typeof EventCalendarScreen> = {
@@ -162,6 +163,99 @@ export const PastDaysCollapsed: Story = {
       localStorage.setItem('gametime.devEvents', JSON.stringify(weekWithPast()));
       localStorage.setItem('gametime.favoriteTeams', '[]');
       localStorage.setItem('gametime.watchlist', '[]');
+      return <Story />;
+    },
+  ],
+};
+
+/** Tydzień z ulubionymi drużynami (ADR-0034) — offsety w obrębie bieżącego
+ * tygodnia (dziś + juto + dwa dni przeszłe), żeby cała suma była widoczna
+ * bez pagera niezależnie od dnia, w którym story renderują. */
+const weekWithFavorites = () => [
+  // przeszły dzień z meczem ulubionej — zwinięty, ale chip "1 my team" w nagłówku
+  {
+    id: 'fav-past-1',
+    sportId: 'basketball',
+    leagueId: 'nba',
+    startUtc: atLocal(-2, 19, 0),
+    teamIds: ['nba-lal', 'nba-bos'],
+  },
+  // przeszły dzień bez ulubionych — zwinięty, bez chipa
+  {
+    id: 'fav-4',
+    sportId: 'hockey',
+    leagueId: 'nhl',
+    startUtc: atLocal(-1, 18, 30),
+    teamIds: ['nhl-bos', 'nhl-det'],
+  },
+  {
+    id: 'fav-1',
+    sportId: 'basketball',
+    leagueId: 'nba',
+    startUtc: atLocal(0, 19, 30),
+    teamIds: ['nba-lal', 'nba-bos'],
+  },
+  {
+    id: 'fav-2',
+    sportId: 'basketball',
+    leagueId: 'nba',
+    startUtc: atLocal(0, 21, 0),
+    teamIds: ['nba-den', 'nba-gsw'],
+  },
+  // po północy (ViewingDay: należy do wieczoru dnia poprzedniego) — serduszko w sekcji nocy
+  {
+    id: 'fav-night-1',
+    sportId: 'hockey',
+    leagueId: 'nhl',
+    startUtc: atLocal(1, 1, 0),
+    teamIds: ['nhl-col', 'nhl-veg'],
+  },
+  {
+    id: 'fav-3',
+    sportId: 'soccer',
+    leagueId: 'premier-league',
+    startUtc: atLocal(1, 15, 0),
+    teamIds: ['epl-liv', 'epl-mci'],
+  },
+];
+
+const favoriteTeamsSeed = () =>
+  JSON.stringify([
+    { teamId: 'nba-lal', addedAt: '2026-08-01T00:00:00.000Z' },
+    { teamId: 'nhl-col', addedAt: '2026-08-02T00:00:00.000Z' },
+    { teamId: 'epl-liv', addedAt: '2026-08-03T00:00:00.000Z' },
+  ]);
+
+/** ADR-0034: serduszko = mecz ulubionej drużyny — wiodące przed etykietą
+ * (dzień, noc w disclosure, dzień przeszły zwinięty z chipem w nagłówku);
+ * chip "N my teams" w nagłówkach dni. fav-1 jest też na watchliście: ♥ + ☆
+ * w jednym wierszu, kształt rozróżnia (heart = drużyna, star = wydarzenie). */
+export const FavoriteTeamsMarked: Story = {
+  decorators: [
+    (Story) => {
+      localStorage.setItem('gametime.devEvents', JSON.stringify(weekWithFavorites()));
+      localStorage.setItem('gametime.favoriteTeams', favoriteTeamsSeed());
+      localStorage.setItem(
+        'gametime.watchlist',
+        JSON.stringify([{ eventId: 'fav-1', addedAt: '2026-08-04T00:00:00.000Z' }]),
+      );
+      return <Story />;
+    },
+  ],
+};
+
+/** ADR-0034 w widoku cards: serduszko przed uczestnikami na tincie pasma —
+ * tint pozostaje czystym nośnikiem powierzchni (bez washu muted). */
+export const FavoriteTeamsCardsView: Story = {
+  decorators: [
+    (Story) => {
+      localStorage.setItem('gametime.devEvents', JSON.stringify(weekWithFavorites()));
+      localStorage.setItem('gametime.favoriteTeams', favoriteTeamsSeed());
+      localStorage.setItem('gametime.watchlist', '[]');
+      localStorage.setItem(
+        'gametime.settings',
+        JSON.stringify({ ...DEFAULT_SETTINGS, viewMode: 'cards' }),
+      );
       return <Story />;
     },
   ],

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   LEAGUES,
@@ -102,7 +102,7 @@ export function TeamsScreen() {
         </h2>
         {favoriteTeams.length === 0 ? (
           <p className="rounded-lg border border-dashed px-4 py-6 text-center text-sm text-muted-foreground">
-            Star teams from a league below to pin them here for quick access.
+            Heart teams from a league below to pin them here for quick access.
           </p>
         ) : (
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -127,7 +127,7 @@ export function TeamsScreen() {
                   aria-pressed={false}
                   onClick={() => handleRemoveFavorite(team.id, team.name)}
                 >
-                  <Star className="size-4 fill-current text-brand-text" aria-hidden="true" />
+                  <Heart className="size-4 fill-current text-brand-text" aria-hidden="true" />
                 </Button>
               </li>
             ))}

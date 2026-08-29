@@ -78,7 +78,7 @@ Systematyczny audyt: `teams-edgecases.md` (proto-edgecases → proto-harden, ADR
 - **data-pipeline**: rozszerzenie okna — pełne sezony lig zespołowych (patrz Per-module changes niżej; ADR-0019).
 - **data-source**: `useEvents` bez zmian API; `window` = unia okien lig (semantyka pola w GLOSSARY zaktualizowana); katalog drużyn już rejestrowany przez `registerCatalogTeams`.
 - **filters**: MyTeamsFilter czyta FavoriteTeam (istnieje); FilterBar dostaje wariant bands-only dla terminarza.
-- **event-calendar**: podświetlenie ulubionych w EventRow (istnieje, `favorite` prop).
+- **event-calendar**: serduszko ulubionych w EventRow/EventCard (istnieje, `favorite` prop; ADR-0034) — terminarz pojedynczej drużyny consciousnie go pomija (każdy wiersz to "ta" drużyna).
 - **watchlist**: EventDetailsDialog — uczestnicy jako linki (ADR-0022).
 - **calendar-export**: ExportMenu w wierszach terminarza — bez zmian, reuse.
 

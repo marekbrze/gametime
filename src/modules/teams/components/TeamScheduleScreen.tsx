@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { LayoutGrid, List, Star } from 'lucide-react';
+import { Heart, LayoutGrid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LEAGUE_BY_ID, SPORT_BY_ID, TEAM_BY_ID } from '@/modules/data-source/data/catalog';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
@@ -174,7 +174,7 @@ export function TeamScheduleScreen() {
             onClick={handleToggleFavorite}
             className="ml-1"
           >
-            <Star
+            <Heart
               className={`size-5 ${isFavorite(team.id) ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
               aria-hidden="true"
             />
@@ -245,6 +245,8 @@ export function TeamScheduleScreen() {
             {settings.viewMode === 'cards' ? (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {upcomingItems.map((item) => (
+                  // cały terminarz to "ta" drużyna — serduszko na każdym wierszu
+                  // byłoby szumem, favorite={false} (racja ADR-0032, ADR-0034)
                   <EventCard
                     key={item.event.id}
                     event={item.event}
@@ -253,7 +255,7 @@ export function TeamScheduleScreen() {
                     tz={tz}
                     watched={item.watched}
                     onToggleWatch={() => handleToggleWatch(item.event.id)}
-                    favorite={item.favorite}
+                    favorite={false}
                     liveIndicator
                     dateLabel={dateLabelFor(item.event.startUtc)}
                   />
@@ -270,7 +272,7 @@ export function TeamScheduleScreen() {
                     tz={tz}
                     watched={item.watched}
                     onToggleWatch={() => handleToggleWatch(item.event.id)}
-                    favorite={item.favorite}
+                    favorite={false}
                     liveIndicator
                     dateLabel={dateLabelFor(item.event.startUtc)}
                     bandTint

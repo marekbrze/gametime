@@ -42,7 +42,7 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 | Add favorite team | Tworzy FAVORITE_TEAM. | Z listy drużyn lub z terminarza |
 | Remove favorite team | Usuwa FAVORITE_TEAM. | |
 | Toggle "only my teams" filter | Przełącznik na liście: tylko wydarzenia ulubionych drużyn. | Jeden klik, na każdej liście |
-| (pasywnie) Highlight on main list | Wydarzenia ulubionych drużyn wyróżnione wizualnie. | Zachowanie stałe, nie akcja |
+| (pasywnie) Highlight on main list | Wydarzenia ulubionych drużyn z serduszkiem ♥ przed uczestnikami + chip "N my teams" w nagłówku dnia (ADR-0034). | Zachowanie stałe, nie akcja |
 | (pasywnie) Quick access | Skróty do terminarzy ulubionych drużyn bez szukania. | Zachowanie stałe |
 
 ### Team

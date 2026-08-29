@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Search, Star } from 'lucide-react';
+import { Heart, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LEAGUE_BY_ID, SPORT_BY_ID, TEAMS } from '@/modules/data-source/data/catalog';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
@@ -163,7 +163,7 @@ export function LeagueScreen() {
                 aria-pressed={isFavorite(team.id)}
                 onClick={() => handleToggleFavorite(team.id, team.name)}
               >
-                <Star
+                <Heart
                   className={`size-4 ${isFavorite(team.id) ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
                   aria-hidden="true"
                 />

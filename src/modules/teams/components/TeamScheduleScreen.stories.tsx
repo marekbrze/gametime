@@ -98,3 +98,20 @@ export const AllPastFlat: Story = {
     withRouter('/teams/team/nhl-col'),
   ],
 };
+
+/** ADR-0034: terminarz JEDNEJ drużyny nie znaczy wierszy serduszkami — każdy
+ * mecz listy to przecież "ta" drużyna, marker byłby szumem (ta sama racja co
+ * wyłączenie washu w ADR-0032). Serduszko wypełnione zostaje w headerze. */
+export const NoHeartsOnOwnSchedule: Story = {
+  decorators: [
+    (Story) => {
+      seed(generateMockEvents());
+      localStorage.setItem(
+        'gametime.favoriteTeams',
+        JSON.stringify([{ teamId: 'nhl-col', addedAt: '2026-08-01T00:00:00.000Z' }]),
+      );
+      return <Story />;
+    },
+    withRouter('/teams/team/nhl-col'),
+  ],
+};

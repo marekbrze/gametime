@@ -1,4 +1,4 @@
-import { Star } from 'lucide-react';
+import { Heart, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
@@ -14,7 +14,8 @@ interface EventRowProps {
   tz: TimeZone;
   watched: boolean;
   onToggleWatch: () => void;
-  /** którykolwiek uczestnik jest ulubioną drużyną → subtelne podświetlenie */
+  /** którykolwiek uczestnik jest ulubioną drużyną → serduszko przed etykietą
+   * (ADR-0034: heart = ulubiona drużyna, star = watchlista wydarzenia) */
   favorite: boolean;
   /** otwarcie szczegółów wydarzenia (klik w etykietę — jump to event z watchlisty) */
   onOpenDetails?: (event: SportEvent) => void;
@@ -61,10 +62,22 @@ export function EventRow({
   const surface = [
     'rounded-md border px-3 py-2 transition-colors duration-150',
     bandTint ? BAND_CARD[band] : 'bg-card',
-    // tint pasma sam akcentuje — podświetlenie ulubionego tylko na neutralnym tle
-    !bandTint && favorite ? 'bg-muted/60' : '',
     dimmed ? 'opacity-55' : '',
   ].join(' ');
+
+  /** Serduszko = mecz ulubionej drużyny (ADR-0034). JEDYNY nośnik znaczenia —
+   * zastąpił wash bg-muted/60, który ginął na tintach pasm (płaski terminarz).
+   * text-brand-text jak gwiazdka watchlisty — spójna rodzina, ≥3:1 na tintach. */
+  const heart = favorite && (
+    <>
+      <Heart
+        className="size-3.5 shrink-0 fill-current text-brand-text"
+        aria-hidden="true"
+      />
+      {/* ikona ozdobna dla SR nie istnieje — znaczenie niesie tekst */}
+      <span className="sr-only">My team. </span>
+    </>
+  );
 
   /** Kropka wiodąca pasma — zamiast zbanowanego side-stripe'a (ADR-0029) */
   const dot = <span className={`size-2 shrink-0 rounded-full ${BAND_DOT[band]}`} aria-hidden="true" />;
@@ -117,6 +130,7 @@ export function EventRow({
         {dot}
         {emoji}
         {time('w-12 text-sm')}
+        {heart}
         {onOpenDetails ? (
           <button
             type="button"
@@ -164,6 +178,7 @@ export function EventRow({
         {time('text-caption sm:w-12 sm:text-sm')}
       </div>
       <div className="flex min-w-0 items-center gap-3 [grid-area:body]">
+        {heart}
         {onOpenDetails ? (
           <button
             type="button"

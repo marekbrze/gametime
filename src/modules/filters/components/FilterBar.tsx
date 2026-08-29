@@ -1,5 +1,5 @@
 import { useId, useState, type ReactNode } from 'react';
-import { ChevronDown, ListFilter, Star } from 'lucide-react';
+import { ChevronDown, Heart, ListFilter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SPORTS } from '@/modules/data-source/data/catalog';
 import { BAND_CHIP } from '@/modules/settings/lib/bands-ui';
@@ -110,7 +110,7 @@ export function FilterBar({
         onClick={() => onMyTeamsChange?.(!myTeamsOnly)}
         className="gap-1.5"
       >
-        <Star className="size-3.5" aria-hidden="true" />
+        <Heart className="size-3.5" aria-hidden="true" />
         My teams
       </Button>
 

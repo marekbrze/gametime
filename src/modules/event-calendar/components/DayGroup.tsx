@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, Moon } from 'lucide-react';
+import { ChevronDown, Heart, Moon } from 'lucide-react';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import type { ViewMode } from '@/modules/settings/types';
@@ -70,6 +70,10 @@ export function DayGroup({
     night: items.filter((i) => i.band === 'night').length,
   };
   if (counts.day + counts.evening + counts.night === 0) return null;
+
+  /** Mecze ulubionych drużyn w dniu — chip skanu w nagłówku (ADR-0034); widać
+   * go też na zwiniętych dniach przeszłych, bez czytania wierszy. */
+  const favoriteCount = items.filter((i) => i.favorite).length;
 
   /** Dzień tylko z nocą → sekcja otwarta jak Day/Evening (nic do zwijania). */
   const nightOnly = counts.day + counts.evening === 0;
@@ -154,6 +158,15 @@ export function DayGroup({
                 {counts[kind]} {bandLabel(kind)}
               </span>
             ),
+        )}
+        {favoriteCount > 0 && (
+          <span
+            className="inline-flex items-center gap-1 rounded-full bg-primary/12 px-2 py-0.5 text-brand-text"
+            title={`${favoriteCount} of your teams playing this day`}
+          >
+            <Heart className="size-3 fill-current" aria-hidden="true" />
+            {favoriteCount} {favoriteCount === 1 ? 'my team' : 'my teams'}
+          </span>
         )}
         {collapsible && (
           <ChevronDown

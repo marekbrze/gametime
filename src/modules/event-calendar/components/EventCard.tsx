@@ -1,4 +1,4 @@
-import { Star } from 'lucide-react';
+import { Heart, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
@@ -14,6 +14,8 @@ interface EventCardProps {
   tz: TimeZone;
   watched: boolean;
   onToggleWatch: () => void;
+  /** którykolwiek uczestnik jest ulubioną drużyną → serduszko przed etykietą
+   * (ADR-0034: heart = ulubiona drużyna, star = watchlista wydarzenia) */
   favorite: boolean;
   /** otwarcie szczegółów wydarzenia (klik w etykietę — jump to event z watchlisty) */
   onOpenDetails?: (event: SportEvent) => void;
@@ -44,7 +46,6 @@ export function EventCard({
         // Karta widoku cards: kolor pasa mocniej — tint całej powierzchni (DESIGN.md)
         'rounded-lg border p-4',
         BAND_CARD[band],
-        favorite ? 'bg-muted/60' : '',
         status === 'finished' || status === 'postponed' || status === 'canceled'
           ? 'opacity-55'
           : '',
@@ -75,17 +76,30 @@ export function EventCard({
           <ExportMenu event={event} />
         </div>
       </div>
-      {onOpenDetails ? (
-        <button
-          type="button"
-          onClick={() => onOpenDetails(event)}
-          className="block w-full text-left text-base font-medium leading-snug underline-offset-2 hover:underline focus-visible:underline"
-        >
-          {participantsLabel(event)}
-        </button>
-      ) : (
-        <p className="text-base font-medium leading-snug">{participantsLabel(event)}</p>
-      )}
+      {/* Serduszko = mecz ulubionej drużyny, wiodące przed uczestnikami (ADR-0034);
+          tint pasma pozostaje czystym nośnikiem powierzchni */}
+      <div className="flex items-start gap-1.5">
+        {favorite && (
+          <>
+            <Heart
+              className="mt-0.5 size-3.5 shrink-0 fill-current text-brand-text"
+              aria-hidden="true"
+            />
+            <span className="sr-only">My team. </span>
+          </>
+        )}
+        {onOpenDetails ? (
+          <button
+            type="button"
+            onClick={() => onOpenDetails(event)}
+            className="min-w-0 flex-1 text-left text-base font-medium leading-snug underline-offset-2 hover:underline focus-visible:underline"
+          >
+            {participantsLabel(event)}
+          </button>
+        ) : (
+          <p className="min-w-0 flex-1 text-base font-medium leading-snug">{participantsLabel(event)}</p>
+        )}
+      </div>
       <p className="mt-1 text-sm text-muted-foreground">
         {dateLabel && (
           <span className="font-medium text-foreground">

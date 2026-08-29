@@ -92,7 +92,7 @@ erDiagram
 **Belongs to**: User, referencja do Event
 
 ### FAVORITE_TEAM
-**Description**: Ulubiona drużyna. Trzy zachowania: (1) wyróżnienie/podświetlenie jej wydarzeń na głównej liście, (2) szybki dostęp do terminarza sezonu bez szukania, (3) filtr "tylko moje drużyny" jednym klikiem.
+**Description**: Ulubiona drużyna. Trzy zachowania: (1) wyróżnienie jej wydarzeń — serduszko ♥ na wierszach/kartach + chip "N my teams" w nagłówkach dnia (ADR-0034), (2) szybki dostęp do terminarza sezonu bez szukania, (3) filtr "tylko moje drużyny" jednym klikiem.
 **Instances per user**: wiele
 **Ownership**: User (localStorage)
 **Lifecycle**: powstaje przy "ulubieniu", znika przy usunięciu
