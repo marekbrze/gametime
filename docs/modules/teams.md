@@ -34,7 +34,7 @@ Kluczowa decyzja tej fazy (designer): **terminarz sezonu ma być prawdziwy** —
 
 ### View season schedule
 1. User na `/teams/team/:teamId` widzi: nagłówek (emoji sportu, nazwa drużyny, liga, gwiazdka), label zakresu danych („Season data: {from} – {to}"), pasek filtrów pasm.
-2. **Upcoming**: płaska lista chronologiczna (ADR-0032) — wiersz z kolumną daty („Sat" / „Sep 6", „Today" dla bieżącego dnia) i tłem w tincie pasa (sygnalizacja świetlna; iteracja 2 — pasma mijają się wiersz po wierszu, sama kropka je zlewała), kropką pasa i godziną w kolorze pasa; gwiazdka/eksporty z wiersza działają.
+2. **Upcoming**: płaska lista chronologiczna (ADR-0032) — wiersz z kolumną daty („Sat" / „Sep 6", „Today" dla bieżącego dnia) i tłem w tincie pasa (sygnalizacja świetlna; iteracja 2 — pasma mijają się wiersz po wierszu, sama kropka je zlewała), kropką pasa i godziną w kolorze pasa; gwiazdka/eksporty z wiersza działają. **Na mobile (<sm) wiersz jest dwurzędowy** (ADR-0033 iteracja 2): górny rząd = kropka, emoji, data, czas + gwiazdka/eksport po prawej; dolny = nazwy drużyn na całej szerokości karty.
 3. **Past ({n})**: zwinięta sekcja na dole, rozwijana — płaska historia sezonu od najnowszych (finished/przełożone przygaszone jak wszędzie).
 4. Pusta liga (off-season, np. NHL w sierpniu) → stan pusty z wyjaśnieniem i zakresem sezonu.
 
@@ -66,7 +66,7 @@ Systematyczny audyt: `teams-edgecases.md` (proto-edgecases → proto-harden, ADR
 - **Snapshot loading/error**: skeleton/LoadError z retry na 3 ekranach.
 - **localStorage favorites**: sanityzacja + dedup po teamId (ADR-0018 + 0024); pad zapisu → StorageWarning z rollbackiem wizualnym.
 - **Długa lista drużyn**: scroll + search niewrażliwy na diakrytyki („Atletico" znajduje „Atlético").
-- **Sezon z wieloma miesiącami**: płaska lista z pełną datą w każdym wierszu („Sat" / „Sep 6") — miesiąc i dzień tygodnia czytelne bez separatorów (ADR-0032; separatory miesięcy z ADR-0024 zostały z upstream DayGroup, którego terminarz już nie używa).
+- **Sezon z wieloma miesiącami**: płaska lista z pełną datą w każdym wierszu („Sat" / „Sep 6") — miesiąc i dzień tygodnia czytelne bez separatorów (ADR-0032; separatory miesięcy z ADR-0024 zostały z upstream DayGroup, którego terminarz już nie używa); na mobile data/czas/akcje w osobnym rzędzie karty nad pełnowymiarową etykietą meczu (ADR-0033 iteracja 2).
 - **Nocne mecze w terminarzu** (start 0:00–6:00): zostają w chronologii z datą faktyczną (np. czwartek 01:30 po środowym wieczorze) — bez mechaniki ViewingDay, która dotyczy list grupowanych po dniach (ADR-0004/0032); czerwoną kropkę pasa i kolor godziny widać bez rozwijania.
 - **Filtr `?band=night`**: zawęża płaską listę do nocnych — daty i kolejność bez zmian, nic nie chowa się za zwinięciem (na kalendarzu/watchliście odpowiednik rozwija sekcję nocną sam, ADR-0032).
 - **Obce parametry URL na terminarzu** (`?sport`/`?league`): stripowane przy kanonizacji — terminarz czyta wyłącznie `?band` (decyzja designera, ADR-0024).

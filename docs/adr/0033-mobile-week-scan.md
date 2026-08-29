@@ -37,6 +37,17 @@ Trzy sygnały od designera po iteracji 2 ADR-0032, wszystkie o widoku bieżąceg
 - Desktopy wracają do gęstości jednowierszowej — tam miejsca starcza, a lista ma być skanowalna.
 - Dotyczy wszystkich konsumentów EventRow (kalendarz, watchlista, terminarz płaski — długie nazwy niemieckich klubów ze snapshota ESPN były głównym bodźcem). EventCard (widok cards) zawsze zawijał — bez zmian.
 
+## Iteracja 2 (feedback designera, tego samego dnia)
+
+**Wiersz z datą na mobile był ściśnięty, nie czytelny.** Decyzja §3 (zawijanie etykiet) odsłoniła drugi problem: w wierszach płaskich list (terminarz drużyny, PastSection flat) kolumna daty w-14 + czas w-12 + kropka + emoji + akcje (gwiazdka, eksport) zjadały ~260 px z 375 px — na pełne nazwy drużyn zostawało ~90 px i wiersz robił się wąski, wysoki i ściskany.
+
+- **EventRow z `dateLabel` przestaje być jedną linią flex — staje się gridem o trzech obszarach** (`meta` / `body` / `actions`):
+  - **<sm**: dwa wiersze — meta (kropka pasa, emoji, „Sat · Sep 6", czas w kolorze pasma, po prawej gwiazdka + eksport) i **etykieta meczu na całej szerokości** karty (zawija, LIVE chip przy niej);
+  - **≥sm**: obszary układają się w jedną linię `meta body actions` — układ desktopowy **1:1 ze stanem sprzed zmiany** (kolumna daty w-14, czas w-12, truncate), grid tylko formalnie zastępuje flex.
+- Jeden DOM, zero duplikacji przycisków; kolejność tabulacji = kolejność czytania (data/czas → etykieta → akcje), grid-areas reorderują wyłącznie wizualnie.
+- Wiersze bez `dateLabel` (kalendarz, watchlista) — ta sama pojedyncza linia flex co przed iteracją (zweryfikowane regresyjnie).
+- Dotyczy TeamScheduleScreen (upcoming + past flat) — czyli dokładnie to, co designer zgłosił.
+
 ## Impact
 
 - `EventCalendarScreen` przekazuje `isPast`; `DayGroup` zagnieżdża sekcje w warunkowym wrapperze (`id` tylko dla dni zwijalnych — czytelnikom URL nie trafiają puste kotwice).

@@ -57,72 +57,131 @@ export function EventRow({
     </>
   );
 
-  return (
-    // li — wiersz żyje wyłącznie w listach (ul w DayGroup/PastSection/terminarzu)
-    <li
-      className={[
-        'flex items-center gap-3 rounded-md border px-3 py-2 transition-colors duration-150',
-        bandTint ? BAND_CARD[band] : 'bg-card',
-        // tint pasma sam akcentuje — podświetlenie ulubionego tylko na neutralnym tle
-        !bandTint && favorite ? 'bg-muted/60' : '',
-        dimmed ? 'opacity-55' : '',
-      ].join(' ')}
+  // li — wiersz żyje wyłącznie w listach (ul w DayGroup/PastSection/terminarzu)
+  const surface = [
+    'rounded-md border px-3 py-2 transition-colors duration-150',
+    bandTint ? BAND_CARD[band] : 'bg-card',
+    // tint pasma sam akcentuje — podświetlenie ulubionego tylko na neutralnym tle
+    !bandTint && favorite ? 'bg-muted/60' : '',
+    dimmed ? 'opacity-55' : '',
+  ].join(' ');
+
+  /** Kropka wiodąca pasma — zamiast zbanowanego side-stripe'a (ADR-0029) */
+  const dot = <span className={`size-2 shrink-0 rounded-full ${BAND_DOT[band]}`} aria-hidden="true" />;
+  const emoji = (
+    <span className="text-lg" aria-hidden="true">
+      {sportEmoji(event)}
+    </span>
+  );
+  /** Czas w kolorze pasma — drugi nośnik obok kropki (ADR-0032, AA na card);
+   * klasa rozmiaru/szerokości podaje wariant (w-12 w linii, caption w metarowsie) */
+  const time = (sizeClass: string) => (
+    <span className={`shrink-0 font-medium ${sizeClass} ${BAND_TIME[band]}`}>
+      {formatTimeInZone(start, tz)}
+    </span>
+  );
+  const league = (
+    <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">{leagueName(event)}</span>
+  );
+  const liveChip =
+    liveIndicator &&
+    status === 'live' && (
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">
+        <span className="size-1.5 animate-live-pulse rounded-full bg-live" aria-hidden="true" />
+        Live
+      </span>
+    );
+  const starButton = (
+    <Button
+      variant="ghost"
+      size="icon"
+      className="relative after:absolute after:-inset-1.5 after:content-['']"
+      aria-label={watched ? 'Remove from watchlist' : 'Add to watchlist'}
+      aria-pressed={watched}
+      onClick={onToggleWatch}
     >
-      {/* Kropka wiodąca pasma — zamiast zbanowanego side-stripe'a (ADR-0029) */}
-      <span
-        className={`size-2 shrink-0 rounded-full ${BAND_DOT[band]}`}
+      {/* Gwiazdka = akcja brandowa: papaya (DESIGN.md — akcent tylko akcje/stany) */}
+      <Star
+        className={`size-4 ${watched ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
         aria-hidden="true"
       />
-      <span className="text-lg" aria-hidden="true">
-        {sportEmoji(event)}
-      </span>
-      {dateLabel && (
-        <span className="flex w-14 shrink-0 flex-col leading-tight">
-          <span className="text-caption text-muted-foreground">{dateLabel.weekday}</span>
-          <span className="text-caption text-foreground/80">{dateLabel.date}</span>
+    </Button>
+  );
+
+  // Wiersz BEZ daty (kalendarz, watchlista): jedna linia flex. Mobilnie bez
+  // truncate — karta może zająć 2-3 wiersze, żeby pełne nazwy drużyn były
+  // czytelne (375 px); ≥sm gęstość jednowierszowa (ADR-0033).
+  if (!dateLabel) {
+    return (
+      <li className={`flex items-center gap-3 ${surface}`}>
+        {dot}
+        {emoji}
+        {time('w-12 text-sm')}
+        {onOpenDetails ? (
+          <button
+            type="button"
+            onClick={() => onOpenDetails(event)}
+            className="min-w-0 flex-1 text-left text-sm leading-snug underline-offset-2 hover:underline focus-visible:underline sm:truncate"
+          >
+            {label}
+          </button>
+        ) : (
+          <span className="min-w-0 flex-1 text-sm leading-snug sm:truncate">{label}</span>
+        )}
+        {league}
+        {liveChip}
+        {starButton}
+        <ExportMenu event={event} />
+      </li>
+    );
+  }
+
+  // Wiersz Z datą (terminarz płaski, PastSection flat): mobile dwa wiersze —
+  // meta (kropka, emoji, data, czas + gwiazdka/eksport po prawej) i etykieta
+  // meczu na całej szerokości (ADR-0033, iteracja 2: kolumna daty + czas +
+  // akcje zjadały ~260 px z 375 px i ściskały nazwy drużyn). ≥sm: ta sama
+  // pojedyncza linia co zawsze (kolumna daty w-14, czas w-12, truncate).
+  return (
+    <li
+      className={[
+        'grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1',
+        "[grid-template-areas:'meta_actions'_'body_body']",
+        'sm:grid-cols-[auto_minmax(0,1fr)_auto]',
+        "sm:[grid-template-areas:'meta_body_actions']",
+        surface,
+      ].join(' ')}
+    >
+      <div className="flex min-w-0 items-center gap-2 [grid-area:meta] sm:gap-3">
+        {dot}
+        {emoji}
+        <span className="flex shrink-0 items-baseline gap-1 text-caption leading-tight sm:w-14 sm:flex-col sm:gap-0">
+          <span className="text-muted-foreground">{dateLabel.weekday}</span>
+          <span className="text-muted-foreground/50 sm:hidden" aria-hidden="true">
+            ·
+          </span>
+          <span className="text-foreground/80">{dateLabel.date}</span>
         </span>
-      )}
-      {/* Czas w kolorze pasma — drugi nośnik obok kropki (ADR-0032, AA na card) */}
-      <span className={`w-12 shrink-0 text-sm font-medium ${BAND_TIME[band]}`}>
-        {formatTimeInZone(start, tz)}
-      </span>
-      {onOpenDetails ? (
-        <button
-          type="button"
-          onClick={() => onOpenDetails(event)}
-          // Mobilnie bez truncate: karta może zająć 2-3 wiersze, żeby pełne
-          // nazwy drużyn były czytelne (375 px); ≥sm gęstość jednowierszowa wraca.
-          className="min-w-0 flex-1 text-left text-sm leading-snug underline-offset-2 hover:underline focus-visible:underline sm:truncate"
-        >
-          {label}
-        </button>
-      ) : (
-        <span className="min-w-0 flex-1 text-sm leading-snug sm:truncate">{label}</span>
-      )}
-      <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
-        {leagueName(event)}
-      </span>
-      {liveIndicator && status === 'live' && (
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">
-          <span className="size-1.5 animate-live-pulse rounded-full bg-live" aria-hidden="true" />
-          Live
-        </span>
-      )}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="relative after:absolute after:-inset-1.5 after:content-['']"
-        aria-label={watched ? 'Remove from watchlist' : 'Add to watchlist'}
-        aria-pressed={watched}
-        onClick={onToggleWatch}
-      >
-        {/* Gwiazdka = akcja brandowa: papaya (DESIGN.md — akcent tylko akcje/stany) */}
-        <Star
-          className={`size-4 ${watched ? 'fill-current text-brand-text' : 'text-muted-foreground'}`}
-          aria-hidden="true"
-        />
-      </Button>
-      <ExportMenu event={event} />
+        {time('text-caption sm:w-12 sm:text-sm')}
+      </div>
+      <div className="flex min-w-0 items-center gap-3 [grid-area:body]">
+        {onOpenDetails ? (
+          <button
+            type="button"
+            onClick={() => onOpenDetails(event)}
+            className="min-w-0 flex-1 text-left text-sm leading-snug underline-offset-2 hover:underline focus-visible:underline sm:truncate"
+          >
+            {label}
+          </button>
+        ) : (
+          <span className="min-w-0 flex-1 text-sm leading-snug sm:truncate">{label}</span>
+        )}
+        {league}
+        {liveChip}
+      </div>
+      <div className="flex items-center gap-3 [grid-area:actions]">
+        {starButton}
+        <ExportMenu event={event} />
+      </div>
     </li>
   );
 }
