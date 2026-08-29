@@ -113,7 +113,7 @@
     --band-day-tint: oklch(0.94 0.035 150);
     --band-day-text: oklch(0.4 0.09 150);
     --band-evening: oklch(0.65 0.13 85);
-    --band-evening-tint: oklch(0.95 0.05 90);
+    --band-evening-tint: oklch(0.94 0.055 90);
     --band-evening-text: oklch(0.42 0.09 85);
     --band-night: oklch(0.55 0.19 27);
     --band-night-tint: oklch(0.94 0.03 27);

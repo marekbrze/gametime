@@ -273,6 +273,7 @@ export function TeamScheduleScreen() {
                     favorite={item.favorite}
                     liveIndicator
                     dateLabel={dateLabelFor(item.event.startUtc)}
+                    bandTint
                   />
                 ))}
               </ul>

@@ -46,6 +46,11 @@ Przemapowanie hue w `index.css` (oba tematy, zachowana struktura dot/tint/text):
 
 `EventCalendarScreen.stories` i `WatchlistScreen.stories` renderowały ekrany używające `useSearchParams` **bez providera Routera** — `useLocation()` rzuca poza `<Router>`, więc stories były puste/crashowe od lofi. Dodany meta-dekorator MemoryRouter (wzorzec z teams, ADR-0020) + nowe stories: `NightDisclosureCollapsed`, `NightOnlyDayAutoOpen`, `NightBandFilterAutoOpen` (kalendarz), `NightBandFilterFlat`, `AllPastFlat` (terminarz).
 
+## Iteracja 2 (feedback designera, tego samego dnia)
+
+1. **Płaski terminarz: wiersze w tincie pasma** — na liście terminarza pasma mijają się wiersz po wierszu (po kropce i kolorze godziny mecze dnia/wieczoru/nocy się zlewały). EventRow dostaje `bandTint` — tło wiersza = tint pasma (BAND_CARD, paritet z widokiem cards); kalendarz/watchlista zostają przy neutralnym `bg-card`, bo tam pasma separuje struktura sekcji. Przy tincie pasma wyłączamy podświetlenie `favorite` (na terminarzu jedynej drużyny i tak każdy wiersz jest „ulubiony" — zmyłka, plus konflikt klas bg).
+2. **Disclosure nocy stonowany** — wersja z iteracji 1 (obwódka /40 + cały tekst czerwony + czerwony chevron) wybijała się zbyt mocno na tle dnia. Stonowanie: obwódka `/20` (hover `/35`), label w `text-foreground`, chevron `text-muted-foreground`, pill Show/Hide na `/12`; czerwony zostają tint tła i ikona księżyca — identyfikacja pasa bez krzyku. Pełna szerokość, aria i auto-open bez zmian.
+
 ## Impact
 
 - Konsumenci tokenów pasm (FilterBar chips, EventDetailsDialog, BandsPreview w settings, karty) dostają nowe kolory automatycznie — zero zmian poza tokenami.

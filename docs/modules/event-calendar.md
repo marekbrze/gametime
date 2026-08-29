@@ -18,7 +18,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 
 ### Rozwinięcie nocy (ADR-0032)
 1. User po whole-day skanowaniu chce sprawdzić, co było/bydzie nocą
-2. Klika **pełnoszerokościowy przycisk w czerwonym tincie pasa Night** na końcu dnia: ikona księżyca, "Night — N events after midnight", pill "Show"/"Hide" + chevron
+2. Klika **pełnoszerokościowy, stonowany przycisk w tincie pasa Night** (delikatna obwódka, neutralny tekst, czerwone zostają tint i ikona księżyca — iteracja 2 po feedbacku "wybija się zbyt mocno") na końcu dnia: "Night — N events after midnight", pill "Show"/"Hide" + chevron
 3. Sekcja rozwija się inline; wiersze nocy mają czerwoną kropkę i czas w kolorze pasa
 4. Gdy noc jest jedynym pasmem dnia (albo filtr `?band=night` przefiltrował resztę) — sekcja rozwija się SAMA z mini-nagłówkiem "Night", nic nie ginie za zwinięciem
 

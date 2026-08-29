@@ -34,7 +34,7 @@ Kluczowa decyzja tej fazy (designer): **terminarz sezonu ma być prawdziwy** —
 
 ### View season schedule
 1. User na `/teams/team/:teamId` widzi: nagłówek (emoji sportu, nazwa drużyny, liga, gwiazdka), label zakresu danych („Season data: {from} – {to}"), pasek filtrów pasm.
-2. **Upcoming**: płaska lista chronologiczna (ADR-0032) — wiersz z kolumną daty („Sat" / „Sep 6", „Today" dla bieżącego dnia), kropką pasa (sygnalizacja świetlna) i godziną w kolorze pasa; gwiazdka/eksporty z wiersza działają.
+2. **Upcoming**: płaska lista chronologiczna (ADR-0032) — wiersz z kolumną daty („Sat" / „Sep 6", „Today" dla bieżącego dnia) i tłem w tincie pasa (sygnalizacja świetlna; iteracja 2 — pasma mijają się wiersz po wierszu, sama kropka je zlewała), kropką pasa i godziną w kolorze pasa; gwiazdka/eksporty z wiersza działają.
 3. **Past ({n})**: zwinięta sekcja na dole, rozwijana — płaska historia sezonu od najnowszych (finished/przełożone przygaszone jak wszędzie).
 4. Pusta liga (off-season, np. NHL w sierpniu) → stan pusty z wyjaśnieniem i zakresem sezonu.
 

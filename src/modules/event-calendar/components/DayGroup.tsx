@@ -161,18 +161,18 @@ export function DayGroup({
               aria-expanded={nightOpen}
               aria-controls={`night-${dayKey}`}
               onClick={() => setNightOpen((v) => !v)}
-              className="flex w-full items-center gap-2.5 rounded-lg border border-band-night/40 bg-band-night-tint px-3 py-2.5 text-left transition-colors duration-150 outline-none hover:border-band-night/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:transition-none"
+              className="flex w-full items-center gap-2.5 rounded-lg border border-band-night/20 bg-band-night-tint px-3 py-2 text-left transition-colors duration-150 outline-none hover:border-band-night/35 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:transition-none"
             >
               <Moon className="size-4 shrink-0 text-band-night-text" aria-hidden="true" />
-              <span className="text-sm font-medium text-band-night-text">
+              <span className="text-sm font-medium text-foreground">
                 Night — {counts.night} {counts.night === 1 ? 'event' : 'events'} after midnight
               </span>
               <span className="ml-auto flex shrink-0 items-center gap-1.5">
-                <span className="rounded-full bg-band-night/15 px-2 py-0.5 text-caption font-semibold text-band-night-text">
+                <span className="rounded-full bg-band-night/12 px-2 py-0.5 text-caption font-semibold text-band-night-text">
                   {nightOpen ? 'Hide' : 'Show'}
                 </span>
                 <ChevronDown
-                  className={`size-4 text-band-night-text transition-transform duration-150 motion-reduce:transition-none ${
+                  className={`size-4 text-muted-foreground transition-transform duration-150 motion-reduce:transition-none ${
                     nightOpen ? '' : '-rotate-90'
                   }`}
                   aria-hidden="true"

@@ -4,7 +4,7 @@ import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
-import { BAND_DOT, BAND_TIME } from '@/modules/settings/lib/bands-ui';
+import { BAND_CARD, BAND_DOT, BAND_TIME } from '@/modules/settings/lib/bands-ui';
 import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
 
 interface EventRowProps {
@@ -22,6 +22,9 @@ interface EventRowProps {
   liveIndicator?: boolean;
   /** data ("Sat" / "Sep 6") dla płaskich list bez grup dnia — terminarz (ADR-0032) */
   dateLabel?: { weekday: string; date: string };
+  /** tło wiersza w tincie pasma — płaskie listy terminarza, gdzie pasma mijają
+   * się wiersz po wierszu i samotna kropka je zlewa (iteracja 2, ADR-0032) */
+  bandTint?: boolean;
 }
 
 export function EventRow({
@@ -35,6 +38,7 @@ export function EventRow({
   onOpenDetails,
   liveIndicator,
   dateLabel,
+  bandTint,
 }: EventRowProps) {
   const start = new Date(event.startUtc);
   /** finished/postponed przygaszone — przełożone zostają widoczne (ADR-0011);
@@ -57,8 +61,10 @@ export function EventRow({
     // li — wiersz żyje wyłącznie w listach (ul w DayGroup/PastSection/terminarzu)
     <li
       className={[
-        'flex items-center gap-3 rounded-md border bg-card px-3 py-2 transition-colors duration-150',
-        favorite ? 'bg-muted/60' : '',
+        'flex items-center gap-3 rounded-md border px-3 py-2 transition-colors duration-150',
+        bandTint ? BAND_CARD[band] : 'bg-card',
+        // tint pasma sam akcentuje — podświetlenie ulubionego tylko na neutralnym tle
+        !bandTint && favorite ? 'bg-muted/60' : '',
         dimmed ? 'opacity-55' : '',
       ].join(' ')}
     >

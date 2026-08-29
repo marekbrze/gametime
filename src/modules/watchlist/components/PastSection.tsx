@@ -85,6 +85,7 @@ export function PastSection({
             onToggleWatch={() => onToggleWatch(item.event.id)}
             favorite={item.favorite}
             dateLabel={formatShortDateParts(new Date(item.event.startUtc), tz)}
+            bandTint
           />
         ))}
       </ul>
