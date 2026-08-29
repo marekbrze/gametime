@@ -29,8 +29,8 @@ Kluczowa decyzja tej fazy (designer): **terminarz sezonu ma być prawdziwy** —
 3. Natychmiastowe efekty: kafel w My teams na `/teams`, podświetlenie wydarzeń na week liście, zasilenie MyTeamsFilter.
 
 ### Go to team schedule from event details
-1. User otwiera szczegóły obserwowanego wydarzenia (watchlista → dialog).
-2. Klik na nazwę uczestnika → nawigacja na `/teams/team/:teamId` (dialog się zamyka).
+1. User otwiera szczegóły wydarzenia (etykieta uczestników w dowolnej liście meczów → dialog, ADR-0035).
+2. Klik na nazwę uczestnika → nawigacja na `/teams/team/:teamId` (dialog się zamyka); klik na ligę → `/teams/league/:leagueId`.
 
 ### View season schedule
 1. User na `/teams/team/:teamId` widzi: nagłówek (emoji sportu, nazwa drużyny, liga, gwiazdka), label zakresu danych („Season data: {from} – {to}"), pasek filtrów pasm.
@@ -54,6 +54,8 @@ Kluczowa decyzja tej fazy (designer): **terminarz sezonu ma być prawdziwy** —
 | Add favorite team | Z listy ligi lub nagłówka terminarza. | FavoriteTeam | Efekty: My teams, highlight, MyTeamsFilter |
 | Remove favorite team | Ta sama gwiazdka + kafel w My teams. | FavoriteTeam | |
 | Go to team schedule | Link z uczestnika w EventDetailsDialog → terminarz. | Team | ADR-0022 |
+| Open event details | Klik w etykietę wiersza/karty terminarza (także Past flat) → dialog szczegółów. | Event | ADR-0035; „Watch new date" migruje gwiazdkę |
+| Open league page | Nazwa ligi w nagłówku terminarza, w wierszach/kartach i w dialogu → ekran ligi. | League | ADR-0035 (`LeagueLink`) |
 
 ## Edge Cases
 
@@ -79,7 +81,7 @@ Systematyczny audyt: `teams-edgecases.md` (proto-edgecases → proto-harden, ADR
 - **data-source**: `useEvents` bez zmian API; `window` = unia okien lig (semantyka pola w GLOSSARY zaktualizowana); katalog drużyn już rejestrowany przez `registerCatalogTeams`.
 - **filters**: MyTeamsFilter czyta FavoriteTeam (istnieje); FilterBar dostaje wariant bands-only dla terminarza.
 - **event-calendar**: serduszko ulubionych w EventRow/EventCard (istnieje, `favorite` prop; ADR-0034) — terminarz pojedynczej drużyny consciousnie go pomija (każdy wiersz to "ta" drużyna).
-- **watchlist**: EventDetailsDialog — uczestnicy jako linki (ADR-0022).
+- **event-calendar**: EventDetailsDialog (własność od ADR-0035) — uczestnicy i liga jako linki (ADR-0022, ADR-0035); terminarz otwiera dialog z wierszy/kart i Past flat.
 - **calendar-export**: ExportMenu w wierszach terminarza — bez zmian, reuse.
 
 ## Per-module changes — data-pipeline (rozszerzenie okna, ADR-0019)

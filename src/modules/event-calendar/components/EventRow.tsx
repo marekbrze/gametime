@@ -5,7 +5,8 @@ import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
 import { BAND_CARD, BAND_DOT, BAND_TIME } from '@/modules/settings/lib/bands-ui';
-import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
+import { participantsLabel, sportEmoji } from '../lib/event-labels';
+import { LeagueLink } from './LeagueLink';
 
 interface EventRowProps {
   event: SportEvent;
@@ -93,8 +94,9 @@ export function EventRow({
       {formatTimeInZone(start, tz)}
     </span>
   );
+  /** Liga klikalna → ekran ligi (ADR-0035); styl dziedziczony z wiersza */
   const league = (
-    <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">{leagueName(event)}</span>
+    <LeagueLink leagueId={event.leagueId} className="hidden shrink-0 text-xs text-muted-foreground sm:inline" />
   );
   const liveChip =
     liveIndicator &&

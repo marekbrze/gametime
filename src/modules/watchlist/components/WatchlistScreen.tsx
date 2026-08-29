@@ -9,6 +9,7 @@ import { FilterBar, matchesEventFilters, useUrlFilters } from '@/modules/filters
 import { useFavoriteTeams } from '@/modules/teams/hooks/use-favorite-teams';
 import { useSettings } from '@/modules/settings/hooks/use-settings';
 import { DayGroup } from '@/modules/event-calendar/components/DayGroup';
+import { EventDetailsDialog } from '@/modules/event-calendar/components/EventDetailsDialog';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
 import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
 import { useNow } from '@/modules/event-calendar/hooks/use-now';
@@ -16,7 +17,6 @@ import { dayKeyInZone } from '@/shared/lib/datetime';
 import { useWatchlist } from '../hooks/use-watchlist';
 import { buildWatchlistGroups } from '../lib/watchlist-groups';
 import { EmptyWatchlist } from './EmptyWatchlist';
-import { EventDetailsDialog } from './EventDetailsDialog';
 import { PastSection } from './PastSection';
 import { WatchlistSkeleton } from './WatchlistSkeleton';
 import { WatchlistToast, type WatchlistToastState } from './WatchlistToast';

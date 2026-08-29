@@ -36,11 +36,17 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 1. User przełącza **list ↔ cards** (toggle w pasku widoku)
 2. Preferencja zapisuje się w `UserSettings.viewMode`; przy next wejściu pamięta wybór
 
+### Szczegóły wydarzenia (ADR-0035)
+1. User klika **etykietę uczestników** w dowolnym wierszu/karcie (tydzień, także blok Now) → `EventDetailsDialog`
+2. Dialog: pełna data/godzina, pasmo, status, **liga i uczestnicy jako linki** (liga → ekran ligi, uczestnik → terminarz — ADR-0022), eksporty Google/ICS, „Show in calendar"
+3. Wydarzenie przełożone z nową instancją w danych → box „Rescheduled → nowy termin" + **Watch new date** (migracja gwiazdki, ADR-0018)
+
 ## Screens (rough)
 
-- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", chipsy pasm z licznikami, kolory sygnalizacji świetlnej ADR-0032; przy meczach ulubionych dodatkowo papayowy chip licznik "N my teams" z serduszkiem, ADR-0034) → mini-sekcje "Day" i "Evening" → zwinięty disclosure Night na końcu (rozwija się sam, gdy jest jedynym pasmem dnia). **Dzień przeszły zwinięty pod nagłówkiem-przyciskiem** (ADR-0033). Wiersz: kropka pasma, emoji sportu, godzina w kolorze pasma, uczestnicy ("A vs B"; motorsport: seria + nazwa GP), badge ligi, ☆, ⤓; na <sm etykieta uczestników zawija się do pełnych nazw drużyn (2–3 linie, ADR-0033). Ulubione drużyny: serduszko ♥ (wypełnione, `text-brand-text`) wiodące przed uczestnikami — działa też na tintach pasm i w sekcji nocy; SR czyta "My team" (ADR-0034).
-- **Cards view** (alternatywny, eksperyment): te same dane, wydarzenie jako karta (większy format, mocniej kolor pasa) — dla użytkowników wolących "kanban" tygodnia.
-- **Blok Now** (element, nie osobny ekran): trwające + starting soon w jednym zintegrowanym bloku.
+- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", chipsy pasm z licznikami, kolory sygnalizacji świetlnej ADR-0032; przy meczach ulubionych dodatkowo papayowy chip licznik "N my teams" z serduszkiem, ADR-0034) → mini-sekcje "Day" i "Evening" → zwinięty disclosure Night na końcu (rozwija się sam, gdy jest jedynym pasmem dnia). **Dzień przeszły zwinięty pod nagłówkiem-przyciskiem** (ADR-0033). Wiersz: kropka pasma, emoji sportu, godzina w kolorze pasma, uczestnicy ("A vs B"; motorsport: seria + nazwa GP — etykieta klikalna, otwiera `EventDetailsDialog`, ADR-0035), badge ligi (**klikalny** → ekran ligi, `LeagueLink`, ADR-0035), ☆, ⤓; na <sm etykieta uczestników zawija się do pełnych nazw drużyn (2–3 linie, ADR-0033). Ulubione drużyny: serduszko ♥ (wypełnione, `text-brand-text`) wiodące przed uczestnikami — działa też na tintach pasm i w sekcji nocy; SR czyta "My team" (ADR-0034).
+- **Cards view** (alternatywny, eksperyment): te same dane, wydarzenie jako karta (większy format, mocniej kolor pasa) — dla użytkowników wolących "kanban" tygodnia; etykieta uczestników i liga klikalne jak w wierszu.
+- **Blok Now** (element, nie osobny ekran): trwające + starting soon w jednym zintegrowanym bloku; etykieta uczestników otwiera szczegóły, liga linkuje do ekranu ligi (ADR-0035).
+- **EventDetailsDialog** (element współdzielony — własność modułu od ADR-0035): natywny `<dialog>` z pełną data/godziną, pasmem, statusem, linkami liga/uczestnicy, eksportami i „Show in calendar"; box „Rescheduled" z migracją gwiazdki (ADR-0018). Otwierany z każdej listy meczów (kalendarz, terminarz drużyny, watchlista).
 
 ## Actions
 
@@ -53,6 +59,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 | Expand/collapse past day | Nagłówek dnia przeszłego = przycisk (chevron, aria-expanded); chipsy liczników zostają w nagłówku | `Event` | Domyślnie zwinięte — ADR-0033 |
 | Toggle view type | list ↔ cards; persystencja w `UserSettings.viewMode` | `UserSettings` | Eksperyment adopcji — ADR-0006 |
 | Star / Unstar event | Gwiazdka z wiersza | `WatchlistEntry` | |
+| Open event details | Klik w etykietę uczestników (wiersz/karta/Now) → `EventDetailsDialog`; liga w dialogu i w wierszu → ekran ligi | `Event`, `League` | ADR-0035; „Watch new date" migruje gwiazdkę (ADR-0018) |
 | Export single → calendar | Google (link) / Apple (ICS) z wiersza | `Event` | Moduł calendar-export |
 | See event status | scheduled / live / finished / postponed / canceled | `Event` | Pasywne, data-driven |
 | Filter list | Pasmo + sport + ligi (More filters) + MyTeamsFilter (FilterBar modułu filters) | — | Zasada uniwersalna; ADR-0012 |
@@ -75,8 +82,8 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 ## Integration Points
 
 - **filters**: wspólny FilterBar nad listą (pasmo/sport/liga/MyTeamsFilter) — zasada uniwersalna; stan widoku (tydzień + filtry) w URL — ADR-0014
-- **watchlist**: gwiazdka w wierszu; obserwowane nie są tu specjalnie traktowane (ich dom to moduł watchlist)
-- **calendar-export**: ⤓ w wierszu
-- **teams**: podświetlenie ulubionych drużyn w wierszach; link z uczestnika → SeasonSchedule
+- **watchlist**: gwiazdka w wierszu; obserwowane nie są tu specjalnie traktowane (ich dom to moduł watchlist); `EventDetailsDialog` — własność event-calendar od ADR-0035, watchlist konsumuje
+- **calendar-export**: ⤓ w wierszu; akcje w `EventDetailsDialog`
+- **teams**: podświetlenie ulubionych drużyn w wierszach; link z uczestnika → SeasonSchedule; liga (`LeagueLink`) → ekran ligi; terminarz drużyny otwiera ten sam dialog szczegółów
 - **settings**: strefa czasowa + zakresy pasm napędzają całą klasyfikację; `viewMode` stąd
 - **data-source**: jedyny dostawca danych; kontrakt: Event ze stabilnym `startUtc`

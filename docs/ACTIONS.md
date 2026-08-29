@@ -33,7 +33,7 @@ Pełna lista akcji użytkownika wg encji (`proto-deepen`). Zasada uniwersalna po
 | Expand past section | Rozwinięcie historii obserwowanych. | |
 | Remove entry | Ręczne usunięcie z watchlisty (odgwiazdkowanie). | Jedyny sposób "sprzątania" |
 | Export whole watchlist → calendar | Wszystkie nadchodzące jako jeden ICS. | Nice-to-have, potwierdzone jako "ok, jeśli jest" |
-| Jump to event | Kliknięcie wpisu → źródłowe Event / jego szczegóły. | |
+| Jump to event | Kliknięcie etykiety meczu na KAŻDEJ liście (kalendarz, terminarz drużyny, watchlista, blok Now) → dialog szczegółów. | ADR-0035; „Watch new date" migruje gwiazdkę |
 
 ### FavoriteTeam
 

@@ -2,7 +2,8 @@ import type { SportEvent } from '@/modules/data-source/types';
 import { Radio } from 'lucide-react';
 import { formatDuration, formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
 import { deriveStatus, isStartingSoon } from '@/modules/data-source/lib/status';
-import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
+import { participantsLabel, sportEmoji } from '../lib/event-labels';
+import { LeagueLink } from './LeagueLink';
 
 interface NowItem {
   event: SportEvent;
@@ -15,13 +16,15 @@ interface NowBlockProps {
   events: SportEvent[];
   now: Date;
   tz: TimeZone;
+  /** otwarcie szczegółów wydarzenia (klik w etykietę — ADR-0035, jak w wierszach list) */
+  onOpenDetails?: (event: SportEvent) => void;
 }
 
 /**
  * Szczyt listy (ADR-0005): trwające + startujące w ≤60 min,
  * wszystko wyliczane z czasu startu — bez realtime API.
  */
-export function NowBlock({ events, now, tz }: NowBlockProps) {
+export function NowBlock({ events, now, tz, onOpenDetails }: NowBlockProps) {
   const items: NowItem[] = [];
 
   for (const event of events) {
@@ -37,6 +40,21 @@ export function NowBlock({ events, now, tz }: NowBlockProps) {
 
   const live = items.filter((i) => !i.soon);
   const soon = items.filter((i) => i.soon);
+
+  /** Etykieta uczestników — przycisk otwierający szczegóły (ADR-0035),
+   * ten sam idiom underline co wiersze list; bez handleru zwykły tekst. */
+  const label = (event: SportEvent) =>
+    onOpenDetails ? (
+      <button
+        type="button"
+        onClick={() => onOpenDetails(event)}
+        className="min-w-0 flex-1 truncate text-left font-medium underline-offset-2 hover:underline focus-visible:underline"
+      >
+        {participantsLabel(event)}
+      </button>
+    ) : (
+      <span className="min-w-0 flex-1 truncate font-medium">{participantsLabel(event)}</span>
+    );
 
   return (
     <section
@@ -56,8 +74,11 @@ export function NowBlock({ events, now, tz }: NowBlockProps) {
               LIVE
             </span>
             <span aria-hidden="true">{sportEmoji(event)}</span>
-            <span className="min-w-0 flex-1 truncate font-medium">{participantsLabel(event)}</span>
-            <span className="hidden text-xs text-muted-foreground sm:inline">{leagueName(event)}</span>
+            {label(event)}
+            <LeagueLink
+              leagueId={event.leagueId}
+              className="hidden shrink-0 text-xs text-muted-foreground sm:inline"
+            />
             <span className="shrink-0 text-xs text-muted-foreground">
               Started {formatDuration(deltaMs)} ago
             </span>
@@ -70,8 +91,11 @@ export function NowBlock({ events, now, tz }: NowBlockProps) {
               SOON
             </span>
             <span aria-hidden="true">{sportEmoji(event)}</span>
-            <span className="min-w-0 flex-1 truncate font-medium">{participantsLabel(event)}</span>
-            <span className="hidden text-xs text-muted-foreground sm:inline">{leagueName(event)}</span>
+            {label(event)}
+            <LeagueLink
+              leagueId={event.leagueId}
+              className="hidden shrink-0 text-xs text-muted-foreground sm:inline"
+            />
             <span className="shrink-0 text-xs text-muted-foreground">
               {formatTimeInZone(new Date(event.startUtc), tz)} · in {formatDuration(deltaMs)}
             </span>

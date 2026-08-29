@@ -2,10 +2,13 @@ import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Heart, LayoutGrid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { SportEvent } from '@/modules/data-source/types';
 import { LEAGUE_BY_ID, SPORT_BY_ID, TEAM_BY_ID } from '@/modules/data-source/data/catalog';
 import { useEvents } from '@/modules/data-source/hooks/use-events';
 import { FilterBar, matchesEventFilters, useUrlFilters } from '@/modules/filters';
 import { EventCard } from '@/modules/event-calendar/components/EventCard';
+import { EventDetailsDialog } from '@/modules/event-calendar/components/EventDetailsDialog';
+import { LeagueLink } from '@/modules/event-calendar/components/LeagueLink';
 import { EventRow } from '@/modules/event-calendar/components/EventRow';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
 import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
@@ -46,6 +49,8 @@ export function TeamScheduleScreen() {
   const now = useNow(30_000);
   const { filters, setFilters, clearFilters } = useUrlFilters({ week: false, dimensions: 'bands' });
   const [toast, setToast] = useState<WatchlistToastState | null>(null);
+  // Szczegóły wydarzenia z wiersza/karty — dialog współdzielony (ADR-0035)
+  const [detailsEvent, setDetailsEvent] = useState<SportEvent | null>(null);
 
   const tz = settings.timezone === 'system' ? undefined : settings.timezone;
   const todayKey = dayKeyInZone(now, tz);
@@ -103,6 +108,18 @@ export function TeamScheduleScreen() {
     else add(eventId);
   };
 
+  /** Migracja gwiazdki na nową instancję przełożonego (ADR-0018, z dialogu —
+   * ADR-0035), przez tę samą instancję useWatchlist co gwiazdki wierszy. */
+  const handleMigrate = useCallback(
+    (from: SportEvent, to: SportEvent) => {
+      const entry = entries.find((e) => e.eventId === from.id);
+      remove(from.id);
+      add(to.id, entry?.addedAt);
+      setToast({ id: Date.now(), message: 'Watch moved to the new date' });
+    },
+    [entries, remove, add],
+  );
+
   /** Od-ulubienie z nagłówka z undo 5s — wpis wraca verbatim (ADR-0024). */
   const handleToggleFavorite = useCallback(() => {
     if (!team) return;
@@ -158,7 +175,8 @@ export function TeamScheduleScreen() {
           <div>
             <h1 className="text-xl font-semibold tracking-tight">{team.name}</h1>
             <p className="text-xs text-muted-foreground">
-              {league?.name ?? team.leagueId}
+              {/* Liga klikalna → ekran ligi (ADR-0035) */}
+              <LeagueLink leagueId={team.leagueId} />
               {dataRange && ` · ${dataRange}`}
             </p>
           </div>
@@ -255,6 +273,7 @@ export function TeamScheduleScreen() {
                     tz={tz}
                     watched={item.watched}
                     onToggleWatch={() => handleToggleWatch(item.event.id)}
+                    onOpenDetails={setDetailsEvent}
                     favorite={false}
                     liveIndicator
                     dateLabel={dateLabelFor(item.event.startUtc)}
@@ -272,6 +291,7 @@ export function TeamScheduleScreen() {
                     tz={tz}
                     watched={item.watched}
                     onToggleWatch={() => handleToggleWatch(item.event.id)}
+                    onOpenDetails={setDetailsEvent}
                     favorite={false}
                     liveIndicator
                     dateLabel={dateLabelFor(item.event.startUtc)}
@@ -288,6 +308,7 @@ export function TeamScheduleScreen() {
             tz={tz}
             now={now}
             onToggleWatch={handleToggleWatch}
+            onOpenDetails={setDetailsEvent}
             flat
           />
         </>
@@ -298,6 +319,16 @@ export function TeamScheduleScreen() {
           Data as of {new Date(generatedAt).toLocaleString()}
         </p>
       )}
+
+      {/* Szczegóły wydarzenia — jump to event z wierszy terminarza (ADR-0035) */}
+      <EventDetailsDialog
+        event={detailsEvent}
+        allEvents={events}
+        onMigrate={handleMigrate}
+        settings={settings}
+        tz={tz}
+        onClose={() => setDetailsEvent(null)}
+      />
 
       {toast && <WatchlistToast toast={toast} onDismiss={() => setToast(null)} />}
     </div>

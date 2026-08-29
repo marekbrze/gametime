@@ -67,6 +67,7 @@ export function PastSection({
             tz={tz}
             watched={item.watched}
             onToggleWatch={() => onToggleWatch(item.event.id)}
+            onOpenDetails={onOpenDetails}
             favorite={item.favorite}
             dateLabel={formatShortDateParts(new Date(item.event.startUtc), tz)}
           />
@@ -83,6 +84,7 @@ export function PastSection({
             tz={tz}
             watched={item.watched}
             onToggleWatch={() => onToggleWatch(item.event.id)}
+            onOpenDetails={onOpenDetails}
             favorite={item.favorite}
             dateLabel={formatShortDateParts(new Date(item.event.startUtc), tz)}
             bandTint

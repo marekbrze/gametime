@@ -14,6 +14,7 @@ import { useFavoriteTeams } from '@/modules/teams/hooks/use-favorite-teams';
 import { useSettings } from '@/modules/settings/hooks/use-settings';
 import { bandOfDate } from '@/modules/settings/lib/time-bands';
 import { useWatchlist } from '@/modules/watchlist/hooks/use-watchlist';
+import { WatchlistToast, type WatchlistToastState } from '@/modules/watchlist/components/WatchlistToast';
 import {
   dayKeyInZone,
   shiftWeekKey,
@@ -24,6 +25,7 @@ import {
 import { useNow } from '../hooks/use-now';
 import { DayGroup, type DayItem } from './DayGroup';
 import { EmptyWeek } from './EmptyWeek';
+import { EventDetailsDialog } from './EventDetailsDialog';
 import { LoadError } from './LoadError';
 import { NowBlock } from './NowBlock';
 import { StorageWarning } from './StorageWarning';
@@ -33,7 +35,7 @@ import { WeekSkeleton } from './WeekSkeleton';
 export function EventCalendarScreen() {
   const { events, status, source, generatedAt, window: dataWindow, refresh } = useEvents();
   const { settings, updateViewMode, writeError: settingsError } = useSettings();
-  const { isWatched, toggle, writeError: watchlistError } = useWatchlist();
+  const { entries, add, remove, isWatched, toggle, writeError: watchlistError } = useWatchlist();
   const { favoriteTeamIds, writeError: favoritesError } = useFavoriteTeams();
 
   const now = useNow(30_000);
@@ -41,6 +43,9 @@ export function EventCalendarScreen() {
   // czysty start bez parametrów. MyTeams celowo poza URL (nieprzenośne między userami).
   const { filters, weekOffset, setFilters, shiftWeek, setWeekOffset, clearFilters } = useUrlFilters();
   const [myTeamsOnly, setMyTeamsOnly] = useState(false);
+  // Szczegóły wydarzenia z wiersza/NowBlock — dialog współdzielony (ADR-0035)
+  const [detailsEvent, setDetailsEvent] = useState<SportEvent | null>(null);
+  const [toast, setToast] = useState<WatchlistToastState | null>(null);
 
   const tz = settings.timezone === 'system' ? undefined : settings.timezone;
 
@@ -91,6 +96,19 @@ export function EventCalendarScreen() {
   const nowEvents = useMemo(
     () => events.filter(passesScreenFilters),
     [events, passesScreenFilters],
+  );
+
+  /** Migracja gwiazdki na nową instancję przełożonego (ADR-0018, z dialogu —
+   * ADR-0035). Przez TĘ samą instancję useWatchlist, która zasila gwiazdki
+   * wierszy (osobna instancja nie synchronizuje się — useLocalStorage). */
+  const handleMigrate = useCallback(
+    (from: SportEvent, to: SportEvent) => {
+      const entry = entries.find((e) => e.eventId === from.id);
+      remove(from.id);
+      add(to.id, entry?.addedAt);
+      setToast({ id: Date.now(), message: 'Watch moved to the new date' });
+    },
+    [entries, remove, add],
   );
 
   /** dayKey → posortowane itemy (DayItem z pasmem i statusem). */
@@ -149,7 +167,7 @@ export function EventCalendarScreen() {
         <WeekSkeleton />
       ) : (
         <>
-          <NowBlock events={nowEvents} now={now} tz={tz} />
+          <NowBlock events={nowEvents} now={now} tz={tz} onOpenDetails={setDetailsEvent} />
 
           <WeekPager
             mondayKey={displayMonday}
@@ -217,6 +235,7 @@ export function EventCalendarScreen() {
                 viewMode={settings.viewMode}
                 tz={tz}
                 onToggleWatch={toggle}
+                onOpenDetails={setDetailsEvent}
               />
             ))
           )}
@@ -228,6 +247,18 @@ export function EventCalendarScreen() {
           )}
         </>
       )}
+
+      {/* Szczegóły wydarzenia — jump to event z każdej listy (ADR-0035) */}
+      <EventDetailsDialog
+        event={detailsEvent}
+        allEvents={events}
+        onMigrate={handleMigrate}
+        settings={settings}
+        tz={tz}
+        onClose={() => setDetailsEvent(null)}
+      />
+
+      {toast && <WatchlistToast toast={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
 }

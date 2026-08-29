@@ -17,10 +17,11 @@ import {
   weekStartKey,
   type TimeZone,
 } from '@/shared/lib/datetime';
-import { leagueName, participantsLabel, sportEmoji } from '@/modules/event-calendar/lib/event-labels';
+import { participantsLabel, sportEmoji } from '@/modules/event-calendar/lib/event-labels';
 import { deriveStatus } from '@/modules/data-source/lib/status';
 import { useNow } from '@/modules/event-calendar/hooks/use-now';
-import { findRescheduled } from '../lib/reschedule';
+import { findRescheduled } from '@/modules/data-source/lib/reschedule';
+import { LeagueLink } from './LeagueLink';
 
 interface EventDetailsDialogProps {
   /** null = zamknięty; otwarcie przez wybór wydarzenia (jump to event z ACTIONS.md) */
@@ -35,8 +36,9 @@ interface EventDetailsDialogProps {
 }
 
 /**
- * Szczegóły obserwowanego wydarzenia (decyzja designera, proto-lofi): pełna
- * data/godzina, liga, pasmo, status + eksporty + „Show in calendar".
+ * Szczegóły wydarzenia (decyzja designera, proto-lofi): pełna data/godzina,
+ * liga, pasmo, status + eksporty + „Show in calendar". Otwierane z każdej
+ * listy meczów (ADR-0035) — jump to event z ACTIONS.md.
  * Natywny <dialog>: Escape, focus trap i aria-modal za darmo; każdy tor
  * zamknięcia (Escape, tło, ×, „Show in calendar") przechodzi przez native
  * 'close', które oddaje fokus elementowi otwierającemu i sprząta stan rodzica.
@@ -170,7 +172,14 @@ export function EventDetailsDialog({
           </div>
           <div className="flex justify-between gap-4">
             <dt className="text-muted-foreground">League</dt>
-            <dd className="font-medium">{leagueName(event)}</dd>
+            <dd className="text-right font-medium">
+              {/* Liga klikalna jak uczestnicy wyżej — nawigacja do ekranu ligi
+                  (ADR-0035); dialog zamyka się przed nawigacją (idiom ADR-0022) */}
+              <LeagueLink
+                leagueId={event.leagueId}
+                onClick={() => dialogRef.current?.close()}
+              />
+            </dd>
           </div>
           <div className="flex justify-between gap-4">
             <dt className="text-muted-foreground">Time band</dt>

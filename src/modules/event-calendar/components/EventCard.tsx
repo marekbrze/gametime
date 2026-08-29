@@ -5,7 +5,8 @@ import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
 import { BAND_CARD, BAND_DOT, BAND_TIME } from '@/modules/settings/lib/bands-ui';
-import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
+import { participantsLabel, sportEmoji } from '../lib/event-labels';
+import { LeagueLink } from './LeagueLink';
 
 interface EventCardProps {
   event: SportEvent;
@@ -108,7 +109,8 @@ export function EventCard({
         )}
         {/* Czas w kolorze pasma — drugi nośnik obok kropki (ADR-0032, AA na tincie) */}
         <span className={`font-medium ${BAND_TIME[band]}`}>{formatTimeInZone(start, tz)}</span>{' '}
-        · {leagueName(event)}
+        {/* Liga klikalna → ekran ligi (ADR-0035); styl dziedziczony z mety */}
+        · <LeagueLink leagueId={event.leagueId} />
         {liveIndicator && status === 'live' && (
           <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">
             <span className="size-1.5 animate-live-pulse rounded-full bg-live" aria-hidden="true" />
