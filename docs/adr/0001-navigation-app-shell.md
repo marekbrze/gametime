@@ -14,6 +14,7 @@ Trzeba zdefiniować, jak użytkownik nawiguje między modułami (MODULES.md: 4 d
 - **Kontener treści**: responsive contained (`max-w-6xl`), bez breadcrumbs.
 - **Shared**: header (nazwa + slot) oraz footer (źródła danych, GitHub); bez notyfikacji.
 - **Routing**: `HashRouter` zamiast `BrowserRouter` — na GitHub Pages odświeżenie deep-linku pathowego (`/watchlist`) zwraca 404; hash routing unika tego bez hacków typu `404.html` + redirect. Koszt: `#/` w URL.
+- **Scroll przy nawigacji** *(dodane później, sygnał z testów)*: zmiana pathname wraca na górę okna (efekt w `AppShell`) — bez tego przejście katalog lig → lista drużyn ligi dziedziczyło scroll punktu kliknięcia. Świadomie nie resetujemy na zmianie `search`: stan widoku w URL (ADR-0014: `?w`, `?band`, filtry) to wciąż ten sam ekran — strzałki tygodnia nie mogą wyrywać scrolla. Back/forward też zaczyna od góry (brak `ScrollRestoration` z data routerów — świadomy koszt hash routingu).
 
 ## Impact
 Wszystkie ekrany z `proto-lofi` renderują się w tym shellu (`AppShell` w `src/shared/components/`). Nawigację między modułami obsługuje wyłącznie shell — moduły nie rysują własnych menu. Przejście na `BrowserRouter` możliwe później tylko ze zmianą hostingu (np. Netlify/Vercel z rewrite rules) — wówczas ten ADR do rewizji.

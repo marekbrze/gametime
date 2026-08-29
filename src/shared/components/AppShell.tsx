@@ -26,7 +26,21 @@ function useCalendarSearch(): string {
   return lastSearch.current
 }
 
+/**
+ * Nowy ekran zaczyna od góry: zmiana pathname wraca na górę okna — bez tego
+ * katalog lig → lista drużyn ligi dziedziczy scroll punktu kliknięcia.
+ * Świadomie NIE na zmianie search: stan widoku w URL (ADR-0014: ?w, ?band,
+ * filtry) to wciąż ten sam ekran — strzałki tygodnia nie mogą wyrywać scrolla.
+ */
+function useScrollTopOnNavigate() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
+  useScrollTopOnNavigate()
   const calendarSearch = useCalendarSearch()
   const navTo = (path: string) =>
     path === '/event-calendar' && calendarSearch

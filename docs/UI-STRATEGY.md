@@ -38,6 +38,7 @@ Moduły `filters`, `calendar-export`, `data-source`, `data-pipeline` **nie są d
 - `HashRouter` (nie `BrowserRouter`) — cel deploy to statyczne GitHub Pages, gdzie deep-link pathowy daje 404 po odświeżeniu; hash routing jest odporny na to bez trików z `404.html`. Koszt: `#/` w URL.
 - Ścieżki modułów: `/event-calendar`, `/watchlist`, `/teams`, `/settings` + dwupoziomowa nawigacja teams (ADR-0020): `/teams/league/:leagueId` (lista drużyn ligi) i `/teams/team/:teamId` (terminarz sezonu) — jawne prefiksy, bo przestrzenie id lig i drużyn kolidują wzorcem
 - Placeholder `RoutePlaceholder` na każdą ścieżkę — `proto-lofi` podmienia na rzeczywiste ekrany
+- Scroll: **zmiana pathname = powrót na górę okna** (efekt w `AppShell`, ADR-0001) — nowy ekran nie dziedziczy scrolla poprzedniego. Zmiana `search` (stan widoku, ADR-0014) scrolla nie rusza.
 
 ## Implementacja
 - `src/shared/components/AppShell.tsx` — header + main (contained) + footer + mobilne bottom tabs (Tailwind: `md:` breakpoint przełącza warianty)
