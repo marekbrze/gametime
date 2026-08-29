@@ -70,3 +70,31 @@ export const ForeignUrlParamsStripped: Story = {
     withRouter('/teams/team/nhl-col?sport=soccer&league=la-liga'),
   ],
 };
+
+/** ADR-0032: filtr pasma zawęża płaską listę — nocne mecze z datą i czerwoną
+ * kropką, bez grup dnia. */
+export const NightBandFilterFlat: Story = {
+  decorators: [
+    (Story) => {
+      seed(generateMockEvents());
+      return <Story />;
+    },
+    withRouter('/teams/team/nhl-col?band=night'),
+  ],
+};
+
+/** ADR-0032: cały sezon za nami — upcoming pusty z notą, Past (płaski wariant)
+ * niesie historię z datami w wierszach. */
+export const AllPastFlat: Story = {
+  decorators: [
+    (Story) => {
+      const events = generateMockEvents().map((e) => ({
+        ...e,
+        startUtc: new Date(new Date(e.startUtc).getTime() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+      }));
+      seed(events);
+      return <Story />;
+    },
+    withRouter('/teams/team/nhl-col'),
+  ],
+};

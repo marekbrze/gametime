@@ -44,3 +44,13 @@ wolumetria). Diagnoza — decyzje i implementacja należą do `proto-harden`.
 
 ## Hand-off to proto-harden
 Najpierw implementować #1–#5 (stany + empty states + duration), potem #6 po decyzji projektowej. #8–#9 to dług techniczny na moment budowy watchlist/teams — zanotować w ich specach. #10 warto dorzucić przy okazji pracy ze scenariuszami. #11–#15 to polish.
+
+## Dodatek po ADR-0032 (sygnalizacja świetlna + disclosure nocy, 2026-08-29)
+
+| # | Stan | Kategoria | Gap | Zaczerpnąty stan | Zachowanie po harden | Plik |
+|---|------|-----------|-----|------------------|----------------------|------|
+| 16 | ✅ | Interaction | Zwinięta noc nieczytelna jako klikalna (sygnał designera) | ghost-przycisk w muted | pełnoszerokościowy przycisk: border + tint pasa night, Show/Hide + chevron, aria-expanded/controls | `DayGroup.tsx` |
+| 17 | ✅ | Interaction | Dzień, w którym noc jest JEDYNYM pasmem — treść dnia chowa się za zwinięciem | jw. | auto-open + mini-nagłówek „Night" jak Day/Evening | `DayGroup.tsx` (nightOnly) |
+| 18 | ✅ | Filters | `?band=night` opróżnia Day/Evening — wyniki filtru lądują w zwinięciu | jw. | nightOnly zadziała po filtrach automatycznie (liczniki liczą przefiltrowane itemy) | `DayGroup.tsx` |
+| 19 | ✅ | A11y | Chipy podsumowania: noc bez licznika (emoji zamiast liczby) | 🌙 Night bez liczby | każdy chip pokazuje liczbę; noc z ikoną Moon | `DayGroup.tsx` |
+| 20 | ✅ | A11y | Stories kalendarza bez Routera (useSearchParams rzuca) — puste od lofi | brak dekoratora | meta-dekorator MemoryRouter | `EventCalendarScreen.stories.tsx` |

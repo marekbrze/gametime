@@ -1,10 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { generateMockEvents } from '@/modules/data-source/data/mock-events';
 import { WatchlistScreen } from './WatchlistScreen';
 
 const meta: Meta<typeof WatchlistScreen> = {
   title: 'Watchlist/WatchlistScreen',
   component: WatchlistScreen,
+  // Ekran czyta filtry z URL (useSearchParams) — bez Routera hook rzuca,
+  // więc każda story żyje w MemoryRouter (wzorzec z teams, ADR-0020).
+  decorators: [
+    (Story) => (
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/" element={<Story />} />
+        </Routes>
+      </MemoryRouter>
+    ),
+  ],
 };
 export default meta;
 type Story = StoryObj<typeof WatchlistScreen>;

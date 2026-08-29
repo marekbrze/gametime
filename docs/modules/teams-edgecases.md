@@ -45,3 +45,13 @@ Audyt `proto-edgecases` po `proto-lofi` (commit ecbbf54). **Zahardowane w `proto
 
 ## Hand-off to proto-harden
 Wykonane w całości (ADR-0024). E2E: harden 20/20 + regresja teams 43/43 + regresja app 4/4.
+
+## Dodatek po ADR-0032 (płaski terminarz, 2026-08-29)
+
+| # | Stan | Kategoria | Gap | Zaczerpnąty stan | Zachowanie po harden | Plik |
+|---|------|-----------|-----|------------------|----------------------|------|
+| 11 | ✅ | Data states | Grupy dni + separatory miesięcy zagęszczały terminarz (sygnał designera) | DayGroup per ViewingDay | płaska lista chronologiczna z datą w wierszu („Sat"/„Sep 6", „Today" dla bieżącego) | `TeamScheduleScreen.tsx` |
+| 12 | ✅ | Navigation | Nocne mecze: ViewingDay w płaskiej liście traci sens | grupa „after midnight" wczorajszego wieczoru | chronologia po starcie + data faktyczna (czwartek 01:30 po środzie) | `TeamScheduleScreen.tsx` (ADR-0032) |
+| 13 | ✅ | Filters | `?band=night` na płaskiej liście | — | zawęża listę, daty/kolejność bez zmian | `TeamScheduleScreen.tsx` |
+| 14 | ✅ | Layout | Kolumna daty na 375 px | — | dwie linie caption w w-14, liga dalej ukrywana poniżej sm jak dotąd | `EventRow.tsx` (dateLabel) |
+| 15 | ✅ | Data states | Past w terminarzu po spłaszczeniu | DayGroupy w sekcji Past | wariant `flat` PastSection — chronologia od najnowszych z datami | `PastSection.tsx` |
