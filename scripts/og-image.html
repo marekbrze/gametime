@@ -1,0 +1,135 @@
+<!doctype html>
+<!-- Szablon og-image gametime (ADR-0036) — karta podglądu 1200×630.
+     Renderowany przez scripts/generate-og-image.mjs (chromium screenshot).
+     Kolory = ciemny motyw z DESIGN.md/index.css po konwersji OKLCH→sRGB:
+     canvas #0e0a08, fg #f4efed, muted #a59c99, card #171310, border #322c2a,
+     papaya #f77e35; kropki pasm = kolory TimeBand z motywu light.
+     Font: Geist Variable wprost z node_modules (środowisko nie ma fontów
+     systemowych — patrz memory: chromium-fontconfig-workaround). Zero emoji. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: 'Geist Variable';
+        src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2')
+          format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #0e0a08;
+        color: #f4efed;
+        font-family: 'Geist Variable', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+      }
+      .mark {
+        width: 88px;
+        height: 88px;
+      }
+      h1 {
+        font-size: 124px;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1;
+      }
+      h1 .time {
+        color: #f77e35;
+      }
+      .tagline {
+        font-size: 33px;
+        /* muted-foreground dark (#a59c99) rozjaśniony o krok — tagline ma
+           przeżyć w miniaturze karty w feedzie (feedback z analizy renderu) */
+        color: #bcb3ae;
+        letter-spacing: -0.005em;
+        margin-top: -14px;
+      }
+      .bands {
+        display: flex;
+        gap: 18px;
+      }
+      .band {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #171310;
+        border: 1.5px solid #322c2a;
+        border-radius: 999px;
+        padding: 11px 26px;
+        font-size: 25px;
+        font-weight: 500;
+      }
+      .band i {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+      .band .day {
+        background: #33854a;
+      }
+      .band .evening {
+        background: #b3880f;
+      }
+      .band .night {
+        background: #c9302d;
+      }
+      .event {
+        width: 760px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: #171310;
+        border: 1.5px solid #322c2a;
+        border-radius: 14px;
+        padding: 19px 28px;
+        font-size: 27px;
+        font-weight: 500;
+      }
+      .event .league {
+        color: #a59c99;
+        font-weight: 400;
+      }
+      .event .when {
+        margin-left: auto;
+        color: #f77e35;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="#f77e35" />
+      <g fill="#1e130e">
+        <path
+          fill-rule="evenodd"
+          d="M9 16 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0 Z M12.2 16 a3.8 3.8 0 1 0 7.6 0 a3.8 3.8 0 1 0 -7.6 0 Z"
+        />
+        <rect x="17.4" y="14.2" width="5.6" height="3.6" />
+      </g>
+    </svg>
+    <h1>game<span class="time">time</span></h1>
+    <p class="tagline">Sports schedule in your timezone</p>
+    <div class="bands">
+      <span class="band"><i class="day"></i>Day</span>
+      <span class="band"><i class="evening"></i>Evening</span>
+      <span class="band"><i class="night"></i>Night</span>
+    </div>
+    <div class="event">
+      <span>Bruins — Maple Leafs</span>
+      <span class="league">NHL</span>
+      <span class="when">7:00 PM</span>
+    </div>
+  </body>
+</html>

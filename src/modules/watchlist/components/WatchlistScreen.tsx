@@ -16,6 +16,7 @@ import { useNow } from '@/modules/event-calendar/hooks/use-now';
 import { dayKeyInZone } from '@/shared/lib/datetime';
 import { useWatchlist } from '../hooks/use-watchlist';
 import { buildWatchlistGroups } from '../lib/watchlist-groups';
+import { useDocumentTitle } from '@/shared/hooks/use-document-title';
 import { EmptyWatchlist } from './EmptyWatchlist';
 import { PastSection } from './PastSection';
 import { WatchlistSkeleton } from './WatchlistSkeleton';
@@ -33,6 +34,7 @@ import { WatchlistToast, type WatchlistToastState } from './WatchlistToast';
  * poza oknem danych są widoczne z opcją sprzątania.
  */
 export function WatchlistScreen() {
+  useDocumentTitle('Watchlist');
   const { events, status, source, generatedAt, refresh } = useEvents();
   const { settings, updateViewMode, writeError: settingsError } = useSettings();
   const { entries, add, remove, keepOnly, writeError: watchlistError } = useWatchlist();

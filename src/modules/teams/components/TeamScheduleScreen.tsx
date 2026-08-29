@@ -18,6 +18,7 @@ import { useNow } from '@/modules/event-calendar/hooks/use-now';
 import { useWatchlist } from '@/modules/watchlist/hooks/use-watchlist';
 import { useSettings } from '@/modules/settings/hooks/use-settings';
 import { dayKeyInZone, formatShortDateParts } from '@/shared/lib/datetime';
+import { useDocumentTitle } from '@/shared/hooks/use-document-title';
 import { useFavoriteTeams } from '../hooks/use-favorite-teams';
 import { buildScheduleGroups } from '../lib/schedule-groups';
 import { TeamsSkeleton } from './TeamsSkeleton';
@@ -57,6 +58,8 @@ export function TeamScheduleScreen() {
   const team = teamId ? TEAM_BY_ID.get(teamId) : undefined;
   const league = team ? LEAGUE_BY_ID.get(team.leagueId) : undefined;
   const sport = league ? SPORT_BY_ID.get(league.sportId) : undefined;
+  // Tytuł karty z katalogu; fallback dla id poza katalogiem (zasada ADR-0024)
+  useDocumentTitle(team?.name ?? 'Team');
 
   const teamEvents = useMemo(
     () => (team ? events.filter((e) => (e.teamIds ?? []).includes(team.id)) : []),

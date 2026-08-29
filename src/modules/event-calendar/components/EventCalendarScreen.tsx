@@ -22,6 +22,7 @@ import {
   weekDayKeys,
   weekStartKey,
 } from '@/shared/lib/datetime';
+import { useDocumentTitle } from '@/shared/hooks/use-document-title';
 import { useNow } from '../hooks/use-now';
 import { DayGroup, type DayItem } from './DayGroup';
 import { EmptyWeek } from './EmptyWeek';
@@ -33,6 +34,7 @@ import { WeekPager } from './WeekPager';
 import { WeekSkeleton } from './WeekSkeleton';
 
 export function EventCalendarScreen() {
+  useDocumentTitle('Calendar');
   const { events, status, source, generatedAt, window: dataWindow, refresh } = useEvents();
   const { settings, updateViewMode, writeError: settingsError } = useSettings();
   const { entries, add, remove, isWatched, toggle, writeError: watchlistError } = useWatchlist();

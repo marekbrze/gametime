@@ -12,6 +12,7 @@ import { useEvents } from '@/modules/data-source/hooks/use-events';
 import { LoadError } from '@/modules/event-calendar/components/LoadError';
 import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
 import { WatchlistToast, type WatchlistToastState } from '@/modules/watchlist/components/WatchlistToast';
+import { useDocumentTitle } from '@/shared/hooks/use-document-title';
 import { useFavoriteTeams } from '../hooks/use-favorite-teams';
 import type { FavoriteTeam } from '../types';
 import { TeamsSkeleton } from './TeamsSkeleton';
@@ -29,6 +30,7 @@ const HIDDEN_LEAGUE_IDS = new Set(['f1']);
  * pad zapisu localStorage widoczny jako StorageWarning.
  */
 export function TeamsScreen() {
+  useDocumentTitle('Teams');
   const { status, refresh } = useEvents();
   const { favorites, writeError, add, remove } = useFavoriteTeams();
   const [toast, setToast] = useState<WatchlistToastState | null>(null);

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { StorageWarning } from '@/modules/event-calendar/components/StorageWarning';
+import { useDocumentTitle } from '@/shared/hooks/use-document-title';
 import { useSettings } from '../hooks/use-settings';
 import {
   boundariesFromBands,
@@ -24,6 +25,7 @@ import { TimeBandStepper } from './TimeBandStepper';
  * (ADR-0026); viewMode żyje na kalendarzu (ADR-0006), tu go nie dublujemy.
  */
 export function SettingsScreen() {
+  useDocumentTitle('Settings');
   const { settings, updateTimezone, updateBands, reset, writeError } = useSettings();
   const [resetOpen, setResetOpen] = useState(false);
   const storageFailed = Boolean(writeError);

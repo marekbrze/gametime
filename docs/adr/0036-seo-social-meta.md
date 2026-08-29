@@ -9,9 +9,9 @@ Strona działa na GitHub Pages, ale `index.html` był minimalny: `lang="en"`, ty
 
 ## Decision
 
-1. **Statyczny head w `index.html` = źródło prawdy SEO**: `lang="pl"`, opisowy title, meta description, robots, canonical, theme-color (light/dark), pełne `og:*`, `twitter:*` (summary_large_image), JSON-LD `WebApplication`. Wszystkie absolutne URL-e z base `/gametime/` (`https://marekbrze.github.io/gametime/…`).
+1. **Statyczny head w `index.html` = źródło prawdy SEO**: opisowy title, meta description, robots, canonical, theme-color (light/dark), pełne `og:*`, `twitter:*` (summary_large_image), JSON-LD `WebApplication`. Copy po angielsku, `lang="en"` bez zmian (ADR-0003 — sprostowanie: pierwotna wersja tego ADR zakładała `lang="pl"`). Wszystkie absolutne URL-e z base `/gametime/` (`https://marekbrze.github.io/gametime/…`).
 2. **Tytuł karty per ekran** przez `useDocumentTitle` (shared/hooks) — celowo UX-owy (karta/historia), nie SEO-owy; statyczny head niesie SEO.
-3. **Brand assety generowane z DESIGN.md, nie ręcznie**: faviconi (papaya + tusz, PNG 16/32/180/192/512, manifest) i `og-image.png` 1200×630 (Geist + papaya + trzy kropki pasm — kluczowy insight produktu) przez skrypt w repo.
+3. **Brand assety generowane z DESIGN.md, nie ręcznie**: faviconi (papaya + tusz, glif = wielkie geometryczne "G" — małe "g" czytało się jako "q"; PNG 16/32/180/192/512, manifest, bez `.ico` — brak ImageMagick, PNG pokrywa przeglądarki) i `og-image.png` 1200×630 (Geist + papaya + trzy kropki pasm — kluczowy insight produktu) przez skrypty `scripts/generate-{icons,og-image}.mjs` w repo (raster: headless chromium).
 4. **Stałe brandu w `src/shared/lib/seo.ts`** (SITE_NAME/SITE_URL/DEFAULT_TITLE/DEFAULT_DESCRIPTION) — nazwa produktu to open question z PROJECT.md, więc jedna lokacja na zmianę.
 5. **Umami** (self-hosted `analytics.at.marekbrze.dev`, website-id `cfa2ad28-4714-4e64-aca7-52f3aa768f70`) — tag w head. Śledzenie zmian hasha odroczone (Later).
 6. **`robots.txt`** allow-all. Sitemap celowo poza zakresem (hash-SPA = 1 URL).

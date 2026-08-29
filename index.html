@@ -2,9 +2,76 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>gametime</title>
+
+    <!-- SEO/social-meta (ADR-0036). HashRouter = jeden dokument na wszystkie
+         trasy, a scrapery social nie wykonują JS — ten statyczny head jest
+         całą powierzchnią SEO strony. Copy EN (ADR-0003), kolory hex z
+         DESIGN.md (OKLCH→sRGB), absolutne URL-e z base /gametime/. -->
+    <title>gametime — sports schedule in your timezone</title>
+    <meta
+      name="description"
+      content="NHL, NBA, NFL, F1 and top soccer leagues in one calendar — times in your timezone, day/evening/night bands, watchlist and calendar export."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://marekbrze.github.io/gametime/" />
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e0a08" />
+
+    <!-- Open Graph (karta podglądu w komunikatorach) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="gametime" />
+    <meta property="og:url" content="https://marekbrze.github.io/gametime/" />
+    <meta property="og:title" content="gametime — sports schedule in your timezone" />
+    <meta
+      property="og:description"
+      content="NHL, NBA, NFL, F1 and top soccer leagues in one calendar — times in your timezone, day/evening/night bands, watchlist and calendar export."
+    />
+    <meta property="og:image" content="https://marekbrze.github.io/gametime/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="gametime — one calendar for every league you follow, times in your timezone" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="gametime — sports schedule in your timezone" />
+    <meta
+      name="twitter:description"
+      content="NHL, NBA, NFL, F1 and top soccer leagues in one calendar — times in your timezone, day/evening/night bands, watchlist and calendar export."
+    />
+    <meta name="twitter:image" content="https://marekbrze.github.io/gametime/og-image.png" />
+
+    <!-- Faviconi + manifest (brand: papaya #f77e35 + tusz #1e130e, DESIGN.md) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Dane strukturalne -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "gametime",
+        "url": "https://marekbrze.github.io/gametime/",
+        "description": "NHL, NBA, NFL, F1 and top soccer leagues in one calendar — times in your timezone, day/evening/night bands, watchlist and calendar export.",
+        "applicationCategory": "SportsApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+
+    <!-- Umami (ADR-0036): self-hosted, defer — nie blokuje renderu -->
+    <script
+      defer
+      src="https://analytics.at.marekbrze.dev/script.js"
+      data-website-id="cfa2ad28-4714-4e64-aca7-52f3aa768f70"
+    ></script>
   </head>
   <body>
     <div id="root"></div>
