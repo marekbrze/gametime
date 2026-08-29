@@ -4,7 +4,7 @@ import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
-import { BAND_CARD, BAND_DOT } from '@/modules/settings/lib/bands-ui';
+import { BAND_CARD, BAND_DOT, BAND_TIME } from '@/modules/settings/lib/bands-ui';
 import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
 
 interface EventCardProps {
@@ -19,6 +19,8 @@ interface EventCardProps {
   onOpenDetails?: (event: SportEvent) => void;
   /** chip LIVE dla trwających — watchlista (kalendarz ma własny NowBlock, ADR-0018) */
   liveIndicator?: boolean;
+  /** data ("Sat" / "Sep 6") dla płaskich list bez grup dnia — terminarz (ADR-0032) */
+  dateLabel?: { weekday: string; date: string };
 }
 
 /** Widok alternatywny (UserSettings.viewMode = 'cards'): większy format, kolor pasa mocniej. */
@@ -32,6 +34,7 @@ export function EventCard({
   favorite,
   onOpenDetails,
   liveIndicator,
+  dateLabel,
 }: EventCardProps) {
   const start = new Date(event.startUtc);
 
@@ -84,9 +87,13 @@ export function EventCard({
         <p className="text-base font-medium leading-snug">{participantsLabel(event)}</p>
       )}
       <p className="mt-1 text-sm text-muted-foreground">
-        <span className="font-medium text-foreground">
-          {formatTimeInZone(start, tz)}
-        </span>{' '}
+        {dateLabel && (
+          <span className="font-medium text-foreground">
+            {dateLabel.weekday}, {dateLabel.date} ·{' '}
+          </span>
+        )}
+        {/* Czas w kolorze pasma — drugi nośnik obok kropki (ADR-0032, AA na tincie) */}
+        <span className={`font-medium ${BAND_TIME[band]}`}>{formatTimeInZone(start, tz)}</span>{' '}
         · {leagueName(event)}
         {liveIndicator && status === 'live' && (
           <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-live/12 px-1.5 py-0.5 text-caption font-semibold uppercase tracking-wide text-live-text">

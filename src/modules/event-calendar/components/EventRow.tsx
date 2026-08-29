@@ -4,7 +4,7 @@ import { ExportMenu } from '@/modules/calendar-export/components/ExportMenu';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import { formatTimeInZone, type TimeZone } from '@/shared/lib/datetime';
-import { BAND_DOT } from '@/modules/settings/lib/bands-ui';
+import { BAND_DOT, BAND_TIME } from '@/modules/settings/lib/bands-ui';
 import { leagueName, participantsLabel, sportEmoji } from '../lib/event-labels';
 
 interface EventRowProps {
@@ -20,6 +20,8 @@ interface EventRowProps {
   onOpenDetails?: (event: SportEvent) => void;
   /** chip LIVE dla trwających — watchlista (kalendarz ma własny NowBlock, ADR-0018) */
   liveIndicator?: boolean;
+  /** data ("Sat" / "Sep 6") dla płaskich list bez grup dnia — terminarz (ADR-0032) */
+  dateLabel?: { weekday: string; date: string };
 }
 
 export function EventRow({
@@ -32,6 +34,7 @@ export function EventRow({
   favorite,
   onOpenDetails,
   liveIndicator,
+  dateLabel,
 }: EventRowProps) {
   const start = new Date(event.startUtc);
   /** finished/postponed przygaszone — przełożone zostają widoczne (ADR-0011);
@@ -51,7 +54,8 @@ export function EventRow({
   );
 
   return (
-    <div
+    // li — wiersz żyje wyłącznie w listach (ul w DayGroup/PastSection/terminarzu)
+    <li
       className={[
         'flex items-center gap-3 rounded-md border bg-card px-3 py-2 transition-colors duration-150',
         favorite ? 'bg-muted/60' : '',
@@ -66,7 +70,14 @@ export function EventRow({
       <span className="text-lg" aria-hidden="true">
         {sportEmoji(event)}
       </span>
-      <span className="w-12 shrink-0 text-sm font-medium">
+      {dateLabel && (
+        <span className="flex w-14 shrink-0 flex-col leading-tight">
+          <span className="text-caption text-muted-foreground">{dateLabel.weekday}</span>
+          <span className="text-caption text-foreground/80">{dateLabel.date}</span>
+        </span>
+      )}
+      {/* Czas w kolorze pasma — drugi nośnik obok kropki (ADR-0032, AA na card) */}
+      <span className={`w-12 shrink-0 text-sm font-medium ${BAND_TIME[band]}`}>
         {formatTimeInZone(start, tz)}
       </span>
       {onOpenDetails ? (
@@ -104,6 +115,6 @@ export function EventRow({
         />
       </Button>
       <ExportMenu event={event} />
-    </div>
+    </li>
   );
 }

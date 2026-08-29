@@ -16,10 +16,11 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 5. Oznacza gwiazdką interesujący mecz → trafia do Watchlisty
 6. Ewentualnie ⤓ eksport pojedynczego wydarzenia do kalendarza
 
-### Rozwinięcie nocy
+### Rozwinięcie nocy (ADR-0032)
 1. User po whole-day skanowaniu chce sprawdzić, co było/bydzie nocą
-2. Klika zwiniętą sekcję "🌙 Night — 5 events after midnight" na końcu dnia
-3. Sekcja rozwija się inline; nocne wiersze mają krawędź koloru pasa Night
+2. Klika **pełnoszerokościowy przycisk w czerwonym tincie pasa Night** na końcu dnia: ikona księżyca, "Night — N events after midnight", pill "Show"/"Hide" + chevron
+3. Sekcja rozwija się inline; wiersze nocy mają czerwoną kropkę i czas w kolorze pasa
+4. Gdy noc jest jedynym pasmem dnia (albo filtr `?band=night` przefiltrował resztę) — sekcja rozwija się SAMA z mini-nagłówkiem "Night", nic nie ginie za zwinięciem
 
 ### Pager tygodnia
 1. User chce planować z wyprzedzeniem → klika **Next week** (ewent. wielokrotnie)
@@ -32,7 +33,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 
 ## Screens (rough)
 
-- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", liczby pasm, kolorowe chipsy) → mini-sekcje "Day" i "Evening" z kolorową krawędzią wierszy → zwinięta sekcja Night na końcu. Wiersz: emoji sportu, godzina, uczestnicy ("A vs B"; motorsport: seria + nazwa GP), badge ligi, ☆, ⤓. Ulubione drużyny: subtelne podświetlenie wiersza.
+- **Week list** (główny): blok Now → pager tygodnia → sekwencja dni. Dzień = nagłówek (dzień tygodnia + data / "Today", chipsy pasm z licznikami, kolory sygnalizacji świetlnej ADR-0032) → mini-sekcje "Day" i "Evening" → zwinięty disclosure Night na końcu (rozwija się sam, gdy jest jedynym pasmem dnia). Wiersz: kropka pasma, emoji sportu, godzina w kolorze pasma, uczestnicy ("A vs B"; motorsport: seria + nazwa GP), badge ligi, ☆, ⤓. Ulubione drużyny: subtelne podświetlenie wiersza.
 - **Cards view** (alternatywny, eksperyment): te same dane, wydarzenie jako karta (większy format, mocniej kolor pasa) — dla użytkowników wolących "kanban" tygodnia.
 - **Blok Now** (element, nie osobny ekran): trwające + starting soon w jednym zintegrowanym bloku.
 
@@ -43,7 +44,7 @@ Wejście na stronę = natychmiastowa odpowiedź na dwa pytania: **co trwa teraz*
 | View Now block | Trwające (LIVE, elapsed) + starting soon (≤60 min, countdown) | `Event` | Statusy wyliczane z czasu startu — ADR-0005 |
 | Browse week list | Aktualny tydzień kalendarzowy, wszystkie sporty | `Event` | Domyślny widok |
 | Page weeks | ‹ Previous / Next week › + This week; ruchome po tygodniach kalendarzowych | — | ADR-0006 |
-| Expand/collapse night section | Per dzień; label z liczbą "events after midnight" | `Event` | Noc należy do wieczoru poprzedniego — ADR-0004 |
+| Expand/collapse night section | Per dzień; widoczny przycisk-tint z liczbą "events after midnight", Show/Hide + chevron | `Event` | Noc należy do wieczoru poprzedniego — ADR-0004; auto-open gdy noc jedynym pasmem — ADR-0032 |
 | Toggle view type | list ↔ cards; persystencja w `UserSettings.viewMode` | `UserSettings` | Eksperyment adopcji — ADR-0006 |
 | Star / Unstar event | Gwiazdka z wiersza | `WatchlistEntry` | |
 | Export single → calendar | Google (link) / Apple (ICS) z wiersza | `Event` | Moduł calendar-export |

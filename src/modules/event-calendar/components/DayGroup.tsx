@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Moon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronDown, Moon } from 'lucide-react';
 import type { EventStatus, SportEvent } from '@/modules/data-source/types';
 import type { TimeBandKind } from '@/modules/settings/types';
 import type { ViewMode } from '@/modules/settings/types';
@@ -33,9 +32,15 @@ interface DayGroupProps {
 
 const SECTION_ORDER: TimeBandKind[] = ['day', 'evening'];
 
+const bandLabel = (band: TimeBandKind) => band[0].toUpperCase() + band.slice(1);
+
 /**
  * Grupa dnia: nagłówek z podsumowaniem pasm → sekcje Day/Evening (mini-nagłówki
- * z kolorem) → noc zwinięta na końcu ("after midnight" — ViewingDay, ADR-0004).
+ * z kolorem) → noc na końcu jako WIDOCZNY disclosure "after midnight"
+ * (ViewingDay, ADR-0004). Noc zwinięta pod pełnoszerokościowym, obwiedzionym
+ * przyciskiem w czerwonym tincie pasma (ADR-0032 — zbyt subtelne ukrywanie
+ * było nieczytelne); gdy noc jest jedynym pasmem dnia, rozwija się sama —
+ * chowanie jedynej treści dnia byłoby pułapką.
  */
 export function DayGroup({
   dayKey,
@@ -56,6 +61,10 @@ export function DayGroup({
     night: items.filter((i) => i.band === 'night').length,
   };
   if (counts.day + counts.evening + counts.night === 0) return null;
+
+  /** Dzień tylko z nocą → sekcja otwarta jak Day/Evening (nic do zwijania). */
+  const nightOnly = counts.day + counts.evening === 0;
+  const nightVisible = nightOnly || nightOpen;
 
   const renderItems = (band: TimeBandKind) =>
     items
@@ -90,6 +99,23 @@ export function DayGroup({
         ),
       );
 
+  const renderBandList = (band: TimeBandKind) =>
+    viewMode === 'cards' ? (
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">{renderItems(band)}</div>
+    ) : (
+      <ul className="space-y-1.5">{renderItems(band)}</ul>
+    );
+
+  const renderBandSection = (band: TimeBandKind, extraClass = '') => (
+    <div key={band} className={`mb-3 ${extraClass}`}>
+      <p className="mb-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        <span className={`size-2 rounded-full ${BAND_DOT[band]}`} aria-hidden="true" />
+        {bandLabel(band)}
+      </p>
+      {renderBandList(band)}
+    </div>
+  );
+
   return (
     <section aria-labelledby={`day-${dayKey}`} className="mb-8">
       <h3
@@ -112,60 +138,54 @@ export function DayGroup({
               counts[kind] > 0 && (
                 <span
                   key={kind}
-                  className={`rounded-full px-2 py-0.5 ${BAND_CHIP[kind]}`}
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${BAND_CHIP[kind]}`}
                   title={`${counts[kind]} ${kind} events`}
                 >
-                  {kind === 'night' ? '🌙' : counts[kind]}{' '}
-                  {kind[0].toUpperCase() + kind.slice(1)}
+                  {kind === 'night' && <Moon className="size-3" aria-hidden="true" />}
+                  {counts[kind]} {bandLabel(kind)}
                 </span>
               ),
           )}
         </span>
       </h3>
 
-      {SECTION_ORDER.map((band) =>
-        counts[band] > 0 ? (
-          <div key={band} className="mb-3">
-            <p className="mb-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              <span className={`size-2 rounded-full ${BAND_DOT[band]}`} aria-hidden="true" />
-              {band}
-            </p>
-            {viewMode === 'cards' ? (
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {renderItems(band)}
+      {SECTION_ORDER.map((band) => counts[band] > 0 && renderBandSection(band))}
+
+      {counts.night > 0 &&
+        (nightOnly ? (
+          renderBandSection('night')
+        ) : (
+          <div className="mt-2">
+            <button
+              type="button"
+              aria-expanded={nightOpen}
+              aria-controls={`night-${dayKey}`}
+              onClick={() => setNightOpen((v) => !v)}
+              className="flex w-full items-center gap-2.5 rounded-lg border border-band-night/40 bg-band-night-tint px-3 py-2.5 text-left transition-colors duration-150 outline-none hover:border-band-night/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:transition-none"
+            >
+              <Moon className="size-4 shrink-0 text-band-night-text" aria-hidden="true" />
+              <span className="text-sm font-medium text-band-night-text">
+                Night — {counts.night} {counts.night === 1 ? 'event' : 'events'} after midnight
+              </span>
+              <span className="ml-auto flex shrink-0 items-center gap-1.5">
+                <span className="rounded-full bg-band-night/15 px-2 py-0.5 text-caption font-semibold text-band-night-text">
+                  {nightOpen ? 'Hide' : 'Show'}
+                </span>
+                <ChevronDown
+                  className={`size-4 text-band-night-text transition-transform duration-150 motion-reduce:transition-none ${
+                    nightOpen ? '' : '-rotate-90'
+                  }`}
+                  aria-hidden="true"
+                />
+              </span>
+            </button>
+            {nightVisible && (
+              <div id={`night-${dayKey}`} className="mt-1.5">
+                {renderBandList('night')}
               </div>
-            ) : (
-              <ul className="space-y-1.5">{renderItems(band)}</ul>
             )}
           </div>
-        ) : null,
-      )}
-
-      {counts.night > 0 && (
-        <div className="mt-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-expanded={nightOpen}
-            onClick={() => setNightOpen((v) => !v)}
-            className="gap-2 text-muted-foreground"
-          >
-            <Moon className="size-4" aria-hidden="true" />
-            Night — {counts.night} {counts.night === 1 ? 'event' : 'events'} after midnight
-          </Button>
-          {nightOpen && (
-            <div className="mt-1.5">
-              {viewMode === 'cards' ? (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {renderItems('night')}
-                </div>
-              ) : (
-                <ul className="space-y-1.5">{renderItems('night')}</ul>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+        ))}
     </section>
   );
 }
