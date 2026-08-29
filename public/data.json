@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-28T16:43:16.649Z",
+  "generatedAt": "2026-08-29T11:11:26.975Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -1248,14 +1248,6 @@
         "espn-nfl-7",
         "espn-nfl-9"
       ]
-    },
-    {
-      "id": "f1-11348",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-08-22T10:00:00.000Z",
-      "title": "Dutch Grand Prix — Sprint",
-      "sessionType": "race"
     },
     {
       "id": "espn-premier-league-401879322",
@@ -2740,6 +2732,14 @@
       ]
     },
     {
+      "id": "f1-11364",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-12T10:30:00.000Z",
+      "title": "Spanish Grand Prix — Practice 3",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-serie-a-401874991",
       "sportId": "soccer",
       "leagueId": "serie-a",
@@ -3470,16 +3470,6 @@
       ]
     },
     {
-      "id": "espn-premier-league-401879272",
-      "sportId": "soccer",
-      "leagueId": "premier-league",
-      "startUtc": "2026-09-19T14:00:00.000Z",
-      "teamIds": [
-        "espn-premier-league-382",
-        "espn-premier-league-366"
-      ]
-    },
-    {
       "id": "espn-premier-league-401879273",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -3617,6 +3607,16 @@
       "teamIds": [
         "espn-serie-a-109",
         "espn-serie-a-114"
+      ]
+    },
+    {
+      "id": "espn-premier-league-401879272",
+      "sportId": "soccer",
+      "leagueId": "premier-league",
+      "startUtc": "2026-09-20T13:00:00.000Z",
+      "teamIds": [
+        "espn-premier-league-382",
+        "espn-premier-league-366"
       ]
     },
     {
