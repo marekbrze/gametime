@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T11:11:26.975Z",
+  "generatedAt": "2026-08-30T09:59:37.068Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -78,7 +78,7 @@
     "teams": [
       {
         "id": "espn-bundesliga-10388",
-        "name": "SV ELVERSBERG",
+        "name": "SV Elversberg",
         "leagueId": "bundesliga"
       },
       {
@@ -1288,14 +1288,6 @@
         "espn-premier-league-368",
         "espn-premier-league-384"
       ]
-    },
-    {
-      "id": "f1-11349",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-08-22T14:00:00.000Z",
-      "title": "Dutch Grand Prix — Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-la-liga-401882916",
@@ -2848,6 +2840,14 @@
         "espn-premier-league-349",
         "espn-premier-league-337"
       ]
+    },
+    {
+      "id": "f1-11365",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-12T14:00:00.000Z",
+      "title": "Spanish Grand Prix — Qualifying",
+      "sessionType": "qualifying"
     },
     {
       "id": "espn-bundesliga-401884792",
