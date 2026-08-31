@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T09:59:37.068Z",
+  "generatedAt": "2026-08-31T10:57:34.492Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -1490,14 +1490,6 @@
       ]
     },
     {
-      "id": "f1-11353",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-08-23T13:00:00.000Z",
-      "title": "Dutch Grand Prix — Race",
-      "sessionType": "race"
-    },
-    {
       "id": "espn-la-liga-401882915",
       "sportId": "soccer",
       "leagueId": "la-liga",
@@ -2724,12 +2716,32 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882878",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-11T19:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-243",
+        "espn-la-liga-94"
+      ]
+    },
+    {
       "id": "f1-11364",
       "sportId": "motorsport",
       "leagueId": "f1",
       "startUtc": "2026-09-12T10:30:00.000Z",
       "title": "Spanish Grand Prix — Practice 3",
       "sessionType": "practice"
+    },
+    {
+      "id": "espn-la-liga-401882881",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-12T12:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-87",
+        "espn-la-liga-96"
+      ]
     },
     {
       "id": "espn-serie-a-401874991",
@@ -2850,6 +2862,16 @@
       "sessionType": "qualifying"
     },
     {
+      "id": "espn-la-liga-401882882",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-12T14:15:00.000Z",
+      "teamIds": [
+        "espn-la-liga-97",
+        "espn-la-liga-88"
+      ]
+    },
+    {
       "id": "espn-bundesliga-401884792",
       "sportId": "soccer",
       "leagueId": "bundesliga",
@@ -2857,6 +2879,16 @@
       "teamIds": [
         "espn-bundesliga-122",
         "espn-bundesliga-137"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882886",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-12T16:30:00.000Z",
+      "teamIds": [
+        "espn-la-liga-93",
+        "espn-la-liga-3751"
       ]
     },
     {
@@ -2890,6 +2922,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882880",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-12T19:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-86",
+        "espn-la-liga-101"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878779",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -2897,6 +2939,16 @@
       "teamIds": [
         "espn-premier-league-366",
         "espn-premier-league-359"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882885",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-13T12:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-85",
+        "espn-la-liga-99"
       ]
     },
     {
@@ -2920,6 +2972,14 @@
       ]
     },
     {
+      "id": "f1-11369",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-13T13:00:00.000Z",
+      "title": "Spanish Grand Prix — Race",
+      "sessionType": "race"
+    },
+    {
       "id": "espn-bundesliga-401884798",
       "sportId": "soccer",
       "leagueId": "bundesliga",
@@ -2927,6 +2987,16 @@
       "teamIds": [
         "espn-bundesliga-11420",
         "espn-bundesliga-127"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882883",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-13T14:15:00.000Z",
+      "teamIds": [
+        "espn-la-liga-1538",
+        "espn-la-liga-83"
       ]
     },
     {
@@ -2957,6 +3027,16 @@
       "teamIds": [
         "espn-serie-a-114",
         "espn-serie-a-107"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882884",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-13T16:30:00.000Z",
+      "teamIds": [
+        "espn-la-liga-2922",
+        "espn-la-liga-90"
       ]
     },
     {
@@ -3040,106 +3120,6 @@
       ]
     },
     {
-      "id": "espn-la-liga-401882877",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-102",
-        "espn-la-liga-244"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882878",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-243",
-        "espn-la-liga-94"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882879",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-89",
-        "espn-la-liga-1068"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882880",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-86",
-        "espn-la-liga-101"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882881",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-87",
-        "espn-la-liga-96"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882882",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-97",
-        "espn-la-liga-88"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882883",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-1538",
-        "espn-la-liga-83"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882884",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-2922",
-        "espn-la-liga-90"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882885",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-85",
-        "espn-la-liga-99"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882886",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-13T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-93",
-        "espn-la-liga-3751"
-      ]
-    },
-    {
       "id": "espn-serie-a-401874933",
       "sportId": "soccer",
       "leagueId": "serie-a",
@@ -3167,6 +3147,16 @@
       "teamIds": [
         "espn-serie-a-239",
         "espn-serie-a-104"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882879",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-13T19:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-89",
+        "espn-la-liga-1068"
       ]
     },
     {
@@ -3230,6 +3220,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882877",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-14T19:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-102",
+        "espn-la-liga-244"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879280",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -3253,47 +3253,27 @@
       "id": "espn-la-liga-401882868",
       "sportId": "soccer",
       "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
+      "startUtc": "2026-09-15T17:00:00.000Z",
       "teamIds": [
         "espn-la-liga-101",
         "espn-la-liga-88"
       ]
     },
     {
-      "id": "espn-la-liga-401882869",
+      "id": "espn-la-liga-401882876",
       "sportId": "soccer",
       "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
+      "startUtc": "2026-09-15T18:00:00.000Z",
       "teamIds": [
-        "espn-la-liga-99",
-        "espn-la-liga-102"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882870",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-1538",
-        "espn-la-liga-93"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882871",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-83",
-        "espn-la-liga-87"
+        "espn-la-liga-96",
+        "espn-la-liga-94"
       ]
     },
     {
       "id": "espn-la-liga-401882872",
       "sportId": "soccer",
       "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
+      "startUtc": "2026-09-15T19:30:00.000Z",
       "teamIds": [
         "espn-la-liga-3751",
         "espn-la-liga-86"
@@ -3303,40 +3283,60 @@
       "id": "espn-la-liga-401882873",
       "sportId": "soccer",
       "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
+      "startUtc": "2026-09-16T17:00:00.000Z",
       "teamIds": [
         "espn-la-liga-90",
         "espn-la-liga-243"
       ]
     },
     {
-      "id": "espn-la-liga-401882874",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-244",
-        "espn-la-liga-2922"
-      ]
-    },
-    {
       "id": "espn-la-liga-401882875",
       "sportId": "soccer",
       "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
+      "startUtc": "2026-09-16T17:00:00.000Z",
       "teamIds": [
         "espn-la-liga-1068",
         "espn-la-liga-97"
       ]
     },
     {
-      "id": "espn-la-liga-401882876",
+      "id": "espn-la-liga-401882870",
       "sportId": "soccer",
       "leagueId": "la-liga",
-      "startUtc": "2026-09-16T18:00:00.000Z",
+      "startUtc": "2026-09-16T19:30:00.000Z",
       "teamIds": [
-        "espn-la-liga-96",
-        "espn-la-liga-94"
+        "espn-la-liga-1538",
+        "espn-la-liga-93"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882871",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-16T19:30:00.000Z",
+      "teamIds": [
+        "espn-la-liga-83",
+        "espn-la-liga-87"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882874",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-17T17:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-244",
+        "espn-la-liga-2922"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882869",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-17T19:30:00.000Z",
+      "teamIds": [
+        "espn-la-liga-99",
+        "espn-la-liga-102"
       ]
     },
     {
@@ -3370,6 +3370,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882862",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-18T19:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-88",
+        "espn-la-liga-3751"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879275",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -3387,6 +3397,16 @@
       "teamIds": [
         "espn-premier-league-367",
         "espn-premier-league-362"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882860",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-19T12:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-97",
+        "espn-la-liga-101"
       ]
     },
     {
@@ -3490,6 +3510,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882866",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-19T14:15:00.000Z",
+      "teamIds": [
+        "espn-la-liga-93",
+        "espn-la-liga-96"
+      ]
+    },
+    {
       "id": "espn-serie-a-401874753",
       "sportId": "soccer",
       "leagueId": "serie-a",
@@ -3510,6 +3540,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882864",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-19T16:30:00.000Z",
+      "teamIds": [
+        "espn-la-liga-85",
+        "espn-la-liga-87"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879270",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -3527,6 +3567,16 @@
       "teamIds": [
         "espn-serie-a-17530",
         "espn-serie-a-112"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882859",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-19T19:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-243",
+        "espn-la-liga-83"
       ]
     },
     {
@@ -3610,6 +3660,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882861",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-20T12:00:00.000Z",
+      "teamIds": [
+        "espn-la-liga-2922",
+        "espn-la-liga-99"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879272",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -3660,6 +3720,16 @@
       ]
     },
     {
+      "id": "espn-la-liga-401882865",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-20T14:15:00.000Z",
+      "teamIds": [
+        "espn-la-liga-1068",
+        "espn-la-liga-86"
+      ]
+    },
+    {
       "id": "espn-bundesliga-401884783",
       "sportId": "soccer",
       "leagueId": "bundesliga",
@@ -3687,6 +3757,16 @@
       "teamIds": [
         "espn-serie-a-111",
         "espn-serie-a-105"
+      ]
+    },
+    {
+      "id": "espn-la-liga-401882863",
+      "sportId": "soccer",
+      "leagueId": "la-liga",
+      "startUtc": "2026-09-20T16:30:00.000Z",
+      "teamIds": [
+        "espn-la-liga-90",
+        "espn-la-liga-244"
       ]
     },
     {
@@ -3807,86 +3887,6 @@
       "teamIds": [
         "espn-la-liga-94",
         "espn-la-liga-89"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882859",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-243",
-        "espn-la-liga-83"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882860",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-97",
-        "espn-la-liga-101"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882861",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-2922",
-        "espn-la-liga-99"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882862",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-88",
-        "espn-la-liga-3751"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882863",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-90",
-        "espn-la-liga-244"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882864",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-85",
-        "espn-la-liga-87"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882865",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-1068",
-        "espn-la-liga-86"
-      ]
-    },
-    {
-      "id": "espn-la-liga-401882866",
-      "sportId": "soccer",
-      "leagueId": "la-liga",
-      "startUtc": "2026-09-20T18:00:00.000Z",
-      "teamIds": [
-        "espn-la-liga-93",
-        "espn-la-liga-96"
       ]
     },
     {
