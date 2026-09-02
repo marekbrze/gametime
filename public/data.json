@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T09:29:00.759Z",
+  "generatedAt": "2026-09-02T08:51:18.001Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -3490,16 +3490,6 @@
       ]
     },
     {
-      "id": "espn-premier-league-401879273",
-      "sportId": "soccer",
-      "leagueId": "premier-league",
-      "startUtc": "2026-09-19T14:00:00.000Z",
-      "teamIds": [
-        "espn-premier-league-357",
-        "espn-premier-league-384"
-      ]
-    },
-    {
       "id": "espn-premier-league-401879274",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -3677,6 +3667,16 @@
       "teamIds": [
         "espn-premier-league-382",
         "espn-premier-league-366"
+      ]
+    },
+    {
+      "id": "espn-premier-league-401879273",
+      "sportId": "soccer",
+      "leagueId": "premier-league",
+      "startUtc": "2026-09-20T13:00:00.000Z",
+      "teamIds": [
+        "espn-premier-league-357",
+        "espn-premier-league-384"
       ]
     },
     {
@@ -8560,16 +8560,6 @@
       ]
     },
     {
-      "id": "espn-premier-league-401878765",
-      "sportId": "soccer",
-      "leagueId": "premier-league",
-      "startUtc": "2026-10-24T14:00:00.000Z",
-      "teamIds": [
-        "espn-premier-league-364",
-        "espn-premier-league-331"
-      ]
-    },
-    {
       "id": "espn-premier-league-401878768",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -8887,6 +8877,16 @@
       "teamIds": [
         "espn-nfl-18",
         "espn-nfl-23"
+      ]
+    },
+    {
+      "id": "espn-premier-league-401878765",
+      "sportId": "soccer",
+      "leagueId": "premier-league",
+      "startUtc": "2026-10-25T14:00:00.000Z",
+      "teamIds": [
+        "espn-premier-league-364",
+        "espn-premier-league-331"
       ]
     },
     {
@@ -10060,6 +10060,16 @@
       ]
     },
     {
+      "id": "espn-premier-league-401879250",
+      "sportId": "soccer",
+      "leagueId": "premier-league",
+      "startUtc": "2026-10-31T20:00:00.000Z",
+      "teamIds": [
+        "espn-premier-league-362",
+        "espn-premier-league-370"
+      ]
+    },
+    {
       "id": "espn-nba-401909897",
       "sportId": "basketball",
       "leagueId": "nba",
@@ -10157,16 +10167,6 @@
       "teamIds": [
         "espn-nhl-17",
         "espn-nhl-3"
-      ]
-    },
-    {
-      "id": "espn-premier-league-401879250",
-      "sportId": "soccer",
-      "leagueId": "premier-league",
-      "startUtc": "2026-11-01T14:00:00.000Z",
-      "teamIds": [
-        "espn-premier-league-362",
-        "espn-premier-league-370"
       ]
     },
     {
