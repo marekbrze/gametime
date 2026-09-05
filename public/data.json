@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T08:51:18.001Z",
+  "generatedAt": "2026-09-05T08:24:53.735Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -5810,6 +5810,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874947",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-10T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3263",
+        "espn-serie-a-109"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878772",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -5847,6 +5857,16 @@
       "teamIds": [
         "espn-premier-league-373",
         "espn-premier-league-370"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875021",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-10T16:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-110",
+        "espn-serie-a-115"
       ]
     },
     {
@@ -5957,6 +5977,16 @@
       "teamIds": [
         "espn-bundesliga-124",
         "espn-bundesliga-137"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874754",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-10T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-114",
+        "espn-serie-a-4057"
       ]
     },
     {
@@ -6170,6 +6200,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874940",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-11T10:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-2572",
+        "espn-serie-a-104"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878774",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -6190,6 +6230,26 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874776",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-11T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-113",
+        "espn-serie-a-107"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874951",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-11T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-112",
+        "espn-serie-a-4007"
+      ]
+    },
+    {
       "id": "espn-nfl-401872981",
       "sportId": "american-football",
       "leagueId": "nfl",
@@ -6207,6 +6267,16 @@
       "teamIds": [
         "espn-premier-league-364",
         "espn-premier-league-382"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874789",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-11T16:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3997",
+        "espn-serie-a-103"
       ]
     },
     {
@@ -6380,103 +6450,13 @@
       ]
     },
     {
-      "id": "espn-serie-a-401874754",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-114",
-        "espn-serie-a-4057"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874763",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-239",
-        "espn-serie-a-118"
-      ]
-    },
-    {
       "id": "espn-serie-a-401874764",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
+      "startUtc": "2026-10-11T18:45:00.000Z",
       "teamIds": [
         "espn-serie-a-2925",
         "espn-serie-a-111"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874776",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-113",
-        "espn-serie-a-107"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874789",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3997",
-        "espn-serie-a-103"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874940",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-2572",
-        "espn-serie-a-104"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874947",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3263",
-        "espn-serie-a-109"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874951",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-112",
-        "espn-serie-a-4007"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875005",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-105",
-        "espn-serie-a-17530"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875021",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-11T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-110",
-        "espn-serie-a-115"
       ]
     },
     {
@@ -6590,6 +6570,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401875005",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-12T16:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-105",
+        "espn-serie-a-17530"
+      ]
+    },
+    {
       "id": "espn-nhl-401892485",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -6597,6 +6587,16 @@
       "teamIds": [
         "espn-nhl-2",
         "espn-nhl-26"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874763",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-12T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-239",
+        "espn-serie-a-118"
       ]
     },
     {
@@ -7120,6 +7120,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874959",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-16T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-4057",
+        "espn-serie-a-3997"
+      ]
+    },
+    {
       "id": "espn-nba-401898406",
       "sportId": "basketball",
       "leagueId": "nba",
@@ -7270,6 +7280,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874760",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-17T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-17530",
+        "espn-serie-a-114"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878770",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -7297,6 +7317,16 @@
       "teamIds": [
         "espn-premier-league-337",
         "espn-premier-league-364"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874953",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-17T16:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-107",
+        "espn-serie-a-110"
       ]
     },
     {
@@ -7410,103 +7440,13 @@
       ]
     },
     {
-      "id": "espn-serie-a-401874760",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-17530",
-        "espn-serie-a-114"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874762",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-4007",
-        "espn-serie-a-2925"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874765",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-111",
-        "espn-serie-a-112"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874771",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-118",
-        "espn-serie-a-113"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874774",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-109",
-        "espn-serie-a-2572"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874784",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-115",
-        "espn-serie-a-239"
-      ]
-    },
-    {
       "id": "espn-serie-a-401874935",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
+      "startUtc": "2026-10-17T18:45:00.000Z",
       "teamIds": [
         "espn-serie-a-104",
         "espn-serie-a-3263"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874953",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-107",
-        "espn-serie-a-110"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874959",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-4057",
-        "espn-serie-a-3997"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874978",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-17T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-103",
-        "espn-serie-a-105"
       ]
     },
     {
@@ -7640,6 +7580,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874771",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-18T10:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-118",
+        "espn-serie-a-113"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879260",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -7670,6 +7620,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874774",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-18T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-109",
+        "espn-serie-a-2572"
+      ]
+    },
+    {
       "id": "espn-nfl-401872996",
       "sportId": "american-football",
       "leagueId": "nfl",
@@ -7687,6 +7647,16 @@
       "teamIds": [
         "espn-premier-league-393",
         "espn-premier-league-359"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874978",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-18T16:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-103",
+        "espn-serie-a-105"
       ]
     },
     {
@@ -7860,6 +7830,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874765",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-18T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-111",
+        "espn-serie-a-112"
+      ]
+    },
+    {
       "id": "espn-nfl-401873004",
       "sportId": "american-football",
       "leagueId": "nfl",
@@ -7917,6 +7897,26 @@
       "teamIds": [
         "espn-nfl-9",
         "espn-nfl-6"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874762",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-19T16:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-4007",
+        "espn-serie-a-2925"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874784",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-19T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-115",
+        "espn-serie-a-239"
       ]
     },
     {
@@ -8400,6 +8400,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874957",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-23T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-239",
+        "espn-serie-a-4007"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879253",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -8560,6 +8570,26 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874958",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-24T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-2925",
+        "espn-serie-a-107"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874961",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-24T13:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-2572",
+        "espn-serie-a-3997"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878768",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -8577,6 +8607,16 @@
       "teamIds": [
         "espn-premier-league-388",
         "espn-premier-league-370"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874948",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-24T16:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-114",
+        "espn-serie-a-104"
       ]
     },
     {
@@ -8687,6 +8727,16 @@
       "teamIds": [
         "espn-bundesliga-124",
         "espn-bundesliga-125"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874955",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-24T18:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-112",
+        "espn-serie-a-115"
       ]
     },
     {
@@ -8870,6 +8920,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401875036",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-25T11:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-110",
+        "espn-serie-a-109"
+      ]
+    },
+    {
       "id": "espn-nfl-401873011",
       "sportId": "american-football",
       "leagueId": "nfl",
@@ -8917,6 +8977,26 @@
       "teamIds": [
         "espn-premier-league-384",
         "espn-premier-league-361"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874952",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-25T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3263",
+        "espn-serie-a-17530"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874972",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-25T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-105",
+        "espn-serie-a-4057"
       ]
     },
     {
@@ -8997,6 +9077,16 @@
       "teamIds": [
         "espn-nfl-29",
         "espn-nfl-27"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874772",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-25T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-113",
+        "espn-serie-a-111"
       ]
     },
     {
@@ -9100,106 +9190,6 @@
       ]
     },
     {
-      "id": "espn-serie-a-401874772",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-113",
-        "espn-serie-a-111"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874779",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-118",
-        "espn-serie-a-103"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874948",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-114",
-        "espn-serie-a-104"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874952",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3263",
-        "espn-serie-a-17530"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874955",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-112",
-        "espn-serie-a-115"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874957",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-239",
-        "espn-serie-a-4007"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874958",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-2925",
-        "espn-serie-a-107"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874961",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-2572",
-        "espn-serie-a-3997"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874972",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-105",
-        "espn-serie-a-4057"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875036",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-25T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-110",
-        "espn-serie-a-109"
-      ]
-    },
-    {
       "id": "espn-nhl-401892578",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -9207,6 +9197,16 @@
       "teamIds": [
         "espn-nhl-4",
         "espn-nhl-26"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874779",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-25T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-118",
+        "espn-serie-a-103"
       ]
     },
     {
@@ -9330,6 +9330,36 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874980",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-27T17:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3997",
+        "espn-serie-a-112"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874780",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-27T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-104",
+        "espn-serie-a-2925"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874786",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-27T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-239",
+        "espn-serie-a-2572"
+      ]
+    },
+    {
       "id": "espn-nhl-401892585",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -9443,100 +9473,50 @@
       "id": "espn-serie-a-401874773",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
+      "startUtc": "2026-10-28T17:30:00.000Z",
       "teamIds": [
         "espn-serie-a-17530",
         "espn-serie-a-110"
       ]
     },
     {
-      "id": "espn-serie-a-401874780",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-104",
-        "espn-serie-a-2925"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874786",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-239",
-        "espn-serie-a-2572"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874799",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-4007",
-        "espn-serie-a-114"
-      ]
-    },
-    {
       "id": "espn-serie-a-401874965",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
+      "startUtc": "2026-10-28T17:30:00.000Z",
       "teamIds": [
         "espn-serie-a-115",
         "espn-serie-a-118"
       ]
     },
     {
-      "id": "espn-serie-a-401874969",
+      "id": "espn-serie-a-401874993",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
+      "startUtc": "2026-10-28T17:30:00.000Z",
       "teamIds": [
-        "espn-serie-a-109",
-        "espn-serie-a-105"
+        "espn-serie-a-103",
+        "espn-serie-a-107"
       ]
     },
     {
-      "id": "espn-serie-a-401874976",
+      "id": "espn-serie-a-401874799",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
+      "startUtc": "2026-10-28T19:45:00.000Z",
       "teamIds": [
-        "espn-serie-a-4057",
-        "espn-serie-a-113"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874980",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3997",
-        "espn-serie-a-112"
+        "espn-serie-a-4007",
+        "espn-serie-a-114"
       ]
     },
     {
       "id": "espn-serie-a-401874988",
       "sportId": "soccer",
       "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
+      "startUtc": "2026-10-28T19:45:00.000Z",
       "teamIds": [
         "espn-serie-a-3263",
         "espn-serie-a-111"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874993",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-10-28T18:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-103",
-        "espn-serie-a-107"
       ]
     },
     {
@@ -9577,6 +9557,26 @@
       "teamIds": [
         "espn-nhl-124292",
         "espn-nhl-21"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874976",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-29T17:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-4057",
+        "espn-serie-a-113"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874969",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-29T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-109",
+        "espn-serie-a-105"
       ]
     },
     {
@@ -9840,6 +9840,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874798",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-31T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-107",
+        "espn-serie-a-4007"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878763",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -9907,6 +9917,16 @@
       "teamIds": [
         "espn-nhl-5",
         "espn-nhl-19"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874990",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-31T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-118",
+        "espn-serie-a-104"
       ]
     },
     {
@@ -10040,6 +10060,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874795",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-10-31T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-103",
+        "espn-serie-a-110"
+      ]
+    },
+    {
       "id": "espn-nhl-401892618",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -10170,6 +10200,36 @@
       ]
     },
     {
+      "id": "espn-serie-a-401875002",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-01T11:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-2572",
+        "espn-serie-a-17530"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874782",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-01T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-4057",
+        "espn-serie-a-239"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874983",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-01T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-112",
+        "espn-serie-a-2925"
+      ]
+    },
+    {
       "id": "espn-premier-league-401879246",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -10177,6 +10237,16 @@
       "teamIds": [
         "espn-premier-league-364",
         "espn-premier-league-359"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874968",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-01T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-113",
+        "espn-serie-a-3263"
       ]
     },
     {
@@ -10267,6 +10337,16 @@
       "teamIds": [
         "espn-nhl-7",
         "espn-nhl-28"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874949",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-01T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-111",
+        "espn-serie-a-114"
       ]
     },
     {
@@ -10367,106 +10447,6 @@
       "teamIds": [
         "espn-la-liga-93",
         "espn-la-liga-89"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874782",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-4057",
-        "espn-serie-a-239"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874795",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-103",
-        "espn-serie-a-110"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874798",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-107",
-        "espn-serie-a-4007"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874949",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-111",
-        "espn-serie-a-114"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874963",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3997",
-        "espn-serie-a-109"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874968",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-113",
-        "espn-serie-a-3263"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874971",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-105",
-        "espn-serie-a-115"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874983",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-112",
-        "espn-serie-a-2925"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874990",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-118",
-        "espn-serie-a-104"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875002",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-01T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-2572",
-        "espn-serie-a-17530"
       ]
     },
     {
@@ -10587,6 +10567,26 @@
       "teamIds": [
         "espn-nba-13",
         "espn-nba-28"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874963",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-02T17:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3997",
+        "espn-serie-a-109"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874971",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-02T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-105",
+        "espn-serie-a-115"
       ]
     },
     {
@@ -11230,6 +11230,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874815",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-06T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-17530",
+        "espn-serie-a-118"
+      ]
+    },
+    {
       "id": "espn-nba-401909287",
       "sportId": "basketball",
       "leagueId": "nba",
@@ -11350,6 +11360,26 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874791",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-07T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-2925",
+        "espn-serie-a-4057"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874811",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-07T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-239",
+        "espn-serie-a-113"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878757",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -11450,6 +11480,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874974",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-07T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-115",
+        "espn-serie-a-107"
+      ]
+    },
+    {
       "id": "espn-nhl-401892662",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -11467,6 +11507,16 @@
       "teamIds": [
         "espn-nhl-27",
         "espn-nhl-19"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874803",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-07T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-104",
+        "espn-serie-a-3997"
       ]
     },
     {
@@ -11730,6 +11780,36 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874810",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-08T11:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-114",
+        "espn-serie-a-112"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874800",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-08T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-4007",
+        "espn-serie-a-105"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875018",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-08T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3263",
+        "espn-serie-a-103"
+      ]
+    },
+    {
       "id": "espn-nfl-401873038",
       "sportId": "american-football",
       "leagueId": "nfl",
@@ -11737,6 +11817,16 @@
       "teamIds": [
         "espn-nfl-1",
         "espn-nfl-4"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874808",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-08T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-110",
+        "espn-serie-a-2572"
       ]
     },
     {
@@ -11817,6 +11907,16 @@
       "teamIds": [
         "espn-nhl-1",
         "espn-nhl-26"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875003",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-08T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-109",
+        "espn-serie-a-111"
       ]
     },
     {
@@ -11917,106 +12017,6 @@
       "teamIds": [
         "espn-la-liga-1068",
         "espn-la-liga-83"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874791",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-2925",
-        "espn-serie-a-4057"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874800",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-4007",
-        "espn-serie-a-105"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874803",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-104",
-        "espn-serie-a-3997"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874808",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-110",
-        "espn-serie-a-2572"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874810",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-114",
-        "espn-serie-a-112"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874811",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-239",
-        "espn-serie-a-113"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874815",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-17530",
-        "espn-serie-a-118"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874974",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-115",
-        "espn-serie-a-107"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875003",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-109",
-        "espn-serie-a-111"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875018",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-08T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3263",
-        "espn-serie-a-103"
       ]
     },
     {
@@ -13360,6 +13360,26 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874981",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-21T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-112",
+        "espn-serie-a-113"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875056",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-21T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-2572",
+        "espn-serie-a-2925"
+      ]
+    },
+    {
       "id": "espn-premier-league-401878754",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -13460,6 +13480,16 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874967",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-21T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-115",
+        "espn-serie-a-104"
+      ]
+    },
+    {
       "id": "espn-nhl-401892754",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -13467,6 +13497,16 @@
       "teamIds": [
         "espn-nhl-7",
         "espn-nhl-6"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875067",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-21T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-114",
+        "espn-serie-a-239"
       ]
     },
     {
@@ -13690,6 +13730,36 @@
       ]
     },
     {
+      "id": "espn-serie-a-401874960",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-22T11:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-3997",
+        "espn-serie-a-3263"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401874989",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-22T14:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-103",
+        "espn-serie-a-4057"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875047",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-22T17:00:00.000Z",
+      "teamIds": [
+        "espn-serie-a-107",
+        "espn-serie-a-118"
+      ]
+    },
+    {
       "id": "espn-nhl-401892768",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -13767,6 +13837,16 @@
       "teamIds": [
         "espn-nfl-6",
         "espn-nfl-10"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875001",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-22T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-105",
+        "espn-serie-a-110"
       ]
     },
     {
@@ -13870,106 +13950,6 @@
       ]
     },
     {
-      "id": "espn-serie-a-401874960",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-3997",
-        "espn-serie-a-3263"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874967",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-115",
-        "espn-serie-a-104"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874981",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-112",
-        "espn-serie-a-113"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401874989",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-103",
-        "espn-serie-a-4057"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875001",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-105",
-        "espn-serie-a-110"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875008",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-111",
-        "espn-serie-a-17530"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875009",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-4007",
-        "espn-serie-a-109"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875047",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-107",
-        "espn-serie-a-118"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875056",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-2572",
-        "espn-serie-a-2925"
-      ]
-    },
-    {
-      "id": "espn-serie-a-401875067",
-      "sportId": "soccer",
-      "leagueId": "serie-a",
-      "startUtc": "2026-11-22T20:00:00.000Z",
-      "teamIds": [
-        "espn-serie-a-114",
-        "espn-serie-a-239"
-      ]
-    },
-    {
       "id": "espn-nfl-401873074",
       "sportId": "american-football",
       "leagueId": "nfl",
@@ -14047,6 +14027,26 @@
       "teamIds": [
         "espn-nfl-25",
         "espn-nfl-16"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875009",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-23T17:30:00.000Z",
+      "teamIds": [
+        "espn-serie-a-4007",
+        "espn-serie-a-109"
+      ]
+    },
+    {
+      "id": "espn-serie-a-401875008",
+      "sportId": "soccer",
+      "leagueId": "serie-a",
+      "startUtc": "2026-11-23T19:45:00.000Z",
+      "teamIds": [
+        "espn-serie-a-111",
+        "espn-serie-a-17530"
       ]
     },
     {
