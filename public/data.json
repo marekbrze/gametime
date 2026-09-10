@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T08:24:53.735Z",
+  "generatedAt": "2026-09-10T09:00:24.499Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -4250,6 +4250,14 @@
       ]
     },
     {
+      "id": "f1-11370",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-24T08:30:00.000Z",
+      "title": "Azerbaijan Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-nhl-401879363",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -5217,6 +5225,16 @@
       "teamIds": [
         "espn-nba-7",
         "espn-nba-26"
+      ]
+    },
+    {
+      "id": "espn-nba-401918010",
+      "sportId": "basketball",
+      "leagueId": "nba",
+      "startUtc": "2026-10-04T23:00:00.000Z",
+      "teamIds": [
+        "espn-nba-12",
+        "espn-nba-9"
       ]
     },
     {
@@ -6977,6 +6995,16 @@
       "teamIds": [
         "espn-nhl-17",
         "espn-nhl-9"
+      ]
+    },
+    {
+      "id": "espn-nba-401918011",
+      "sportId": "basketball",
+      "leagueId": "nba",
+      "startUtc": "2026-10-15T02:30:00.000Z",
+      "teamIds": [
+        "espn-nba-12",
+        "espn-nba-7"
       ]
     },
     {
@@ -8867,26 +8895,6 @@
       "teamIds": [
         "espn-nba-4",
         "espn-nba-27"
-      ]
-    },
-    {
-      "id": "espn-nba-401909858",
-      "sportId": "basketball",
-      "leagueId": "nba",
-      "startUtc": "2026-10-25T00:00:00.000Z",
-      "teamIds": [
-        "espn-nba-6",
-        "espn-nba-24"
-      ]
-    },
-    {
-      "id": "espn-nba-401909859",
-      "sportId": "basketball",
-      "leagueId": "nba",
-      "startUtc": "2026-10-25T01:00:00.000Z",
-      "teamIds": [
-        "espn-nba-7",
-        "espn-nba-3"
       ]
     },
     {
