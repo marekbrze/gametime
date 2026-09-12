@@ -1,8 +1,10 @@
 name: Data pipeline
 
 # data-pipeline (ADR-0007): pobiera terminarze lig (ESPN + OpenF1), pisze
-# public/data.json i commituje. Commit triggeruje deploy Pages — świadomy
-# łańcuch "dane → Pages". Raz dziennie 04:23 UTC (6:23 CEST) — świeże dane
+# public/data.json i commituje, po czym jawnie odpala deploy Pages — świadomy
+# łańcuch "dane → Pages". Push z GITHUB_TOKEN NIE triggeruje workflowów `on: push`
+# (ograniczenie GitHuba), więc deploy idzie przez workflow_dispatch — jedyny
+# wyjątek, który GITHUB_TOKEN może odpalić. Raz dziennie 04:23 UTC (6:23 CEST) — świeże dane
 # przed porankiem PL, po nocnych przełożeniach lig US; po pełnej godzinie
 # (mniejszy congestion GitHub).
 
@@ -13,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # gh workflow run deploy.yml
 
 concurrency:
   group: data-pipeline
@@ -35,6 +38,7 @@ jobs:
       - run: npm run pipeline
 
       - name: Commit refreshed data
+        id: commit
         run: |
           git config user.name "gametime-pipeline[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -45,3 +49,10 @@ jobs:
           fi
           git commit -m "data(pipeline): refresh events $(date -u +%Y-%m-%dT%H:%MZ)"
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy Pages with refreshed data
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
