@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T08:41:53.924Z",
+  "generatedAt": "2026-09-13T09:36:43.788Z",
   "source": "espn-hidden-api+openf1",
   "window": {
     "from": "2026-06-01T04:00:00.000Z",
@@ -2270,14 +2270,6 @@
       ]
     },
     {
-      "id": "f1-11356",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-05T10:30:00.000Z",
-      "title": "Italian Grand Prix — Practice 3",
-      "sessionType": "practice"
-    },
-    {
       "id": "espn-premier-league-401879286",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -2396,14 +2388,6 @@
         "espn-premier-league-337",
         "espn-premier-league-366"
       ]
-    },
-    {
-      "id": "f1-11357",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-05T14:00:00.000Z",
-      "title": "Italian Grand Prix — Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-la-liga-401882895",
@@ -4444,6 +4428,14 @@
         "espn-nhl-10",
         "espn-nhl-14"
       ]
+    },
+    {
+      "id": "f1-11377",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-09-26T11:00:00.000Z",
+      "title": "Azerbaijan Grand Prix — Race",
+      "sessionType": "race"
     },
     {
       "id": "espn-nhl-401879457",
