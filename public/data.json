@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-19T08:51:42.295Z",
+  "generatedAt": "2026-09-20T09:20:57.064Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-12T08:51:42.295Z",
-    "to": "2026-10-03T08:51:42.295Z"
+    "from": "2026-09-13T09:20:57.064Z",
+    "to": "2026-10-04T09:20:57.064Z"
   },
   "catalog": {
     "sports": [
@@ -2670,14 +2670,6 @@
       ]
     },
     {
-      "id": "f1-11364",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-12T10:30:00.000Z",
-      "title": "Spanish Grand Prix — Practice 3",
-      "sessionType": "practice"
-    },
-    {
       "id": "espn-la-liga-401882881",
       "sportId": "soccer",
       "leagueId": "la-liga",
@@ -2796,14 +2788,6 @@
         "espn-premier-league-349",
         "espn-premier-league-337"
       ]
-    },
-    {
-      "id": "f1-11365",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-12T14:00:00.000Z",
-      "title": "Spanish Grand Prix — Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-la-liga-401882882",
@@ -5074,6 +5058,14 @@
         "espn-nhl-18",
         "espn-nhl-8"
       ]
+    },
+    {
+      "id": "f1-11731",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-04T07:00:00.000Z",
+      "title": "Bahrain Grand Prix — Race",
+      "sessionType": "race"
     },
     {
       "id": "espn-nfl-401872965",
