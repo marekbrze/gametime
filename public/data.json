@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-21T10:03:02.801Z",
+  "generatedAt": "2026-09-26T09:25:10.021Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-14T10:03:02.801Z",
-    "to": "2026-10-05T10:03:02.801Z"
+    "from": "2026-09-19T09:25:10.021Z",
+    "to": "2026-10-10T09:25:10.021Z"
   },
   "catalog": {
     "sports": [
@@ -5750,6 +5750,14 @@
       ]
     },
     {
+      "id": "f1-11378",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-09T08:30:00.000Z",
+      "title": "Singapore Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-nba-401898395",
       "sportId": "basketball",
       "leagueId": "nba",
@@ -5758,6 +5766,14 @@
         "espn-nba-6",
         "espn-nba-10"
       ]
+    },
+    {
+      "id": "f1-11379",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-09T12:30:00.000Z",
+      "title": "Singapore Grand Prix — Sprint Qualifying",
+      "sessionType": "qualifying"
     },
     {
       "id": "espn-bundesliga-401884781",
@@ -5828,6 +5844,14 @@
         "espn-nhl-28",
         "espn-nhl-25"
       ]
+    },
+    {
+      "id": "f1-11383",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-10T09:00:00.000Z",
+      "title": "Singapore Grand Prix — Sprint",
+      "sessionType": "race"
     },
     {
       "id": "espn-premier-league-401879268",
