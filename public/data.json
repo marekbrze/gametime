@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-26T09:25:10.021Z",
+  "generatedAt": "2026-09-27T10:04:44.543Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-19T09:25:10.021Z",
-    "to": "2026-10-10T09:25:10.021Z"
+    "from": "2026-09-20T10:04:44.543Z",
+    "to": "2026-10-11T10:04:44.543Z"
   },
   "catalog": {
     "sports": [
@@ -5882,6 +5882,14 @@
         "espn-serie-a-3263",
         "espn-serie-a-109"
       ]
+    },
+    {
+      "id": "f1-11384",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-10T13:00:00.000Z",
+      "title": "Singapore Grand Prix — Qualifying",
+      "sessionType": "qualifying"
     },
     {
       "id": "espn-bundesliga-401884773",
