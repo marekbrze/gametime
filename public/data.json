@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-27T10:04:44.543Z",
+  "generatedAt": "2026-09-28T11:02:34.580Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-20T10:04:44.543Z",
-    "to": "2026-10-11T10:04:44.543Z"
+    "from": "2026-09-21T11:02:34.580Z",
+    "to": "2026-10-12T11:02:34.580Z"
   },
   "catalog": {
     "sports": [
@@ -6290,6 +6290,14 @@
         "espn-la-liga-3751",
         "espn-la-liga-85"
       ]
+    },
+    {
+      "id": "f1-11388",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-11T12:00:00.000Z",
+      "title": "Singapore Grand Prix — Race",
+      "sessionType": "race"
     },
     {
       "id": "espn-premier-league-401878774",
