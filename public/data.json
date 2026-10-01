@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-28T11:02:34.580Z",
+  "generatedAt": "2026-10-01T11:02:12.459Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-21T11:02:34.580Z",
-    "to": "2026-10-12T11:02:34.580Z"
+    "from": "2026-09-24T11:02:12.459Z",
+    "to": "2026-10-15T11:02:12.459Z"
   },
   "catalog": {
     "sports": [
@@ -4168,14 +4168,6 @@
         "espn-nhl-25",
         "espn-nhl-8"
       ]
-    },
-    {
-      "id": "f1-11370",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-24T08:30:00.000Z",
-      "title": "Azerbaijan Grand Prix — Practice 1",
-      "sessionType": "practice"
     },
     {
       "id": "f1-11371",
