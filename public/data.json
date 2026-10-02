@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-01T11:02:12.459Z",
+  "generatedAt": "2026-10-02T10:35:03.251Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-24T11:02:12.459Z",
-    "to": "2026-10-15T11:02:12.459Z"
+    "from": "2026-09-25T10:35:03.251Z",
+    "to": "2026-10-16T10:35:03.251Z"
   },
   "catalog": {
     "sports": [
@@ -4170,14 +4170,6 @@
       ]
     },
     {
-      "id": "f1-11371",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-24T12:00:00.000Z",
-      "title": "Azerbaijan Grand Prix — Practice 2",
-      "sessionType": "practice"
-    },
-    {
       "id": "espn-nhl-401879363",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -4296,14 +4288,6 @@
         "espn-nhl-18",
         "espn-nhl-25"
       ]
-    },
-    {
-      "id": "f1-11372",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-25T08:30:00.000Z",
-      "title": "Azerbaijan Grand Prix — Practice 3",
-      "sessionType": "practice"
     },
     {
       "id": "f1-11373",
