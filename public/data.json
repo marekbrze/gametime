@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-02T10:35:03.251Z",
+  "generatedAt": "2026-10-03T09:55:56.072Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-25T10:35:03.251Z",
-    "to": "2026-10-16T10:35:03.251Z"
+    "from": "2026-09-26T09:55:56.072Z",
+    "to": "2026-10-17T09:55:56.072Z"
   },
   "catalog": {
     "sports": [
@@ -4288,14 +4288,6 @@
         "espn-nhl-18",
         "espn-nhl-25"
       ]
-    },
-    {
-      "id": "f1-11373",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-09-25T12:00:00.000Z",
-      "title": "Azerbaijan Grand Prix — Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-nhl-401879360",
