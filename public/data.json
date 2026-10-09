@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-05T11:38:24.409Z",
+  "generatedAt": "2026-10-09T11:23:56.222Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-09-28T11:38:24.409Z",
-    "to": "2026-10-19T11:38:24.409Z"
+    "from": "2026-10-02T11:23:56.222Z",
+    "to": "2026-10-23T11:23:56.222Z"
   },
   "catalog": {
     "sports": [
@@ -4788,22 +4788,6 @@
         "espn-nhl-22",
         "espn-nhl-6"
       ]
-    },
-    {
-      "id": "f1-11727",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-02T04:30:00.000Z",
-      "title": "Bahrain Grand Prix — Practice 1",
-      "sessionType": "practice"
-    },
-    {
-      "id": "f1-11728",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-02T08:00:00.000Z",
-      "title": "Bahrain Grand Prix — Practice 2",
-      "sessionType": "practice"
     },
     {
       "id": "espn-nhl-401891803",
