@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-12T12:11:11.959Z",
+  "generatedAt": "2026-10-16T09:06:33.970Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-05T12:11:11.959Z",
-    "to": "2026-10-26T12:11:11.959Z"
+    "from": "2026-10-09T09:06:33.970Z",
+    "to": "2026-10-30T09:06:33.970Z"
   },
   "catalog": {
     "sports": [
@@ -5668,14 +5668,6 @@
         "espn-nba-13",
         "espn-nba-23"
       ]
-    },
-    {
-      "id": "f1-11378",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-09T08:30:00.000Z",
-      "title": "Singapore Grand Prix — Practice 1",
-      "sessionType": "practice"
     },
     {
       "id": "espn-nba-401898395",
