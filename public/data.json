@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-16T09:06:33.970Z",
+  "generatedAt": "2026-10-17T08:39:19.533Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-09T09:06:33.970Z",
-    "to": "2026-10-30T09:06:33.970Z"
+    "from": "2026-10-10T08:39:19.533Z",
+    "to": "2026-10-31T08:39:19.533Z"
   },
   "catalog": {
     "sports": [
@@ -5680,14 +5680,6 @@
       ]
     },
     {
-      "id": "f1-11379",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-09T12:30:00.000Z",
-      "title": "Singapore Grand Prix — Sprint Qualifying",
-      "sessionType": "qualifying"
-    },
-    {
       "id": "espn-bundesliga-401884781",
       "sportId": "soccer",
       "leagueId": "bundesliga",
@@ -9692,6 +9684,14 @@
       ]
     },
     {
+      "id": "f1-11397",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-30T18:30:00.000Z",
+      "title": "Mexico City Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-bundesliga-401884746",
       "sportId": "soccer",
       "leagueId": "bundesliga",
@@ -9710,6 +9710,14 @@
         "espn-nhl-37",
         "espn-nhl-11"
       ]
+    },
+    {
+      "id": "f1-11398",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-10-30T22:00:00.000Z",
+      "title": "Mexico City Grand Prix — Practice 2",
+      "sessionType": "practice"
     },
     {
       "id": "espn-nba-401909277",
