@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-18T08:55:39.973Z",
+  "generatedAt": "2026-10-19T10:02:49.457Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-11T08:55:39.973Z",
-    "to": "2026-11-01T08:55:39.973Z"
+    "from": "2026-10-12T10:02:49.457Z",
+    "to": "2026-11-02T10:02:49.457Z"
   },
   "catalog": {
     "sports": [
@@ -6180,14 +6180,6 @@
       ]
     },
     {
-      "id": "f1-11388",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-11T12:00:00.000Z",
-      "title": "Singapore Grand Prix — Race",
-      "sessionType": "race"
-    },
-    {
       "id": "espn-premier-league-401878774",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -10448,6 +10440,14 @@
         "espn-la-liga-93",
         "espn-la-liga-89"
       ]
+    },
+    {
+      "id": "f1-11404",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-01T20:00:00.000Z",
+      "title": "Mexico City Grand Prix — Race",
+      "sessionType": "race"
     },
     {
       "id": "espn-nba-401909903",
