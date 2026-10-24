@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-19T10:02:49.457Z",
+  "generatedAt": "2026-10-24T08:57:02.942Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-12T10:02:49.457Z",
-    "to": "2026-11-02T10:02:49.457Z"
+    "from": "2026-10-17T08:57:02.942Z",
+    "to": "2026-11-07T08:57:02.942Z"
   },
   "catalog": {
     "sports": [
@@ -11228,6 +11228,22 @@
         "espn-nba-9",
         "espn-nba-14"
       ]
+    },
+    {
+      "id": "f1-11405",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-06T15:30:00.000Z",
+      "title": "São Paulo Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
+      "id": "f1-11406",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-06T19:00:00.000Z",
+      "title": "São Paulo Grand Prix — Practice 2",
+      "sessionType": "practice"
     },
     {
       "id": "espn-bundesliga-401884739",
