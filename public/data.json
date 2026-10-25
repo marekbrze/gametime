@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-24T08:57:02.942Z",
+  "generatedAt": "2026-10-25T09:13:51.463Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-17T08:57:02.942Z",
-    "to": "2026-11-07T08:57:02.942Z"
+    "from": "2026-10-18T09:13:51.463Z",
+    "to": "2026-11-08T09:13:51.463Z"
   },
   "catalog": {
     "sports": [
@@ -11446,6 +11446,14 @@
       ]
     },
     {
+      "id": "f1-11407",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-07T14:30:00.000Z",
+      "title": "São Paulo Grand Prix — Practice 3",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-premier-league-401878757",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -11584,6 +11592,14 @@
         "espn-nhl-27",
         "espn-nhl-19"
       ]
+    },
+    {
+      "id": "f1-11408",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-07T18:00:00.000Z",
+      "title": "São Paulo Grand Prix — Qualifying",
+      "sessionType": "qualifying"
     },
     {
       "id": "espn-serie-a-401874803",
