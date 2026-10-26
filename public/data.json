@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-25T09:13:51.463Z",
+  "generatedAt": "2026-10-26T10:17:12.318Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-18T09:13:51.463Z",
-    "to": "2026-11-08T09:13:51.463Z"
+    "from": "2026-10-19T10:17:12.318Z",
+    "to": "2026-11-09T10:17:12.318Z"
   },
   "catalog": {
     "sports": [
@@ -11850,6 +11850,14 @@
         "espn-serie-a-110",
         "espn-serie-a-2572"
       ]
+    },
+    {
+      "id": "f1-11412",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-08T17:00:00.000Z",
+      "title": "São Paulo Grand Prix — Race",
+      "sessionType": "race"
     },
     {
       "id": "espn-nfl-401873039",
