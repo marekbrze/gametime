@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-31T10:28:46.524Z",
+  "generatedAt": "2026-11-01T11:23:16.417Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-24T10:28:46.524Z",
-    "to": "2026-11-14T10:28:46.524Z"
+    "from": "2026-10-25T11:23:16.417Z",
+    "to": "2026-11-15T11:23:16.417Z"
   },
   "catalog": {
     "sports": [
@@ -8650,14 +8650,6 @@
       ]
     },
     {
-      "id": "f1-11391",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-24T17:30:00.000Z",
-      "title": "United States Grand Prix — Practice 3",
-      "sessionType": "practice"
-    },
-    {
       "id": "espn-serie-a-401874955",
       "sportId": "soccer",
       "leagueId": "serie-a",
@@ -8676,14 +8668,6 @@
         "espn-nhl-11",
         "espn-nhl-8"
       ]
-    },
-    {
-      "id": "f1-11392",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-24T21:00:00.000Z",
-      "title": "United States Grand Prix — Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-nba-401909853",
