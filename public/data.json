@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-01T11:23:16.417Z",
+  "generatedAt": "2026-11-03T12:04:57.040Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-25T11:23:16.417Z",
-    "to": "2026-11-15T11:23:16.417Z"
+    "from": "2026-10-27T12:04:57.040Z",
+    "to": "2026-11-17T12:04:57.040Z"
   },
   "catalog": {
     "sports": [
@@ -9128,14 +9128,6 @@
         "espn-serie-a-118",
         "espn-serie-a-103"
       ]
-    },
-    {
-      "id": "f1-11396",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-25T20:00:00.000Z",
-      "title": "United States Grand Prix — Race",
-      "sessionType": "race"
     },
     {
       "id": "espn-nfl-401873019",
