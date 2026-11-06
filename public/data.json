@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-03T12:04:57.040Z",
+  "generatedAt": "2026-11-06T12:15:47.147Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-27T12:04:57.040Z",
-    "to": "2026-11-17T12:04:57.040Z"
+    "from": "2026-10-30T12:15:47.147Z",
+    "to": "2026-11-20T12:15:47.147Z"
   },
   "catalog": {
     "sports": [
@@ -13290,6 +13290,14 @@
       ]
     },
     {
+      "id": "f1-11413",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-20T00:30:00.000Z",
+      "title": "Las Vegas Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-nhl-401892748",
       "sportId": "hockey",
       "leagueId": "nhl",
@@ -13358,6 +13366,14 @@
         "espn-nhl-37",
         "espn-nhl-9"
       ]
+    },
+    {
+      "id": "f1-11414",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-20T04:00:00.000Z",
+      "title": "Las Vegas Grand Prix — Practice 2",
+      "sessionType": "practice"
     },
     {
       "id": "espn-bundesliga-401884736",
