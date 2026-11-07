@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-06T12:15:47.147Z",
+  "generatedAt": "2026-11-07T11:11:31.056Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-10-30T12:15:47.147Z",
-    "to": "2026-11-20T12:15:47.147Z"
+    "from": "2026-10-31T11:11:31.056Z",
+    "to": "2026-11-21T11:11:31.056Z"
   },
   "catalog": {
     "sports": [
@@ -9620,14 +9620,6 @@
       ]
     },
     {
-      "id": "f1-11397",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-30T18:30:00.000Z",
-      "title": "Mexico City Grand Prix — Practice 1",
-      "sessionType": "practice"
-    },
-    {
       "id": "espn-bundesliga-401884746",
       "sportId": "soccer",
       "leagueId": "bundesliga",
@@ -9646,14 +9638,6 @@
         "espn-nhl-37",
         "espn-nhl-11"
       ]
-    },
-    {
-      "id": "f1-11398",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-10-30T22:00:00.000Z",
-      "title": "Mexico City Grand Prix — Practice 2",
-      "sessionType": "practice"
     },
     {
       "id": "espn-nba-401909277",
@@ -13384,6 +13368,22 @@
         "espn-bundesliga-132",
         "espn-bundesliga-122"
       ]
+    },
+    {
+      "id": "f1-11415",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-21T00:30:00.000Z",
+      "title": "Las Vegas Grand Prix — Practice 3",
+      "sessionType": "practice"
+    },
+    {
+      "id": "f1-11416",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-21T04:00:00.000Z",
+      "title": "Las Vegas Grand Prix — Qualifying",
+      "sessionType": "qualifying"
     },
     {
       "id": "espn-serie-a-401874981",
