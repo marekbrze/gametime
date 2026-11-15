@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-14T11:37:18.141Z",
+  "generatedAt": "2026-11-15T12:02:57.142Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-11-07T11:37:18.141Z",
-    "to": "2026-11-28T11:37:18.141Z"
+    "from": "2026-11-08T12:02:57.142Z",
+    "to": "2026-11-29T12:02:57.142Z"
   },
   "catalog": {
     "sports": [
@@ -11350,14 +11350,6 @@
       ]
     },
     {
-      "id": "f1-11407",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-11-07T14:30:00.000Z",
-      "title": "São Paulo Grand Prix — Practice 3",
-      "sessionType": "practice"
-    },
-    {
       "id": "espn-premier-league-401878757",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -11496,14 +11488,6 @@
         "espn-nhl-27",
         "espn-nhl-19"
       ]
-    },
-    {
-      "id": "f1-11408",
-      "sportId": "motorsport",
-      "leagueId": "f1",
-      "startUtc": "2026-11-07T18:00:00.000Z",
-      "title": "São Paulo Grand Prix — Qualifying",
-      "sessionType": "qualifying"
     },
     {
       "id": "espn-serie-a-401874803",
@@ -14530,6 +14514,14 @@
       ]
     },
     {
+      "id": "f1-11423",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-28T14:30:00.000Z",
+      "title": "Qatar Grand Prix — Practice 3",
+      "sessionType": "practice"
+    },
+    {
       "id": "espn-premier-league-401878752",
       "sportId": "soccer",
       "leagueId": "premier-league",
@@ -14638,6 +14630,14 @@
         "espn-bundesliga-134",
         "espn-bundesliga-125"
       ]
+    },
+    {
+      "id": "f1-11424",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-11-28T18:00:00.000Z",
+      "title": "Qatar Grand Prix — Qualifying",
+      "sessionType": "qualifying"
     },
     {
       "id": "espn-bundesliga-401884725",
