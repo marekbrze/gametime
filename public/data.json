@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-16T12:55:58.308Z",
+  "generatedAt": "2026-11-20T13:12:32.224Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-11-09T12:55:58.308Z",
-    "to": "2026-11-30T12:55:58.308Z"
+    "from": "2026-11-13T13:12:32.224Z",
+    "to": "2026-12-04T13:12:32.224Z"
   },
   "catalog": {
     "sports": [
@@ -15928,6 +15928,22 @@
         "espn-nhl-8",
         "espn-nhl-30"
       ]
+    },
+    {
+      "id": "f1-11429",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-12-04T09:30:00.000Z",
+      "title": "Abu Dhabi Grand Prix — Practice 1",
+      "sessionType": "practice"
+    },
+    {
+      "id": "f1-11430",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-12-04T13:00:00.000Z",
+      "title": "Abu Dhabi Grand Prix — Practice 2",
+      "sessionType": "practice"
     },
     {
       "id": "espn-nhl-401892855",
