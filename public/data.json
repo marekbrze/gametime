@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-20T13:12:32.224Z",
+  "generatedAt": "2026-11-21T12:49:53.840Z",
   "source": "espn-hidden-api+openf1",
   "window": {
-    "from": "2026-11-13T13:12:32.224Z",
-    "to": "2026-12-04T13:12:32.224Z"
+    "from": "2026-11-14T12:49:53.840Z",
+    "to": "2026-12-05T12:49:53.840Z"
   },
   "catalog": {
     "sports": [
@@ -15984,6 +15984,14 @@
         "espn-nhl-25",
         "espn-nhl-124292"
       ]
+    },
+    {
+      "id": "f1-11431",
+      "sportId": "motorsport",
+      "leagueId": "f1",
+      "startUtc": "2026-12-05T10:30:00.000Z",
+      "title": "Abu Dhabi Grand Prix — Practice 3",
+      "sessionType": "practice"
     },
     {
       "id": "espn-premier-league-401878747",
